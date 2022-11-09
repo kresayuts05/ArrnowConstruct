@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArrnowConstruct.Data
+namespace ArrnowConstruct.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
