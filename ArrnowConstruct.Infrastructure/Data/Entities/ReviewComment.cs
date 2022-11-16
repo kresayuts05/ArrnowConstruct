@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.ReviewCommentConstants;
+
 
 namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
@@ -19,11 +21,12 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(60)]
-        public string UserFullName { get; set; }
+        [MaxLength(FullUserNameMaxLength)]
+        public string FullUserName { get; set; }
 
         [Required]
         [EmailAddress]
+        [MaxLength(EmailMaxLength)]
         public string Email { get; set; }
 
         [Required]
@@ -33,7 +36,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         [Required]
         [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public User User { get; set; }
 

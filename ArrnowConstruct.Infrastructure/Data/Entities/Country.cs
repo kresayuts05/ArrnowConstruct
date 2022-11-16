@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.PostImageConstants;
+using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.CountryConstants;
 
 
 namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
-    public class PostImage
+    public class Country
     {
         [Key]
         public int Id { get; set; }
@@ -18,14 +17,5 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         [Required]
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
-
-        [Required]
-        public string ImageUrl { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(Post))]
-        public int PostId { get; set; }
-
-        public Post Post { get; set; }
     }
 }

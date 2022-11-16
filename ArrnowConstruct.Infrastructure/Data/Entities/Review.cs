@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.ReviewConstants;
+
 
 namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
@@ -24,31 +26,31 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public DateTime UpdatedOn { get; set; }
 
         [Required]
-        [Range(typeof(double), "0", "5")]
+        [Range(typeof(double), RatingMinValue, RatingMaxValue)]
         public double Rating { get; set; }
 
         [Required]
-        [MaxLength(500)]
+        [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
-        public List<ReviewImage> Images { get; set; } = new List<ReviewImage>();
-
-        [Required]
-        [ForeignKey(nameof(Client))]
-        public int ClientId { get; set; }
-
-        public Client Client { get; set; }
-
-        [Required]
-        [ForeignKey(nameof(Constructor))]
-        public int ConstructorId { get; set; }
-
-        public Constructor Constructor { get; set; }
+        public ICollection<ReviewImage> Images { get; set; } = new HashSet<ReviewImage>();
 
         [Required]
         [ForeignKey(nameof(Post))]
         public int PostId { get; set; }
 
         public Post Post { get; set; }
+
+        //[Required]
+        //[ForeignKey(nameof(Client))]
+        //public string ClientId { get; set; }
+
+        //public Client Client { get; set; }
+
+        //[Required]
+        //[ForeignKey(nameof(Constructor))]
+        //public string ConstructorId { get; set; }
+
+        //public Constructor Constructor { get; set; }
     }
 }

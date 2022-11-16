@@ -5,12 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.ReviewImageConstants;
+using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.CityConstants;
 
 
 namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
-    public class ReviewImage
+    public class City
     {
         [Key]
         public int Id { get; set; }
@@ -20,12 +20,9 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public string Name { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; }
+        [ForeignKey(nameof(Country))]
+        public int CountryId { get; set; }
 
-        [Required]
-        [ForeignKey(nameof(Review))]
-        public int ReviewId { get; set; }
-
-        public Review Review { get; set; }
+        public Country Country { get; set; }
     }
 }

@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.PostConstants;
+
 
 namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
@@ -25,18 +27,19 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public DateTime UpdatedOn { get; set; }
 
         [Required]
-        [MaxLength(300)]
+        [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(ShortContentMaxLength)]
         public string ShortContent { get; set; }
 
         [Required]
-        [MaxLength(20)]
-        public string  Title { get; set; }
+        [MaxLength(TiteMaxLength)]
+        public string Title { get; set; }
 
         public int Likes { get; set; }
+
 
         [Required]
         [ForeignKey(nameof(Site))]
@@ -44,10 +47,23 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         public Site Site { get; set; }
 
-        public List<PostComments> PostComments { get; set; } = new List<PostComments>();
+        public ICollection<PostComment> PostComments { get; set; } = new HashSet<PostComment>();
 
-        public List<PostImage> PostImages { get; set; } = new List<PostImage>();
+        public ICollection<PostImage> PostImages { get; set; } = new HashSet<PostImage>();
 
-        public List<PostLikes> PostLikes { get; set; } 
+        public ICollection<PostLikes> PostLikes { get; set; } = new HashSet<PostLikes>();
+
+
+        //[Required]
+        //[ForeignKey(nameof(Constructor))]
+        //public string ConstructorId { get; set; }
+
+        //public Constructor Constructor { get; set; }
+
+        //[Required]
+        //[ForeignKey(nameof(Client))]
+        //public string ClientId { get; set; }
+
+        //public Client Client { get; set; }
     }
 }

@@ -25,11 +25,12 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public Post Post { get; set; }
 
         [Required]
-        [ForeignKey(nameof(USer))]
-        public int UserId { get; set; }
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
 
         public User User { get; set; }
 
+        [Required]
         public bool IsLiked { get; set; }
     }
 }
