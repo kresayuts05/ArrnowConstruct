@@ -22,33 +22,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.City", b =>
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(169)
-                        .HasColumnType("nvarchar(169)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("Cities");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -63,8 +43,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Constructor", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
@@ -78,24 +61,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Constructors");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(56)
-                        .HasColumnType("nvarchar(56)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Post", b =>
@@ -239,13 +204,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Property<decimal>("Budget")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ConstructorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ConstructorId")
+                        .HasColumnType("int");
 
                     b.Property<int>("RequiredMonth")
                         .HasColumnType("int");
@@ -270,8 +233,8 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ClientId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -403,13 +366,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ConstructorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ConstructorId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2");
@@ -442,17 +403,22 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(169)
+                        .HasColumnType("nvarchar(169)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(56)
+                        .HasColumnType("nvarchar(56)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -499,14 +465,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -521,11 +484,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
             modelBuilder.Entity("ClientConstructor", b =>
                 {
-                    b.Property<string>("FollowersId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("FollowersId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("FollowingId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("FollowingId")
+                        .HasColumnType("int");
 
                     b.HasKey("FollowersId", "FollowingId");
 
@@ -669,17 +632,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.City", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>
@@ -856,25 +808,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Constructor");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.User", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("ClientConstructor", b =>

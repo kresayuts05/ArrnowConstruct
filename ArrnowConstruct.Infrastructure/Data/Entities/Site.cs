@@ -29,13 +29,13 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         [Required]
         [ForeignKey(nameof(Constructor))]
-        public string ConstructorId { get; set; }
+        public int ConstructorId { get; set; }
 
         public Constructor Constructor { get; set; }
 
         [Required]
         [ForeignKey(nameof(Client))]
-        public string ClientId { get; set; }
+        public int ClientId { get; set; }
 
         public Client Client { get; set; }
     }

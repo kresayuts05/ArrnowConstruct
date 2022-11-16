@@ -10,14 +10,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
     public class Client
     {
-        public Client()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
-
         [Key]
-        [Required]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [ForeignKey(nameof(User))]

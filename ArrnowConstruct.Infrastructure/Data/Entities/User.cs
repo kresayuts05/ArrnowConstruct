@@ -21,19 +21,15 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public string LastName { get; set; }
 
         [Required]
-        [ForeignKey(nameof(City))]
-        public int CityId { get; set; }
-
-        public City City { get; set; }
-
-        [Required]
         [MaxLength(AddressMaxLength)]
         public string Address { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Country))]
-        public int CountryId { get; set; }
+        [MaxLength(CountryMaxLength)]
+        public string Country { get; set; }
 
-        public Country Country { get; set; }
+        [Required]
+        [MaxLength(CityMaxLength)]
+        public string City { get; set; }
     }
 }

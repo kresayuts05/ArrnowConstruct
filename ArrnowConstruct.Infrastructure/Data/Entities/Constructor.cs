@@ -12,14 +12,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
     public class Constructor
     {
-        public Constructor()
-        {
-            this.Id = Guid.NewGuid().ToString();
-        }
-
         [Key]
-        [Required]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [ForeignKey(nameof(User))]
