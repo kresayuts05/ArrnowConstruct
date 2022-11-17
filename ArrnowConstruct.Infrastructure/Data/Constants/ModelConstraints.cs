@@ -24,6 +24,9 @@ namespace ArrnowConstruct.Infrastructure.Data.Constants
 
             public const int CountryMaxLength = 56;
             public const int CountryMinLength = 4;
+
+            public const int EmailMaxLength = 50;
+            public const int EmailMinLength = 10;
         }
 
         public static class SiteConstants

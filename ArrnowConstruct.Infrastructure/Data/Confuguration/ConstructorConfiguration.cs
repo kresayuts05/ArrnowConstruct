@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace ArrnowConstruct.Infrastructure.Data.Confuguration
 {
-    internal class ConstructorConfiguration : IEntityTypeConfiguration<User>
+    internal class ConstructorConfiguration : IEntityTypeConfiguration<Constructor>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Constructor> builder)
         {
             builder.HasData(new Constructor()
             {
                 Id = 1,
-                UserId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e"
+                UserId = "7125d323-7567-4f56-b27e-6b7044014a37",
+                Salary = 1500
             });
         }
     }

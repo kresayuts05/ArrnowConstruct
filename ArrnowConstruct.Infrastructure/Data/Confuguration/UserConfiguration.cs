@@ -14,7 +14,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
     { 
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            throw new NotImplementedException();
+            builder.HasData(CreateUsers());
         }
 
         private List<User> CreateUsers()
@@ -24,7 +24,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
 
             var user = new User()
             {
-                Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                Id = "ae724eb3-355b-48dd-bdaa-c1eaccf666c5",
                 UserName = "kresa",
                 NormalizedUserName = "KRESA",
                 Email = "kresa@mail.com",
@@ -44,7 +44,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
 
             user = new User()
             {
-                Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                Id = "7125d323-7567-4f56-b27e-6b7044014a37",
                 UserName = "angel",
                 NormalizedUserName = "ANGEL",
                 Email = "guest@mail.com",

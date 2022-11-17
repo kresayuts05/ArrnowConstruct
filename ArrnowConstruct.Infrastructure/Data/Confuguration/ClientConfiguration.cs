@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace ArrnowConstruct.Infrastructure.Data.Confuguration
 {
-    internal class ClientConfiguration : IEntityTypeConfiguration<User>
+    internal class ClientConfiguration : IEntityTypeConfiguration<Client>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Client> builder)
         {
             builder.HasData(new Client()
             {
                 Id = 1,
-                UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                UserId = "ae724eb3-355b-48dd-bdaa-c1eaccf666c5"
             });
         }
     }
