@@ -1,3 +1,4 @@
+using ArrnowConstruct.Extensions;
 using ArrnowConstruct.Infrastructure.Data;
 using ArrnowConstruct.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,8 @@ builder.Services.AddDefaultIdentity<User>(options =>
 })
     .AddEntityFrameworkStores<ArrnowConstructDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
