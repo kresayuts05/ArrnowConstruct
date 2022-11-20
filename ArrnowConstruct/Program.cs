@@ -19,8 +19,24 @@ builder.Services.AddDefaultIdentity<User>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ArrnowConstructDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/User/Login";
+    options.LogoutPath = "/User/Logout";
+});
+
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("MyPolicy", policy =>
+//    {
+//        policy.RequireRole("Admin");
+//        policy.RequireClaim("EmployeeNumber");
+//    });
+//});
 
 builder.Services.AddApplicationServices();
 
@@ -48,6 +64,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//app.MapControllerRoute(
+//    name: "areas",
+//    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+//    );
 app.MapRazorPages();
 
 app.Run();

@@ -1,4 +1,5 @@
-﻿using ArrnowConstruct.Infrastructure.Data.Entities;
+﻿using ArrnowConstruct.Core.Constants;
+using ArrnowConstruct.Infrastructure.Data.Entities;
 using ArrnowConstruct.Models.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,14 +12,19 @@ namespace ArrnowConstruct.Controllers
 
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
         public AccountController(
             UserManager<User> _userManager,
-            SignInManager<User> _signInManager)
+            SignInManager<User> _signInManager,
+            RoleManager<IdentityRole> _roleManager)
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            roleManager = _roleManager;
         }
+
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -52,9 +58,10 @@ namespace ArrnowConstruct.Controllers
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
-            //await userManager
-            //        .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirsName, user.FirstName ?? user.Email));
+            await userManager
+                  .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirsName, user.FirstName ?? user.Email));
 
+            await userManager.AddToRoleAsync(user, "Client");
 
             if (result.Succeeded)
             {
@@ -115,27 +122,5 @@ namespace ArrnowConstruct.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //public async Task<IActionResult> CreateRoles()
-        //{
-        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.Manager));
-        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.Supervisor));
-        //    await roleManager.CreateAsync(new IdentityRole(RoleConstants.Administrator));
-
-        //    return RedirectToAction("Index", "Home");
-        //}
-
-        //public async Task<IActionResult> AddUsersToRoles()
-        //{
-        //    string email1 = "stamo.petkov@gmail.com";
-        //    string email2 = "pesho@abv.bg";
-
-        //    var user = await userManager.FindByEmailAsync(email1);
-        //    var user2 = await userManager.FindByEmailAsync(email2);
-
-        //    await userManager.AddToRoleAsync(user, RoleConstants.Manager);
-        //    await userManager.AddToRolesAsync(user2, new string[] { RoleConstants.Supervisor, RoleConstants.Manager });
-
-        //    return RedirectToAction("Index", "Home");
-        //}
     }
 }

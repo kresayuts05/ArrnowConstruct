@@ -1,5 +1,6 @@
 ﻿using ArrnowConstruct.Infrastructure.Data.Confuguration;
 using ArrnowConstruct.Infrastructure.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +44,20 @@ namespace ArrnowConstruct.Infrastructure.Data
             {
                 k.PostId,
                 k.UserId,
+            });
+
+            builder.Entity<IdentityRole>().HasData(new List<IdentityRole>
+            {
+              new IdentityRole {
+                Id ="25f73449-f9e8-40b4-87ee-93fc6c242339" ,
+                Name = "Client",
+                NormalizedName = "CLIENT"
+              },
+              new IdentityRole {
+                Id = "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
+                Name = "Constructor",
+                NormalizedName = "CONSTRUCTOR"
+              },
             });
 
             builder.ApplyConfiguration(new UserConfiguration());
