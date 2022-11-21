@@ -23,8 +23,8 @@ namespace ArrnowConstruct.Infrastructure.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewComment> ReviewComments { get; set; }
         public DbSet<ReviewImage> ReviewImages { get; set; }
-        public DbSet<Room> Rooms { get; set; }
         public DbSet<Site> Sites { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -46,6 +46,12 @@ namespace ArrnowConstruct.Infrastructure.Data
                 k.UserId,
             });
 
+            //builder.Entity<ChatMessage>()
+            //  .HasMany(e => e.ChatImages)
+            //  .WithOne(e => e.ChatMessage)
+            //  .HasForeignKey(e => e.ChatMessageId)
+            //  .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<IdentityRole>().HasData(new List<IdentityRole>
             {
               new IdentityRole {
@@ -63,6 +69,7 @@ namespace ArrnowConstruct.Infrastructure.Data
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new ClientConfiguration());
             builder.ApplyConfiguration(new ConstructorConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
 
             base.OnModelCreating(builder);
         }

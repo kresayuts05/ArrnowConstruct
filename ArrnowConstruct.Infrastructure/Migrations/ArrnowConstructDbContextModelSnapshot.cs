@@ -22,6 +22,96 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Kitchen"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Bathroom"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Bedroom"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "LivingRoom"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "DiningRoom"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Hall"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Office"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "GameRoom"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Pantry"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Toilet"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "UtilityRoom"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "SpareRoom"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Cellar"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "Attic"
+                        });
+                });
+
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>
                 {
                     b.Property<int>("Id")
@@ -216,6 +306,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<double>("Area")
+                        .HasColumnType("float");
+
                     b.Property<decimal>("Budget")
                         .HasColumnType("decimal(18,2)");
 
@@ -225,8 +318,8 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Property<int>("ConstructorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RequiredMonth")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("RequiredDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("RoomsCount")
                         .HasColumnType("int");
@@ -344,7 +437,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.ToTable("ReviewImages");
                 });
 
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Room", b =>
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -355,32 +448,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Property<double>("Area")
                         .HasColumnType("float");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RequestId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SiteId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RequestId");
-
-                    b.HasIndex("SiteId");
-
-                    b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
@@ -390,8 +457,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("StartingPrice")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("RoomsCount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ToDate")
                         .HasColumnType("datetime2");
@@ -503,7 +573,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Edelvais 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "fe0d10ef-2de8-46bf-9df9-b94e927f631d",
+                            ConcurrencyStamp = "c7551b4f-464a-450f-b175-3157d275f54e",
                             Country = "Bulgaria",
                             Email = "kresa@mail.com",
                             EmailConfirmed = false,
@@ -512,10 +582,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KRESA@MAIL.COM",
                             NormalizedUserName = "KRESA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGcH8Is7hAyBcv7HAa4+MYB2PyNUcjD1jlLmLD8IeoDko+abhIYdk3mO8zTCkTerKg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI8oJNGW/FQx3Fu5XELfw6GB3633d5ptB7+qsOZlVgFfdq71vrWOJtOs7cTMhRrBfg==",
                             PhoneNumber = "0886121260",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "078c3d76-8396-40d7-a0d4-4743328961ff",
+                            SecurityStamp = "32158bb0-cd94-495e-9f69-74a037cce8dc",
                             TwoFactorEnabled = false,
                             UserName = "kresa"
                         },
@@ -525,7 +595,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Petko DePetkov 71",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "f7c9da8a-e6fd-4b2c-bed3-9b30f0fa91de",
+                            ConcurrencyStamp = "6b842761-9ac5-4b92-99df-8a5c3ed15130",
                             Country = "Bulgaria",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
@@ -534,13 +604,43 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ANGEL@MAIL.COM",
                             NormalizedUserName = "ANGEL",
-                            PasswordHash = "AQAAAAEAACcQAAAAELXkOHEmQYevpLYeiyEvDpA9WJG3M45puVuQpR+WXg80HwNlJdtBoqoDGk0nTYL16g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGeljVi6UL0LtNoIaKz3zVvlsL2XXC4MErD25fLhgXueqZsOhpsmH/LZlsAJWuvNjg==",
                             PhoneNumber = "0888791001",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "101555f3-9ee2-4f69-9f63-ebf3f8b80e62",
+                            SecurityStamp = "e3cd3e92-0a95-4197-84e5-1b111d7ecea8",
                             TwoFactorEnabled = false,
                             UserName = "angel"
                         });
+                });
+
+            modelBuilder.Entity("CategoryRequest", b =>
+                {
+                    b.Property<int>("RequestsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomsTypesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestsId", "RoomsTypesId");
+
+                    b.HasIndex("RoomsTypesId");
+
+                    b.ToTable("CategoryRequest");
+                });
+
+            modelBuilder.Entity("CategorySite", b =>
+                {
+                    b.Property<int>("RoomsTypesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SitesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RoomsTypesId", "SitesId");
+
+                    b.HasIndex("SitesId");
+
+                    b.ToTable("CategorySite");
                 });
 
             modelBuilder.Entity("ClientConstructor", b =>
@@ -588,14 +688,14 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         new
                         {
                             Id = "25f73449-f9e8-40b4-87ee-93fc6c242339",
-                            ConcurrencyStamp = "e6f93910-6cd0-4cfb-94cd-e2f7bf98c794",
+                            ConcurrencyStamp = "f339d5b8-6435-49e7-8edd-4ec4169c6701",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
-                            ConcurrencyStamp = "7068c662-1ae0-4141-81f2-1a0fbb9ed5c3",
+                            ConcurrencyStamp = "140ec112-0220-4578-a83e-336df56f12d9",
                             Name = "Constructor",
                             NormalizedName = "CONSTRUCTOR"
                         });
@@ -716,7 +816,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -727,7 +827,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -738,7 +838,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Site", "Site")
                         .WithMany()
                         .HasForeignKey("SiteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Site");
@@ -749,13 +849,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
                         .WithMany("PostComments")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -768,7 +868,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
                         .WithMany("PostImages")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -779,13 +879,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
                         .WithMany("PostLikes")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -798,13 +898,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Client", "Client")
                         .WithMany("Requests")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Constructor", "Constructor")
                         .WithMany()
                         .HasForeignKey("ConstructorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -821,7 +921,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -832,13 +932,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Review", "Review")
                         .WithMany()
                         .HasForeignKey("Reviewid")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Review");
@@ -851,21 +951,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Review", "Review")
                         .WithMany("Images")
                         .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Review");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Room", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Request", null)
-                        .WithMany("Rooms")
-                        .HasForeignKey("RequestId");
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Site", null)
-                        .WithMany("Rooms")
-                        .HasForeignKey("SiteId");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
@@ -873,13 +962,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Constructor", "Constructor")
                         .WithMany("Sites")
                         .HasForeignKey("ConstructorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -887,18 +976,48 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("Constructor");
                 });
 
+            modelBuilder.Entity("CategoryRequest", b =>
+                {
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Request", null)
+                        .WithMany()
+                        .HasForeignKey("RequestsId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("RoomsTypesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CategorySite", b =>
+                {
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("RoomsTypesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Site", null)
+                        .WithMany()
+                        .HasForeignKey("SitesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ClientConstructor", b =>
                 {
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Client", null)
                         .WithMany()
                         .HasForeignKey("FollowersId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Constructor", null)
                         .WithMany()
                         .HasForeignKey("FollowingId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -907,7 +1026,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -916,7 +1035,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -925,7 +1044,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -934,13 +1053,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -949,7 +1068,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -974,19 +1093,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("PostLikes");
                 });
 
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Request", b =>
-                {
-                    b.Navigation("Rooms");
-                });
-
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Review", b =>
                 {
                     b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
-                {
-                    b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618
         }

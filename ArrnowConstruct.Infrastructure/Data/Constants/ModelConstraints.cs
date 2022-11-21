@@ -29,16 +29,19 @@ namespace ArrnowConstruct.Infrastructure.Data.Constants
             public const int EmailMinLength = 10;
         }
 
-        public static class SiteConstants
+        public static class CategoryConstants
+        {
+            public const int NameMaxLength = 11;
+            public const int NameMinLength = 4;
+        }
+
+            public static class SiteConstants
         {
             public const string StartingPriceMaxValue = "100000";
             public const string StartingPriceMinValue = "1000";
-        }
 
-        public static class RoomConstants
-        {
-            public const string AreaMaxValue = "100000";
-            public const string AreaMinValue = "1000";
+            public const string AreaMaxValue = "1000";
+            public const string AreaMinValue = "20";
         }
 
         public static class ReviewImageConstants
@@ -72,6 +75,9 @@ namespace ArrnowConstruct.Infrastructure.Data.Constants
 
             public const string BudgetMaxValue = "100000";
             public const string BudgetMinValue = "1000";
+
+            public const string AreaMaxValue = "1000";
+            public const string AreaMinValue = "20";
         }
         public static class PostImageConstants
         {

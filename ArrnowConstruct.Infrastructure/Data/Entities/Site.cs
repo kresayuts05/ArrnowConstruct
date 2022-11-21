@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArrnowConstruct.Infrastructure.Data.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +17,13 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public int Id { get; set; }
 
         [Required]
+        public int RoomsCount { get; set; }
+
+        [Required]
+        [Range(typeof(int), AreaMinValue, AreaMaxValue)]
+        public double Area { get; set; }
+
+        [Required]
         public DateTime FromDate { get; set; }
 
         [Required]
@@ -23,9 +31,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         [Required]
         [Range(typeof(double), StartingPriceMinValue, StartingPriceMaxValue)]
-        public decimal StartingPrice { get; set; }
-
-        public ICollection<Room> Rooms { get; set; } = new HashSet<Room>();
+        public decimal Price { get; set; }
 
         [Required]
         [ForeignKey(nameof(Constructor))]
@@ -38,5 +44,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public int ClientId { get; set; }
 
         public Client Client { get; set; }
+
+        [Required]
+        public ICollection<Category> RoomsTypes { get; set; } = new HashSet<Category>();
     }
 }

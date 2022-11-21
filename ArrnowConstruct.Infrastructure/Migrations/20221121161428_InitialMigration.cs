@@ -33,9 +33,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Country = table.Column<string>(type: "nvarchar(56)", maxLength: 56, nullable: false),
                     City = table.Column<string>(type: "nvarchar(169)", maxLength: 169, nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(30)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(60)", maxLength: 256, nullable: false),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -51,6 +51,19 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,7 +84,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,7 +105,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,7 +242,8 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomsCount = table.Column<int>(type: "int", nullable: false),
-                    RequiredMonth = table.Column<int>(type: "int", nullable: false),
+                    Area = table.Column<double>(type: "float", nullable: false),
+                    RequiredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Budget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     ConstructorId = table.Column<int>(type: "int", nullable: false)
@@ -257,9 +271,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomsCount = table.Column<int>(type: "int", nullable: false),
+                    Area = table.Column<double>(type: "float", nullable: false),
                     FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ToDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ConstructorId = table.Column<int>(type: "int", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -276,6 +292,54 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         name: "FK_Sites_Constructors_ConstructorId",
                         column: x => x.ConstructorId,
                         principalTable: "Constructors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoryRequest",
+                columns: table => new
+                {
+                    RequestsId = table.Column<int>(type: "int", nullable: false),
+                    RoomsTypesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoryRequest", x => new { x.RequestsId, x.RoomsTypesId });
+                    table.ForeignKey(
+                        name: "FK_CategoryRequest_Categories_RoomsTypesId",
+                        column: x => x.RoomsTypesId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CategoryRequest_Requests_RequestsId",
+                        column: x => x.RequestsId,
+                        principalTable: "Requests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategorySite",
+                columns: table => new
+                {
+                    RoomsTypesId = table.Column<int>(type: "int", nullable: false),
+                    SitesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategorySite", x => new { x.RoomsTypesId, x.SitesId });
+                    table.ForeignKey(
+                        name: "FK_CategorySite_Categories_RoomsTypesId",
+                        column: x => x.RoomsTypesId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CategorySite_Sites_SitesId",
+                        column: x => x.SitesId,
+                        principalTable: "Sites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -303,32 +367,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         principalTable: "Sites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rooms",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Category = table.Column<int>(type: "int", nullable: false),
-                    Area = table.Column<double>(type: "float", nullable: false),
-                    RequestId = table.Column<int>(type: "int", nullable: true),
-                    SiteId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rooms", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Rooms_Requests_RequestId",
-                        column: x => x.RequestId,
-                        principalTable: "Requests",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Rooms_Sites_SiteId",
-                        column: x => x.SiteId,
-                        principalTable: "Sites",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -528,6 +566,16 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CategoryRequest_RoomsTypesId",
+                table: "CategoryRequest",
+                column: "RoomsTypesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CategorySite_SitesId",
+                table: "CategorySite",
+                column: "SitesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClientConstructor_FollowingId",
                 table: "ClientConstructor",
                 column: "FollowingId");
@@ -603,16 +651,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_RequestId",
-                table: "Rooms",
-                column: "RequestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rooms_SiteId",
-                table: "Rooms",
-                column: "SiteId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Sites_ClientId",
                 table: "Sites",
                 column: "ClientId");
@@ -641,6 +679,12 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CategoryRequest");
+
+            migrationBuilder.DropTable(
+                name: "CategorySite");
+
+            migrationBuilder.DropTable(
                 name: "ClientConstructor");
 
             migrationBuilder.DropTable(
@@ -659,16 +703,16 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 name: "ReviewImages");
 
             migrationBuilder.DropTable(
-                name: "Rooms");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Reviews");
+                name: "Requests");
 
             migrationBuilder.DropTable(
-                name: "Requests");
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "Posts");

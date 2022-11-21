@@ -21,13 +21,15 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public int RoomsCount { get; set; }
 
         [Required]
-        public Month RequiredMonth { get; set; }
+        [Range(typeof(int), AreaMinValue, AreaMaxValue)]
+        public double Area { get; set; }
+
+        [Required]
+        public DateTime RequiredDate { get; set; }
 
         [Required]
         [Range(typeof(decimal), BudgetMinValue, BudgetMaxValue)]
         public decimal Budget { get; set; }
-
-        public ICollection<Room> Rooms { get; set; } = new HashSet<Room>();
 
         [Required]
         [ForeignKey(nameof(Client))]
@@ -40,5 +42,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public int ConstructorId { get; set; }
 
         public Constructor Constructor { get; set; }
+
+        [Required]
+        public ICollection<Category> RoomsTypes { get; set; } = new HashSet<Category>();
     }
 }

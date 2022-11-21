@@ -26,4 +26,9 @@
     <ProjectReference Include="..\ArrnowConstruct.Core\ArrnowConstruct.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Post\" />
+    <Folder Include="Views\Post\" />
+  </ItemGroup>
+
 </Project>
