@@ -1,4 +1,4 @@
-﻿using ArrnowConstruct.Infrastructure.Data.Entities.Enums;
+﻿using ArrnowConstruct.Infrastructure.Constants.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,6 +32,10 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         [Required]
         [Range(typeof(double), StartingPriceMinValue, StartingPriceMaxValue)]
         public decimal Price { get; set; }
+
+        [Required]
+        [EnumDataType(typeof(StatusEnum))]
+        public string Status { get; set; }
 
         [Required]
         [ForeignKey(nameof(Constructor))]

@@ -1,7 +1,7 @@
 ﻿@model AddRequestViewModel
 
 @{
-    ViewBag.Title = "Add Movie";
+    ViewBag.Title = "Add Request";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -15,31 +15,36 @@
                 <input asp-for="@Model.RoomsCount" class="form-control" aria-required="true" />
                 <span asp-validation-for="RoomsCount" class="text-danger"></span>
             </div>
+             <div class="mb-3">
+                <label asp-for="@Model.CategoryId" class="form-label">Room Type</label>
+                <select asp-for="@Model.CategoryId" class="form-control" multiple>
+                    @foreach (var category in Model.RoomsTypes)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="RoomsTypes" class="text-danger"></span>
+            </div>
+               <div class="mb-3">
+                <label asp-for="@Model.Area" class="form-label">Area</label>
+                <input asp-for="@Model.Area" class="form-control" aria-required="true" />
+                <span asp-validation-for="Area" class="text-danger"></span>
+            </div>
+              <div class="mb-3">
+                <label asp-for="@Model.RequiredDate" class="form-label">After Date</label>
+                <input asp-for="@Model.RequiredDate" class="form-control" aria-required="true" />
+                <span asp-validation-for="RequiredDate" class="text-danger"></span>
+            </div>
             <div class="mb-3">
                 <label asp-for="@Model.Budget" class="form-label">Budget</label>
                 <input asp-for="@Model.Budget" class="form-control" aria-required="true" />
                 <span asp-validation-for="Budget" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="@Model.RequiredMonth" class="form-label">Required Month</label>
-                <input asp-for="@Model.RequiredMonth" class="form-control" aria-required="true" />
-                <span asp-validation-for="RequiredMonth" class="text-danger"></span>
+                <label asp-for="@Model.ConstructorEmail" class="form-label">Constructor Email</label>
+                <input asp-for="@Model.ConstructorEmail" class="form-control" value="" />
+                <span asp-validation-for="ConstructorEmail" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="@Model.TotalArea" class="form-label">Total Area</label>
-                <input asp-for="@Model.TotalArea" class="form-control" value="" />
-                <span asp-validation-for="TotalArea" class="text-danger"></span>
-            </div>
-            @*<div class="mb-3">
-                <label asp-for="@Model.GenreId" class="form-label">Genre</label>
-                <select asp-for="@Model.GenreId" class="form-control">
-                    @foreach (var genre in Model.Genres)
-                    {
-                        <option value="@genre.Id">@genre.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="GenreId" class="text-danger"></span>
-            </div>*@
             <div class="mb-3">
                 <input class="btn btn-primary" type="submit" value="Add" />
             </div>

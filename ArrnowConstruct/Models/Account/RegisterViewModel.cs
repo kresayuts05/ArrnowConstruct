@@ -19,11 +19,11 @@ namespace ArrnowConstruct.Models.Account
         public string LastName { get; set; } = null!;
 
         [Required]
-        [Compare(nameof(PasswordRepeat))]
         [DataType(DataType.Password)]
         public string Password { get; set; } = null!;
 
         [Required]
+        [Compare(nameof(PasswordRepeat))]
         [DataType(DataType.Password)]
         public string PasswordRepeat { get; set; } = null!;
 

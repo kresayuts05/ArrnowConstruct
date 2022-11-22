@@ -1,4 +1,4 @@
-﻿using ArrnowConstruct.Infrastructure.Data.Entities.Enums;
+﻿using ArrnowConstruct.Infrastructure.Constants.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,11 +25,15 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public double Area { get; set; }
 
         [Required]
-        public DateTime RequiredDate { get; set; }
+        public string RequiredDate { get; set; }
 
         [Required]
         [Range(typeof(decimal), BudgetMinValue, BudgetMaxValue)]
         public decimal Budget { get; set; }
+
+        [Required]
+        [EnumDataType(typeof(StatusEnum))]
+        public string Status { get; set; }
 
         [Required]
         [ForeignKey(nameof(Client))]

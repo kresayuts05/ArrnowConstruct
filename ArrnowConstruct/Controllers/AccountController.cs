@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Constants;
+using ArrnowConstruct.Core.Contarcts;
 using ArrnowConstruct.Infrastructure.Data.Entities;
 using ArrnowConstruct.Models.Account;
 using Microsoft.AspNetCore.Authorization;
@@ -13,15 +14,18 @@ namespace ArrnowConstruct.Controllers
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IClientService clientService;
 
         public AccountController(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
-            RoleManager<IdentityRole> _roleManager)
+            RoleManager<IdentityRole> _roleManager,
+            IClientService _clientService)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             roleManager = _roleManager;
+            clientService = _clientService;
         }
 
 
@@ -62,6 +66,7 @@ namespace ArrnowConstruct.Controllers
                   .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirsName, user.FirstName ?? user.Email));
 
             await userManager.AddToRoleAsync(user, "Client");
+            await clientService.Create(user.Id);
 
             if (result.Succeeded)
             {

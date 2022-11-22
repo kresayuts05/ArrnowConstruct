@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ArrnowConstruct.Core.Models.Category;
+using ArrnowConstruct.Core.Models.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,41 +10,25 @@ namespace ArrnowConstruct.Core.Contarcts
 {
     public interface IRequestService
     {
-        //Task<bool> CategoryExists(int categoryId);
+        
 
-        //Task<int> Create(HouseModel model, int agentId);
+        Task<int> ConstructorWithEmailExists(string email);
 
-        //Task<HousesQueryModel> All(
-        //    string? category = null,
-        //    string? searchTerm = null,
-        //    HouseSorting sorting = HouseSorting.Newest,
-        //    int currentPage = 1,
-        //    int housesPerPage = 1);
+        Task<int> Create(AddRequestViewModel model, int clientId);
 
-        //Task<IEnumerable<string>> AllCategoriesNames();
+        //Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id);
 
-        //Task<IEnumerable<HouseServiceModel>> AllHousesByAgentId(int id);
-
-        //Task<IEnumerable<HouseServiceModel>> AllHousesByUserId(string userId);
-
-        //Task<HouseDetailsModel> HouseDetailsById(int id);
+        //Task<RequestDetailsModel> HouseDetailsById(int id);
 
         //Task<bool> Exists(int id);
 
-        //Task Edit(int houseId, HouseModel model);
+        //Task Edit(int requestId, RequestModel model);
 
-        //Task<bool> HasAgentWithId(int houseId, string currentUserId);
 
-        //Task<int> GetHouseCategoryId(int houseId);
+        //Task<string> GetStatus(int requestId);
 
-        //Task Delete(int houseId);
+        //Task Delete(int requestId);
 
-        //Task<bool> IsRented(int houseId);
-
-        //Task<bool> IsRentedByUserWithId(int houseId, string currentUserId);
-
-        //Task Rent(int houseId, string currentUserId);
-
-        //Task Leave(int houseId);
+        //Task<bool> IsConfirmedByConstructor(int requestId, string constructorId);
     }
 }

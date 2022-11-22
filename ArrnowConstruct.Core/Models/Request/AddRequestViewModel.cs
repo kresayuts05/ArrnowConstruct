@@ -1,4 +1,5 @@
-﻿using ArrnowConstruct.Infrastructure.Data.Entities;
+﻿using ArrnowConstruct.Core.Models.Category;
+using ArrnowConstruct.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,24 +16,27 @@ namespace ArrnowConstruct.Core.Models.Request
         [Range(typeof(int), RoomMinCount, RoomMaxCount)]
         public int RoomsCount { get; set; }
 
+        public List<int> CategoryId { get; set; } = new List<int>();
+
+        public IEnumerable<CategoryModel> RoomsTypes { get; set; } = new List<CategoryModel>();
+
         [Required]
-        public string RequiredMonth { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{yyyy-M-d}")]
+        public string RequiredDate { get; set; }
 
         [Required]
         [Range(typeof(decimal), BudgetMinValue, BudgetMaxValue)]
         public decimal Budget { get; set; }
 
-
         [Required]
-        [Range(typeof(double), BudgetMinValue, BudgetMaxValue)]
-        public double TotalArea { get; set; }
-
-  
+        [Range(typeof(double), AreaMinValue, AreaMaxValue)]
+        public double Area { get; set; }
 
         [Required]
         public int ClientId { get; set; }
 
         [Required]
-        public int ConstructorId { get; set; }
+        public string ConstructorEmail { get; set; }
     }
 }

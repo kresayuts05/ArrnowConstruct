@@ -125,8 +125,8 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "f339d5b8-6435-49e7-8edd-4ec4169c6701", "Client", "CLIENT" },
-                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "140ec112-0220-4578-a83e-336df56f12d9", "Constructor", "CONSTRUCTOR" }
+                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "57e3bac8-194d-44a9-83ba-7737edb62edf", "Client", "CLIENT" },
+                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "26ea1d66-afc5-4597-a7a8-65d201df4b91", "Constructor", "CONSTRUCTOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -134,8 +134,8 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "6b842761-9ac5-4b92-99df-8a5c3ed15130", "Bulgaria", "guest@mail.com", false, "Angel", "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEGeljVi6UL0LtNoIaKz3zVvlsL2XXC4MErD25fLhgXueqZsOhpsmH/LZlsAJWuvNjg==", "0888791001", false, "e3cd3e92-0a95-4197-84e5-1b111d7ecea8", false, "angel" },
-                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "c7551b4f-464a-450f-b175-3157d275f54e", "Bulgaria", "kresa@mail.com", false, "Kresa", "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAEI8oJNGW/FQx3Fu5XELfw6GB3633d5ptB7+qsOZlVgFfdq71vrWOJtOs7cTMhRrBfg==", "0886121260", false, "32158bb0-cd94-495e-9f69-74a037cce8dc", false, "kresa" }
+                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "60ee212c-d252-4354-a55e-e4d92f1f4aa2", "Bulgaria", "guest@mail.com", false, "Angel", "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEPoOnqnZvQHz6hQqv9qnvMqNWHkqOcxQrKXm30ZQ2szl/qchDjc9sP8zp3lo+kCS0g==", "0888791001", false, "a4f0e134-9b3d-4e16-af64-255db251c47f", false, "angel" },
+                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "a89a6456-f702-4ca5-a5bb-c9e2c6feff5d", "Bulgaria", "kresa@mail.com", false, "Kresa", "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAEFas4r+rU3MT0eJzhif/XPaoWHKj7Oo4TUMxWMZbBadnUdA7jBMtIVpfiU8xjpyfaA==", "0886121260", false, "6eb65826-5ad1-4658-9ff8-6b00aaf59541", false, "kresa" }
                 });
 
             migrationBuilder.InsertData(
