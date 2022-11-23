@@ -25,7 +25,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public double Area { get; set; }
 
         [Required]
-        public string RequiredDate { get; set; }
+        public DateTime RequiredDate { get; set; }
 
         [Required]
         [Range(typeof(decimal), BudgetMinValue, BudgetMaxValue)]

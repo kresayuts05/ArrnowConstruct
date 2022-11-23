@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.RequestConstants;
+using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.UserConstants;
 
 namespace ArrnowConstruct.Core.Models.Request
 {
@@ -37,6 +38,7 @@ namespace ArrnowConstruct.Core.Models.Request
         public int ClientId { get; set; }
 
         [Required]
+        [StringLength(EmailMaxLength, MinimumLength = EmailMinLength)]
         public string ConstructorEmail { get; set; }
     }
 }

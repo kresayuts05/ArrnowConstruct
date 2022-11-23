@@ -35,5 +35,13 @@ namespace ArrnowConstruct.Core.Services
             return (await repo.AllReadonly<Client>()
                 .FirstOrDefaultAsync(a => a.UserId == userId))?.Id ?? 0;
         }
+
+        public async Task<User> GetUserByClientId(int id)
+        {
+            return await repo.All<Client>()
+                .Where(c => c.Id == id)
+                .Select(c => c.User)
+                .FirstAsync();
+        }
     }
 }

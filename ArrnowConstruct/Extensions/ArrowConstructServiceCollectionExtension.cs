@@ -11,7 +11,7 @@ namespace ArrnowConstruct.Extensions
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IRequestService, RequestService>();
-            //services.AddScoped<IAgentService, AgentService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             return services;
         }

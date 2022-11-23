@@ -40,15 +40,10 @@ namespace ArrnowConstruct.Core.Services
               .ToListAsync();
         }
 
-        public async Task<IEnumerable<CategoryModel>> CategoriesById(List<int> ids)
+        public async Task<IEnumerable<Category>> CategoriesById(List<int> ids)
         {
-            return await repo.AllReadonly<Category>()
+            return await repo.All<Category>()
                  .Where(c => ids.Contains(c.Id))
-                 .Select(c => new CategoryModel()
-                 {
-                     Id = c.Id,
-                     Name = c.Name
-                 })
                  .ToListAsync();
         }
     }

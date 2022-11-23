@@ -1,0 +1,41 @@
+﻿@model List<RequestViewModel>
+
+@{
+    ViewBag.Title = "My Requests";
+}
+
+<h1 class="text-center">@ViewBag.Title</h1>
+<div class="col-md-4">
+
+    @foreach (var model in Model)
+    {
+        <div class="card mb-3 ">
+            <div class="card-body text-center">
+                <p>Address: <b>@(model.ClientAddress)</b></p>
+                <p>
+                    Budget:
+                    <b>@String.Format("{0:f2}", model.Budget) BGN</b>
+                </p>
+                <p>Rooms Count: <b>@(model.RoomsCount)</b></p>
+                <p>Area: <b>@(model.Area)</b></p>
+                <p>Free from date: <b>@(model.RequiredDate)</b></p>
+                <p>Status: <b>@(model.Status)</b></p>
+                <p>Status: <b>@(model.ConstructorAddress)</b></p>
+                <p>Room Categories:<b>@string.Join(", ", @model.RoomsCategories)</b> </p>
+                <br />
+                @* <a asp-controller="Request" asp-action="Details" asp-route-id="@Model.Id"
+                    class="btn btn-success">Details</a>*@
+                @if (model.Status == "Waiting")
+                {
+                    <a asp-controller="Request" asp-action="Edit" asp-route-id="model.Id"
+               class="btn btn-warning">Edit</a>
+                    <a asp-controller="Request" asp-action="Delete" asp-route-id="model.Id"
+               class="btn btn-danger">Delete</a>
+                    <p></p>
+
+                }
+
+            </div>
+        </div>
+    }
+</div>

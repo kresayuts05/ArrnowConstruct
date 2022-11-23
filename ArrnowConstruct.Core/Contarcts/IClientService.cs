@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArrnowConstruct.Infrastructure.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,12 +12,12 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task Create(string userId);
 
+        Task<User> GetUserByClientId(int id);
+
         //Task<bool> ExistsById(string userId);
 
-        //Task<bool> UserWithPhoneNumberExists(string phoneNumber);
-
-        //Task<bool> UserHasRents(string userId);
-
         Task<int> GetClientId(string userId);
+
+
     }
 }

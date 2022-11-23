@@ -10,13 +10,11 @@ namespace ArrnowConstruct.Core.Contarcts
 {
     public interface IRequestService
     {
-        
-
         Task<int> ConstructorWithEmailExists(string email);
 
-        Task<int> Create(AddRequestViewModel model, int clientId);
+        Task Create(AddRequestViewModel model, int clientId);
 
-        //Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id);
+        Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id);
 
         //Task<RequestDetailsModel> HouseDetailsById(int id);
 

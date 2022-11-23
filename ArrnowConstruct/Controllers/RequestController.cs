@@ -13,10 +13,12 @@ namespace ArrnowConstruct.Controllers
 
         public RequestController(
             IRequestService _requestService,
-            IClientService _clientService)
+            IClientService _clientService,
+            ICategoryService _categoryService)
         {
             requestService = _requestService;
             clientService = _clientService;
+            categoryService = _categoryService;
         }
 
         [HttpGet]
@@ -38,7 +40,7 @@ namespace ArrnowConstruct.Controllers
             {
                 ModelState.AddModelError(nameof(model.RoomsCount), "The selected types of rooms were more than the rooms count!");
             }
-            else if(model.CategoryId.Count == 0)
+            else if (model.CategoryId.Count == 0)
             {
                 ModelState.AddModelError(nameof(model.RoomsCount), "You haven't selected any type of room!");
             }
@@ -51,10 +53,20 @@ namespace ArrnowConstruct.Controllers
 
             int clientId = await clientService.GetClientId(User.Id());
 
-            int id = await requestService.Create(model, clientId);
+            await requestService.Create(model, clientId);
 
             return RedirectToAction("Index", "Home");
             //return RedirectToAction(nameof(Details), new { id });
+        }
+
+        public async Task<IActionResult> Mine()
+        {
+            var userId = User.Id();
+            int clientId = await clientService.GetClientId(userId);
+
+            IEnumerable<RequestViewModel> myRequests = await requestService.AllRequestsByClientId(clientId);
+
+            return View(myRequests);
         }
 
     }

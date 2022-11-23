@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Models.Category;
+using ArrnowConstruct.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,6 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<IEnumerable<string>> AllCategoriesNames();
 
-        Task<IEnumerable<CategoryModel>> CategoriesById(List<int> ids);
+        Task<IEnumerable<Category>> CategoriesById(List<int> ids);
     }
 }
