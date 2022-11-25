@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArrnowConstruct.Infrastructure.Migrations
 {
     [DbContext(typeof(ArrnowConstructDbContext))]
-    [Migration("20221121204725_InitialMigration")]
+    [Migration("20221124230431_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,24 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.CategoryRequest", b =>
+                {
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoriesRequests");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>
@@ -670,6 +688,25 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.CategoryRequest", b =>
+                {
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Request", "Request")
+                        .WithMany()
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>

@@ -25,6 +25,7 @@ namespace ArrnowConstruct.Infrastructure.Data
         public DbSet<ReviewImage> ReviewImages { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryRequest> CategoriesRequests{ get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -44,6 +45,12 @@ namespace ArrnowConstruct.Infrastructure.Data
             {
                 k.PostId,
                 k.UserId,
+            });
+
+            builder.Entity<CategoryRequest>().HasKey(k => new
+            {
+                k.RequestId,
+                k.CategoryId,
             });
 
             //builder.Entity<ChatMessage>()

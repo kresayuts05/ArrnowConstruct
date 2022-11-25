@@ -35,8 +35,8 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     City = table.Column<string>(type: "nvarchar(169)", maxLength: 169, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(50)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(60)", maxLength: 256, nullable: false),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(60)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 256, nullable: false),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(50)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -294,6 +294,31 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         name: "FK_Sites_Constructors_ConstructorId",
                         column: x => x.ConstructorId,
                         principalTable: "Constructors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoriesRequests",
+                columns: table => new
+                {
+                    RequestId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoriesRequests", x => new { x.RequestId, x.CategoryId });
+                    table.ForeignKey(
+                        name: "FK_CategoriesRequests_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CategoriesRequests_Requests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "Requests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -568,6 +593,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CategoriesRequests_CategoryId",
+                table: "CategoriesRequests",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CategoryRequest_RoomsTypesId",
                 table: "CategoryRequest",
                 column: "RoomsTypesId");
@@ -679,6 +709,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CategoriesRequests");
 
             migrationBuilder.DropTable(
                 name: "CategoryRequest");

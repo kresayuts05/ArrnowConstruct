@@ -16,11 +16,11 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id);
 
-        //Task<RequestDetailsModel> HouseDetailsById(int id);
+        Task<AddRequestViewModel> RequestById(int id);
 
-        //Task<bool> Exists(int id);
+        Task<bool> Exists(int id);
 
-        //Task Edit(int requestId, RequestModel model);
+        Task Edit(int requestId, AddRequestViewModel model);
 
 
         //Task<string> GetStatus(int requestId);

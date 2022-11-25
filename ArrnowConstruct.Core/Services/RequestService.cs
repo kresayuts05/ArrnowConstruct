@@ -44,8 +44,9 @@ namespace ArrnowConstruct.Core.Services
                     RequiredDate = c.RequiredDate.ToString("yyyy-MM-dd"),
                     Status = c.Status,
                     Budget = c.Budget,
-                    ConstructorAddress = c.Constructor.User.Email,
-                    RoomsCategories = c.RoomsTypes.Select(r => r.Name).ToList()
+                    ConstructorEmail = c.Constructor.User.Email,
+                    RoomsTypes = new List<CategoryModel>
+                    (c.RoomsTypes.Select(r => new CategoryModel() { Id = r.Id, Name = r.Name }).ToList())
                 })
                 .ToListAsync();
         }
@@ -90,5 +91,67 @@ namespace ArrnowConstruct.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        public async Task Edit(int requestId, AddRequestViewModel model)
+        {
+
+            var request = await repo.GetByIdAsync<Request>(requestId);
+
+            var sth = repo.All<Category>()
+                .Include(c => c.Requests)
+                .Where(r => r.Requests.All(c => c.Id == requestId));
+
+            foreach (var c in sth)
+            {
+                c.Requests.Remove(request);
+            }
+            await repo.SaveChangesAsync();
+
+            int constructorId = await this.ConstructorWithEmailExists(model.ConstructorEmail);
+            var categories = await categoryService.CategoriesById(model.CategoryId);
+
+            request.RoomsCount = model.RoomsCount;
+            request.Area = model.Area;
+            request.RequiredDate = DateTime.ParseExact(model.RequiredDate, "yyyy-MM-dd", CultureInfo.CurrentCulture);
+            request.Budget = model.Budget;
+            request.ConstructorId = constructorId;
+            request.RoomsTypes = categories.ToList();
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> Exists(int id)
+        {
+            return await repo.AllReadonly<Request>()
+                .AnyAsync(r => r.Id == id && r.Status == "Waiting");
+        }
+
+        public async Task<AddRequestViewModel> RequestById(int id)
+        {
+            var request =  await repo.All<Request>()
+             .Where(r => r.Id == id)
+             .Select(r => new AddRequestViewModel()
+             {
+                 Id = r.Id,
+                 ClientId = r.ClientId,
+                 RoomsCount = r.RoomsCount,
+                 Area = r.Area,
+                 RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd"),
+                 Budget = r.Budget,
+                 ConstructorEmail = r.Constructor.User.Email,
+                 RoomsTypes = new List<CategoryModel>
+                 (r.RoomsTypes.Select(r => new CategoryModel() { Id = r.Id, Name = r.Name }).ToList())
+             })
+             .FirstAsync();
+
+            return request;
+        }
+
+
+        public async Task Delete(int requestId)
+        {
+            var request = await repo.GetByIdAsync<Request>(requestId);
+
+            await repo.SaveChangesAsync();
+        }
     }
 }

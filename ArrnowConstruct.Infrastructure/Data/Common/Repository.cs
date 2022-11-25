@@ -21,7 +21,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Common
         /// <summary>
         /// Representation of table in database
         /// </summary>
-        protected DbSet<T> DbSet<T>() where T : class
+        public DbSet<T> DbSet<T>() where T : class
         {
             return this.Context.Set<T>();
         }

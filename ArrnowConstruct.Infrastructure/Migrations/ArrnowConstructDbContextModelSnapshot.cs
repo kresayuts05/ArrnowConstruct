@@ -112,6 +112,24 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.CategoryRequest", b =>
+                {
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoriesRequests");
+                });
+
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>
                 {
                     b.Property<int>("Id")
@@ -581,7 +599,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Edelvais 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "a89a6456-f702-4ca5-a5bb-c9e2c6feff5d",
+                            ConcurrencyStamp = "0f2f8980-dd27-40ad-9ddb-c7148fb48a56",
                             Country = "Bulgaria",
                             Email = "kresa@mail.com",
                             EmailConfirmed = false,
@@ -590,10 +608,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KRESA@MAIL.COM",
                             NormalizedUserName = "KRESA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFas4r+rU3MT0eJzhif/XPaoWHKj7Oo4TUMxWMZbBadnUdA7jBMtIVpfiU8xjpyfaA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENYSGWDnNjbH7K7lAa8tRq2723WOFtiF6FjEQM79di0D7jh24IE8E07bW0VDfyBklw==",
                             PhoneNumber = "0886121260",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6eb65826-5ad1-4658-9ff8-6b00aaf59541",
+                            SecurityStamp = "768551b8-b73c-4b52-9e2f-7590908b0f2a",
                             TwoFactorEnabled = false,
                             UserName = "kresa"
                         },
@@ -603,7 +621,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Petko DePetkov 71",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "60ee212c-d252-4354-a55e-e4d92f1f4aa2",
+                            ConcurrencyStamp = "4fb67c04-4311-4ed9-8a25-6762eae316c5",
                             Country = "Bulgaria",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
@@ -612,10 +630,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ANGEL@MAIL.COM",
                             NormalizedUserName = "ANGEL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPoOnqnZvQHz6hQqv9qnvMqNWHkqOcxQrKXm30ZQ2szl/qchDjc9sP8zp3lo+kCS0g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMuwaEzrr4VpZNWi7mMz+848ZwDCBUg78Sary3spAf9/ffpgFBdzzDcnnc2PCp1pCw==",
                             PhoneNumber = "0888791001",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a4f0e134-9b3d-4e16-af64-255db251c47f",
+                            SecurityStamp = "1f00834e-084a-4809-988c-b124454605e4",
                             TwoFactorEnabled = false,
                             UserName = "angel"
                         });
@@ -696,14 +714,14 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         new
                         {
                             Id = "25f73449-f9e8-40b4-87ee-93fc6c242339",
-                            ConcurrencyStamp = "57e3bac8-194d-44a9-83ba-7737edb62edf",
+                            ConcurrencyStamp = "429582e5-a512-4d47-8b78-025683ebdd30",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
-                            ConcurrencyStamp = "26ea1d66-afc5-4597-a7a8-65d201df4b91",
+                            ConcurrencyStamp = "d9b41cf6-c493-41f7-8429-d447b8533cb3",
                             Name = "Constructor",
                             NormalizedName = "CONSTRUCTOR"
                         });
@@ -817,6 +835,25 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.CategoryRequest", b =>
+                {
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Request", "Request")
+                        .WithMany()
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>

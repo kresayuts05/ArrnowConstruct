@@ -33,6 +33,14 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 table: "AspNetUserTokens");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_CategoriesRequests_Categories_CategoryId",
+                table: "CategoriesRequests");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_CategoriesRequests_Requests_RequestId",
+                table: "CategoriesRequests");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_CategoryRequest_Categories_RoomsTypesId",
                 table: "CategoryRequest");
 
@@ -125,8 +133,8 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "57e3bac8-194d-44a9-83ba-7737edb62edf", "Client", "CLIENT" },
-                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "26ea1d66-afc5-4597-a7a8-65d201df4b91", "Constructor", "CONSTRUCTOR" }
+                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "429582e5-a512-4d47-8b78-025683ebdd30", "Client", "CLIENT" },
+                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "d9b41cf6-c493-41f7-8429-d447b8533cb3", "Constructor", "CONSTRUCTOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -134,8 +142,8 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "60ee212c-d252-4354-a55e-e4d92f1f4aa2", "Bulgaria", "guest@mail.com", false, "Angel", "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEPoOnqnZvQHz6hQqv9qnvMqNWHkqOcxQrKXm30ZQ2szl/qchDjc9sP8zp3lo+kCS0g==", "0888791001", false, "a4f0e134-9b3d-4e16-af64-255db251c47f", false, "angel" },
-                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "a89a6456-f702-4ca5-a5bb-c9e2c6feff5d", "Bulgaria", "kresa@mail.com", false, "Kresa", "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAEFas4r+rU3MT0eJzhif/XPaoWHKj7Oo4TUMxWMZbBadnUdA7jBMtIVpfiU8xjpyfaA==", "0886121260", false, "6eb65826-5ad1-4658-9ff8-6b00aaf59541", false, "kresa" }
+                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "4fb67c04-4311-4ed9-8a25-6762eae316c5", "Bulgaria", "guest@mail.com", false, "Angel", "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEMuwaEzrr4VpZNWi7mMz+848ZwDCBUg78Sary3spAf9/ffpgFBdzzDcnnc2PCp1pCw==", "0888791001", false, "1f00834e-084a-4809-988c-b124454605e4", false, "angel" },
+                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "0f2f8980-dd27-40ad-9ddb-c7148fb48a56", "Bulgaria", "kresa@mail.com", false, "Kresa", "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAENYSGWDnNjbH7K7lAa8tRq2723WOFtiF6FjEQM79di0D7jh24IE8E07bW0VDfyBklw==", "0886121260", false, "768551b8-b73c-4b52-9e2f-7590908b0f2a", false, "kresa" }
                 });
 
             migrationBuilder.InsertData(
@@ -214,6 +222,22 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 table: "AspNetUserTokens",
                 column: "UserId",
                 principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CategoriesRequests_Categories_CategoryId",
+                table: "CategoriesRequests",
+                column: "CategoryId",
+                principalTable: "Categories",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CategoriesRequests_Requests_RequestId",
+                table: "CategoriesRequests",
+                column: "RequestId",
+                principalTable: "Requests",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
@@ -419,6 +443,14 @@ namespace ArrnowConstruct.Infrastructure.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                 table: "AspNetUserTokens");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_CategoriesRequests_Categories_CategoryId",
+                table: "CategoriesRequests");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_CategoriesRequests_Requests_RequestId",
+                table: "CategoriesRequests");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_CategoryRequest_Categories_RoomsTypesId",
@@ -653,6 +685,22 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 table: "AspNetUserTokens",
                 column: "UserId",
                 principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CategoriesRequests_Categories_CategoryId",
+                table: "CategoriesRequests",
+                column: "CategoryId",
+                principalTable: "Categories",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CategoriesRequests_Requests_RequestId",
+                table: "CategoriesRequests",
+                column: "RequestId",
+                principalTable: "Requests",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 

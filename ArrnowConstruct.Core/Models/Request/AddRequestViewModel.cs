@@ -13,6 +13,8 @@ namespace ArrnowConstruct.Core.Models.Request
 {
     public class AddRequestViewModel
     {
+        public int Id { get; set; } 
+
         [Required]
         [Range(typeof(int), RoomMinCount, RoomMaxCount)]
         public int RoomsCount { get; set; }

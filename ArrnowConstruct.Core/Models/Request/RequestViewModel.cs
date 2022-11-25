@@ -1,4 +1,5 @@
-﻿using ArrnowConstruct.Infrastructure.Data.Entities;
+﻿using ArrnowConstruct.Core.Models.Category;
+using ArrnowConstruct.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,10 @@ namespace ArrnowConstruct.Core.Models.Request
 
         public int RoomsCount { get; set; }
 
-        public List<string> RoomsCategories { get; set; }
-       
+        public List<int> CategoryId { get; set; } = new List<int>();
+
+        public IEnumerable<CategoryModel> RoomsTypes { get; set; } = new List<CategoryModel>();
+
         public double Area { get; set; }
 
         public string RequiredDate { get; set; }
@@ -33,7 +36,7 @@ namespace ArrnowConstruct.Core.Models.Request
 
         public Constructor Constructor { get; set; }
 
-        public string ConstructorAddress { get; set; }
+        public string ConstructorEmail { get; set; }
 
     }
 }
