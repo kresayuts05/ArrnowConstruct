@@ -49,5 +49,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         [Required]
         public ICollection<Category> RoomsTypes { get; set; } = new HashSet<Category>();
+
+        [Required]
+        public bool IsActive { get; set; }
     }
 }

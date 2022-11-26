@@ -34,19 +34,21 @@ namespace ArrnowConstruct.Core.Services
             //   var user = await clientService.GetUserByClientId(id);
 
             return await repo.All<Request>()
+                .Where(r => r.IsActive == true)
                 .Where(r => r.ClientId == id)
-                .Select(c => new RequestViewModel
+                .Select(r => new RequestViewModel
                 {
-                    ClientAddress = c.Client.User.Email,
-                    Id = c.Id,
-                    RoomsCount = c.RoomsCount,
-                    Area = c.Area,
-                    RequiredDate = c.RequiredDate.ToString("yyyy-MM-dd"),
-                    Status = c.Status,
-                    Budget = c.Budget,
-                    ConstructorEmail = c.Constructor.User.Email,
+                    ClientAddress = r.Client.User.Address,
+                    Id = r.Id,
+                    RoomsCount = r.RoomsCount,
+                    Area = r.Area,
+                    RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd"),
+                    Status = r.Status,
+                    Budget = r.Budget,
+                    ConstructorEmail = r.Constructor.User.Email,
                     RoomsTypes = new List<CategoryModel>
-                    (c.RoomsTypes.Select(r => new CategoryModel() { Id = r.Id, Name = r.Name }).ToList())
+                    (r.RoomsTypes.Select(c => new CategoryModel() { Id = c.Id, Name = c.Name }).ToList()),
+                    IsActive = r.IsActive
                 })
                 .ToListAsync();
         }
@@ -84,7 +86,8 @@ namespace ArrnowConstruct.Core.Services
                 Status = "Waiting",
                 ClientId = clientId,
                 ConstructorId = constructorId,
-                RoomsTypes = categories.ToList()
+                RoomsTypes = categories.ToList(),
+                IsActive = true
             };
 
             await repo.AddAsync(request);
@@ -93,7 +96,6 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task Edit(int requestId, AddRequestViewModel model)
         {
-
             var request = await repo.GetByIdAsync<Request>(requestId);
 
             var sth = repo.All<Category>()
@@ -115,6 +117,7 @@ namespace ArrnowConstruct.Core.Services
             request.Budget = model.Budget;
             request.ConstructorId = constructorId;
             request.RoomsTypes = categories.ToList();
+            request.IsActive = model.IsActive;
 
             await repo.SaveChangesAsync();
         }
@@ -122,12 +125,13 @@ namespace ArrnowConstruct.Core.Services
         public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<Request>()
-                .AnyAsync(r => r.Id == id && r.Status == "Waiting");
+                .AnyAsync(r => r.Id == id && r.Status == "Waiting" && r.IsActive == true);
         }
 
         public async Task<AddRequestViewModel> RequestById(int id)
         {
-            var request =  await repo.All<Request>()
+            var request = await repo.All<Request>()
+             .Where(r => r.IsActive == true)
              .Where(r => r.Id == id)
              .Select(r => new AddRequestViewModel()
              {
@@ -139,7 +143,8 @@ namespace ArrnowConstruct.Core.Services
                  Budget = r.Budget,
                  ConstructorEmail = r.Constructor.User.Email,
                  RoomsTypes = new List<CategoryModel>
-                 (r.RoomsTypes.Select(r => new CategoryModel() { Id = r.Id, Name = r.Name }).ToList())
+                 (r.RoomsTypes.Select(r => new CategoryModel() { Id = r.Id, Name = r.Name }).ToList()),
+                 IsActive = r.IsActive
              })
              .FirstAsync();
 
@@ -150,8 +155,31 @@ namespace ArrnowConstruct.Core.Services
         public async Task Delete(int requestId)
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
+            request.IsActive = false;
 
             await repo.SaveChangesAsync();
+        }
+
+        public async Task<string> GetStatus(int requestId)
+        {
+            var request = await repo.GetByIdAsync<Request>(requestId);
+            
+            return request.Status;
+        }
+
+        public async Task<RequestViewModel> GetDetailsRequest(int id)
+        {
+            var request = await repo.All<Request>()
+              .Where(r => r.IsActive == true)
+              .Where(r => r.Id == id)
+              .Select(r => new RequestViewModel()
+              {
+                  ConstructorEmail = r.Constructor.User.Email,
+                  ClientAddress = r.Client.User.Address
+              })
+              .FirstAsync();
+
+            return request;
         }
     }
 }

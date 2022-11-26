@@ -35,6 +35,9 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public DateTime UpdatedOn { get; set; }
 
         [Required]
+        public bool IsActive { get; set; }
+
+        [Required]
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
 

@@ -125,3 +125,13 @@ body {
     opacity: 0.9;
     text-decoration: none;
 }
+
+.btn-purple {
+    background-color: #660066;
+    color : #ffffff;
+}
+
+    .btn-purple:hover {
+        background-color: #962C9E;
+        color: #ffffff;
+    }

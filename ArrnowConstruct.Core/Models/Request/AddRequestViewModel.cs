@@ -42,5 +42,8 @@ namespace ArrnowConstruct.Core.Models.Request
         [Required]
         [StringLength(EmailMaxLength, MinimumLength = EmailMinLength)]
         public string ConstructorEmail { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
     }
 }

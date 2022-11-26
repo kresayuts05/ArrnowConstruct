@@ -23,10 +23,10 @@ namespace ArrnowConstruct.Core.Contarcts
         Task Edit(int requestId, AddRequestViewModel model);
 
 
-        //Task<string> GetStatus(int requestId);
+        Task<string> GetStatus(int requestId);
 
-        //Task Delete(int requestId);
+        Task Delete(int requestId);
 
-        //Task<bool> IsConfirmedByConstructor(int requestId, string constructorId);
+        Task<RequestViewModel> GetDetailsRequest(int id);
     }
 }

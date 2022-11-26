@@ -40,6 +40,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         public int Likes { get; set; }
 
+        [Required]
+        public bool IsActive { get; set; }
 
         [Required]
         [ForeignKey(nameof(Site))]
@@ -52,6 +54,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public ICollection<PostImage> PostImages { get; set; } = new HashSet<PostImage>();
 
         public ICollection<PostLikes> PostLikes { get; set; } = new HashSet<PostLikes>();
+
 
 
         //[Required]

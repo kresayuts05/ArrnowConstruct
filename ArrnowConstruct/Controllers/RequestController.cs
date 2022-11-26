@@ -72,10 +72,10 @@ namespace ArrnowConstruct.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-        //    if ((await requestService.Exists(id)) == false)
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
+            if ((await requestService.Exists(id)) == false)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             var request = await requestService.RequestById(id);
             var requestCurrCategories = await categoryService.CategoriesById(request.CategoryId);
@@ -83,14 +83,14 @@ namespace ArrnowConstruct.Controllers
             var model = new AddRequestViewModel()
             {
                 Id = request.Id,
-              //  ClientId = await clientService.GetClientId(User.Id()),
                 RoomsCount = request.RoomsCount,
                 Area = request.Area,
                 RequiredDate = request.RequiredDate,
                 Budget = request.Budget,
                 ConstructorEmail = request.ConstructorEmail,
                 CategoryId = request.RoomsTypes.Select(x => x.Id).ToList(),
-                RoomsTypes = await categoryService.AllCategories()
+                RoomsTypes = await categoryService.AllCategories(),
+                IsActive = request.IsActive
             };
 
             return View(model);
@@ -106,7 +106,7 @@ namespace ArrnowConstruct.Controllers
 
             if ((await requestService.Exists(model.Id)) == false)
             {
-                ModelState.AddModelError("", "House does not exist");
+                ModelState.AddModelError("", "Request does not exist");
                 model.RoomsTypes = await categoryService.AllCategories();
 
                 return View(model);
@@ -117,45 +117,63 @@ namespace ArrnowConstruct.Controllers
             //    return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             //}
 
-            //if ((await houseService.CategoryExists(model.CategoryId)) == false)
-            //{
-            //    ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
-            //    model.HouseCategories = await houseService.AllCategories();
+            if (model.IsActive == false)
+            {
+                ModelState.AddModelError(nameof(model.Id), "Request does not exist");
 
-            //    return View(model);
-            //}
+                return RedirectToAction("Mine", "Request");
+            }
 
             if (ModelState.IsValid == false)
             {
-                // model.HouseCategories = await houseService.AllCategories(
-                //return View(model);
-                throw new Exception("TUPAK");
+                return RedirectToAction("Mine", "Request");
             }
 
-            //var request = await requestService.RequestById(id);
-            //var sth = request.RoomsTypes.Select(r => r.Id).Where(r => model.CategoryId.Contains(r)).ToList();
-            //var real = model.CategoryId.Where(r => sth.Contains(r) == false);
-
-            //List<int> categoriesId = new List<int>(sth);
-            //categoriesId.AddRange(real);
-
-            //categoriesId.OrderBy(r => r).ToList();  
-            //model.CategoryId = categoriesId;
 
             await requestService.Edit(model.Id, model);
-            return RedirectToAction("Index", "Home");
 
-            //return RedirectToAction(nameof(Mine), new { model.Id });
+            return RedirectToAction(nameof(Mine), new { model.Id });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if ((await requestService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Delete(int id, RequestViewModel model)
-        //{
+            if ((await requestService.GetStatus(id) != "Waiting"))
+            {
+                return RedirectToPage(nameof(Mine));
+            }
 
-        //    await requestService.Delete(id);
+            var request = await requestService.GetDetailsRequest(id);
+            var model = new RequestViewModel()
+            {
+                ClientAddress = request.ClientAddress,
+                ConstructorEmail = request.ConstructorEmail
+            };
 
-        //    return RedirectToAction(nameof(All));
-        //}
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, RequestViewModel model)
+        {
+            if ((await requestService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
+
+            if ((await requestService.GetStatus(id) != "Waiting"))
+            {
+                return RedirectToPage(nameof(Mine));
+            }
+
+            await requestService.Delete(id);
+
+            return RedirectToAction(nameof(Mine));
+        }
     }
 }

@@ -33,6 +33,9 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
+        [Required]
+        public bool IsActive { get; set; }
+
         public ICollection<ReviewImage> Images { get; set; } = new HashSet<ReviewImage>();
 
         [Required]

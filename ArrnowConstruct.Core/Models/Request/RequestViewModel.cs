@@ -26,17 +26,21 @@ namespace ArrnowConstruct.Core.Models.Request
 
         public string Status { get; set; }
 
-        public int? ClientId { get; set; }
+        public int ClientId { get; set; }
 
-        public Client Client { get; set; }
+      //  public Client Client { get; set; }
 
         public string ClientAddress { get; set; }
 
-        public int? ConstructorId { get; set; }
+        //public string ClientEmail { get; set; }
 
-        public Constructor Constructor { get; set; }
+        public int ConstructorId { get; set; }
+
+       // public Constructor Constructor { get; set; }
 
         public string ConstructorEmail { get; set; }
+
+        public bool IsActive { get; set; }
 
     }
 }
