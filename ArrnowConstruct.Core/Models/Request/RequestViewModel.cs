@@ -32,7 +32,7 @@ namespace ArrnowConstruct.Core.Models.Request
 
         public string ClientAddress { get; set; }
 
-        //public string ClientEmail { get; set; }
+        public string ClientEmail { get; set; }
 
         public int ConstructorId { get; set; }
 

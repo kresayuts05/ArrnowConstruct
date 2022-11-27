@@ -2,17 +2,20 @@
 
 @{
     ViewBag.Title = "My Requests";
-   
+
 }
 
 <h1 class="text-center">@ViewBag.Title</h1>
+<br>
 <div class="">
 
-    @{var modelGroups = Model
-        .Select((x, i) => new { Index = i, Value = x })
-        .GroupBy(x => x.Index / 100)
-        .Select(x => x.Select(v => v.Value).ToList())
-        .ToList();}
+    @{
+        var modelGroups = Model
+                .Select((x, i) => new { Index = i, Value = x })
+                .GroupBy(x => x.Index / 100)
+                .Select(x => x.Select(v => v.Value).ToList())
+                .ToList();
+    }
 
     @foreach (var modelGroup in modelGroups)
     {
@@ -29,18 +32,36 @@
                         <p>Rooms Count: <b>@(model.RoomsCount)</b></p>
                         <p>Area: <b>@(model.Area)</b></p>
                         <p>Free from date: <b>@(model.RequiredDate)</b></p>
-                        <p>Constructor: <b>@(model.ConstructorEmail)</b></p>
+                        @if (this.User.IsInRole(RoleConstants.Client))
+                        {
+                            <p>Constructor: <b>@(model.ConstructorEmail)</b></p>
+                        }
+                        else if (this.User.IsInRole(RoleConstants.Constructor))
+                        {
+                            <p>Constructor: <b>@(model.ClientEmail)</b></p>
+                        }
+
                         <p>Room Categories:<b>@string.Join(", ", @model.RoomsTypes.Select(r => r.Name).ToList())</b> </p>
                         <br />
                         @* <a asp-controller="Request" asp-action="Details" asp-route-id="@Model.Id"
                             class="btn btn-success">Details</a>*@
                         @if (model.Status == "Waiting")
                         {
-                            <a asp-controller="Request" asp-action="Edit" asp-route-id="@(model.Id)"
+                            if (this.User.IsInRole(RoleConstants.Client))
+                            {
+                                <a asp-controller="Request" asp-action="Edit" asp-route-id="@(model.Id)"
                    class="btn btn-purple">Edit</a>
-                            <a asp-controller="Request" asp-action="Delete" asp-route-id="@(model.Id)"
+                                <a asp-controller="Request" asp-action="Delete" asp-route-id="@(model.Id)"
                    class="btn btn-danger">Delete</a>
-                            <p></p>
+                            }
+                            else if (this.User.IsInRole(RoleConstants.Constructor))
+                            {
+                                <a asp-controller="Request" asp-action="Confirm" asp-route-id="@(model.Id)"
+                   class="btn btn-success">Confirm</a>
+                                <a asp-controller="Request" asp-action="Reject" asp-route-id="@(model.Id)"
+                   class="btn btn-danger">Reject</a>
+                            }
+                            
                         }
 
                     </div>

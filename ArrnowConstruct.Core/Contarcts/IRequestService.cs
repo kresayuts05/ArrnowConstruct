@@ -16,6 +16,8 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id);
 
+        Task<IEnumerable<RequestViewModel>> AllRequestsForConstructorById(int id);
+
         Task<AddRequestViewModel> RequestById(int id);
 
         Task<bool> Exists(int id);
@@ -28,5 +30,9 @@ namespace ArrnowConstruct.Core.Contarcts
         Task Delete(int requestId);
 
         Task<RequestViewModel> GetDetailsRequest(int id);
+
+        Task Reject(int requestId);
+
+        Task Confirm(int requestId);
     }
 }

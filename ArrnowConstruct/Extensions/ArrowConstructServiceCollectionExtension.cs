@@ -12,6 +12,8 @@ namespace ArrnowConstruct.Extensions
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IRequestService, RequestService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IConstructorService, ConstructorService>();
+            services.AddScoped<ISiteService, SiteService>();
 
             return services;
         }

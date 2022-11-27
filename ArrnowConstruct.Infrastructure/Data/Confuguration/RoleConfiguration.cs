@@ -15,6 +15,11 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
         {
             builder.HasData(new List<IdentityRole>
             {
+                new IdentityRole {
+                Id ="4033acf9-98f0-49e3-aafc-fd4fcb71c67e" ,
+                Name = "Administrator",
+                NormalizedName = "ADMINISTRATOR"
+              },
               new IdentityRole {
                 Id ="25f73449-f9e8-40b4-87ee-93fc6c242339" ,
                 Name = "Client",

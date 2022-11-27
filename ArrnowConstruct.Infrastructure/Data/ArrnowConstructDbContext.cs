@@ -65,6 +65,7 @@ namespace ArrnowConstruct.Infrastructure.Data
             builder.ApplyConfiguration(new ConstructorConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new AdministratorConifuration());
 
             base.OnModelCreating(builder);
         }

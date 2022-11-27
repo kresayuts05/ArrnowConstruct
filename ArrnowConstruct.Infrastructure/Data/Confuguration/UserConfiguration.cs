@@ -24,6 +24,26 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
 
             var user = new User()
             {
+                Id = "babdaf39-3545-48e1-877e-13d4bb4d597f",
+                UserName = "nikol",
+                NormalizedUserName = "NIKOL",
+                Email = "nikol@mail.com",
+                NormalizedEmail = "NIKOL@MAIL.COM",
+                PhoneNumber = "0886121261",
+                FirstName = "Nikol",
+                LastName = "Grueva",
+                City = "Kazanlak",
+                Address = "Graf Ignatiev 6 ",
+                Country = "Bulgaria"
+            };
+
+            user.PasswordHash =
+                 hasher.HashPassword(user, "constructor123");
+
+            users.Add(user);
+
+             user = new User()
+            {
                 Id = "ae724eb3-355b-48dd-bdaa-c1eaccf666c5",
                 UserName = "kresa",
                 NormalizedUserName = "KRESA",
@@ -38,7 +58,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
             };
 
             user.PasswordHash =
-                 hasher.HashPassword(user, "constructor123");
+                 hasher.HashPassword(user, "admin123");
 
             users.Add(user);
 
@@ -47,7 +67,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
                 Id = "7125d323-7567-4f56-b27e-6b7044014a37",
                 UserName = "angel",
                 NormalizedUserName = "ANGEL",
-                Email = "guest@mail.com",
+                Email = "angel@mail.com",
                 NormalizedEmail = "ANGEL@MAIL.COM",
                 PhoneNumber = "0888791001",
                 FirstName = "Angel",

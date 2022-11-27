@@ -1,19 +1,15 @@
-﻿@using ArrnowConstruct.Infrastructure.Data.Entities
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Arrnow Construct</title>
+    <title>@ViewData["Title"] - Arrnow Construct - Administrator</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ArrnowConstruct.styles.css" asp-append-version="true" />
 </head>
 <body>
+    @* <partial name="_UserMessages" />*@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -31,26 +27,15 @@
                         @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Request" asp-action="Add">Make a Request</a>
+                            </li>
+                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Request" asp-action="Mine">My Requests</a>
                             </li>
-
-                            @if (this.User.IsInRole(RoleConstants.Client))
-                            {
-
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Request" asp-action="Add">Make a Request</a>
-                                </li>
-                            }
-                            else if (this.User.IsInRole(RoleConstants.Constructor))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Post" asp-action="Add">Make a Post</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Post" asp-action="Mine">My Posts</a>
-                                </li>
-                            }
-                            <li class="nav-item">
+                             <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Profile</a>
+                            </li>
+                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Profile</a>
                             </li>
                         }
@@ -62,6 +47,7 @@
         </nav>
     </header>
     <div class="container">
+         <h1>Administaration area</h1>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

@@ -9,6 +9,7 @@ namespace ArrnowConstruct.Infrastructure.Constants.Enums
     public enum StatusEnum
     {
         Waiting = 1,
-        Confirmed = 2
+        Confirmed = 2,
+        Rejected = 3
     }
 }

@@ -17,7 +17,6 @@ namespace ArrnowConstruct.Core.Services
     {
         private readonly IRepository repo;
         private readonly ICategoryService categoryService;
-        private readonly IClientService clientService;
 
         public RequestService(
             IRepository _repo,
@@ -26,7 +25,6 @@ namespace ArrnowConstruct.Core.Services
         {
             repo = _repo;
             categoryService = _categoryService;
-            clientService = _clientService;
         }
 
         public async Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id)
@@ -46,6 +44,30 @@ namespace ArrnowConstruct.Core.Services
                     Status = r.Status,
                     Budget = r.Budget,
                     ConstructorEmail = r.Constructor.User.Email,
+                    RoomsTypes = new List<CategoryModel>
+                    (r.RoomsTypes.Select(c => new CategoryModel() { Id = c.Id, Name = c.Name }).ToList()),
+                    IsActive = r.IsActive
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<RequestViewModel>> AllRequestsForConstructorById(int id)
+        {
+            //   var user = await clientService.GetUserByClientId(id);
+
+            return await repo.All<Request>()
+                .Where(r => r.IsActive == true && r.Status == "Waiting")
+                .Where(r => r.ConstructorId == id)
+                .Select(r => new RequestViewModel
+                {
+                    ClientAddress = r.Client.User.Address,
+                    Id = r.Id,
+                    RoomsCount = r.RoomsCount,
+                    Area = r.Area,
+                    RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd"),
+                    Status = r.Status,
+                    Budget = r.Budget,
+                    ClientEmail = r.Client.User.Email,
                     RoomsTypes = new List<CategoryModel>
                     (r.RoomsTypes.Select(c => new CategoryModel() { Id = c.Id, Name = c.Name }).ToList()),
                     IsActive = r.IsActive
@@ -170,16 +192,34 @@ namespace ArrnowConstruct.Core.Services
         public async Task<RequestViewModel> GetDetailsRequest(int id)
         {
             var request = await repo.All<Request>()
-              .Where(r => r.IsActive == true)
+              .Where(r => r.IsActive == true && r.Status == "Waiting")
               .Where(r => r.Id == id)
               .Select(r => new RequestViewModel()
               {
                   ConstructorEmail = r.Constructor.User.Email,
-                  ClientAddress = r.Client.User.Address
+                  ClientEmail = r.Client.User.Email,
+                  ClientAddress = r.Client.User.Address,
+                  RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd")
               })
               .FirstAsync();
 
             return request;
+        }
+
+        public async Task Reject(int requestId)
+        {
+            var request = await repo.GetByIdAsync<Request>(requestId);
+            request.Status = "Rejected";
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task Confirm(int requestId)
+        {
+            var request = await repo.GetByIdAsync<Request>(requestId);
+            request.Status = "Confirmed";
+
+            await repo.SaveChangesAsync();
         }
     }
 }

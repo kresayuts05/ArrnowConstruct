@@ -2,6 +2,7 @@
 using ArrnowConstruct.Core.Models.Request;
 using ArrnowConstruct.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using ArrnowConstruct.Core.Constants;
 
 namespace ArrnowConstruct.Controllers
 {
@@ -9,15 +10,18 @@ namespace ArrnowConstruct.Controllers
     {
         private readonly IRequestService requestService;
         private readonly IClientService clientService;
+        private readonly IConstructorService constructorService;
         private readonly ICategoryService categoryService;
 
         public RequestController(
             IRequestService _requestService,
             IClientService _clientService,
+            IConstructorService _constructorService,
             ICategoryService _categoryService)
         {
             requestService = _requestService;
             clientService = _clientService;
+            constructorService = _constructorService;
             categoryService = _categoryService;
         }
 
@@ -62,9 +66,18 @@ namespace ArrnowConstruct.Controllers
         public async Task<IActionResult> Mine()
         {
             var userId = User.Id();
-            int clientId = await clientService.GetClientId(userId);
+            IEnumerable<RequestViewModel> myRequests = new List<RequestViewModel>();
 
-            IEnumerable<RequestViewModel> myRequests = await requestService.AllRequestsByClientId(clientId);
+            if (this.User.IsInRole(RoleConstants.Client))
+            {
+                int clientId = await clientService.GetClientId(userId);
+               myRequests = await requestService.AllRequestsByClientId(clientId);
+            }
+            else if (this.User.IsInRole(RoleConstants.Constructor))
+            {
+                int constructorId = await constructorService.GetConstructorId(userId);
+                myRequests = await requestService.AllRequestsForConstructorById(constructorId);
+            }
 
             return View(myRequests);
         }
@@ -172,6 +185,48 @@ namespace ArrnowConstruct.Controllers
             }
 
             await requestService.Delete(id);
+
+            return RedirectToAction(nameof(Mine));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Reject(int id)
+        {
+            if ((await requestService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
+
+            if ((await requestService.GetStatus(id) != "Waiting"))
+            {
+                return RedirectToPage(nameof(Mine));
+            }
+
+            var request = await requestService.GetDetailsRequest(id);
+            var model = new RequestViewModel()
+            {
+                ClientAddress = request.ClientAddress,
+                ClientEmail = request.ClientEmail,
+                RequiredDate = request.RequiredDate
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Reject(int id, RequestViewModel model)
+        {
+            if ((await requestService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
+
+            if ((await requestService.GetStatus(id) != "Waiting"))
+            {
+                return RedirectToPage(nameof(Mine));
+            }
+
+            await requestService.Reject(id);
 
             return RedirectToAction(nameof(Mine));
         }

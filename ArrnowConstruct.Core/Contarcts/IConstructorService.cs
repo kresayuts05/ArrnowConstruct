@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace ArrnowConstruct.Core.Contarcts
 {
-    public interface IClientService
+    public interface IConstructorService
     {
         Task Create(string userId);
 
-        Task<User> GetUserByClientId(int id);
+        Task<User> GetUserByConstructorId(int id);
 
-        //Task<bool> ExistsById(string userId);
+        Task<bool> ExistsById(string userId);
 
-        Task<int> GetClientId(string userId);
-
+        Task<int> GetConstructorId(string userId);
 
     }
 }
