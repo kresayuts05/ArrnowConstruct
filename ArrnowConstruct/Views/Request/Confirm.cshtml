@@ -1,4 +1,4 @@
-﻿@model RequestViewModel
+﻿@model RequestConfirmViewModel
 
 @{
     ViewBag.Title = "Confirm Request";
@@ -11,21 +11,47 @@
     <div class="row  align-items-center justify-content-center">
         <div class="col-md-6 ">
             <div class="form-group mt-2">
-                <label asp-for="ClientEmail" class="control-label mb-1"><b>Client Email</b></label>
-                <input asp-for="ClientEmail" class="form-control" disabled="disabled" />
-            </div>
-            <div class="form-group mt-2">
-                <label asp-for="ClientAddress" class="control-label mb-1"><b>Client Address</b></label>
-                <input asp-for="ClientAddress" class="form-control" disabled="disabled" />
+                <label asp-for="RequestInformation.ClientAddress" class="control-label mb-1"><b>Client Address</b></label>
+                <input asp-for="RequestInformation.ClientAddress" class="form-control" disabled="disabled" />
             </div>
              <div class="form-group mt-2">
-                <label asp-for="RequiredDate" class="control-label mb-1"><b>From Date</b></label>
-                <input asp-for="RequiredDate" class="form-control" disabled="disabled" />
+                <label asp-for="RequestInformation.ClientEmail" class="control-label mb-1"><b>Client Email</b></label>
+                <input asp-for="RequestInformation.ClientEmail" class="form-control" disabled="disabled" />
+            </div>
+             <div class="form-group mt-2">
+                <label asp-for="RequestInformation.RoomsCount" class="control-label mb-1"><b>Rooms Count</b></label>
+                <input asp-for="RequestInformation.RoomsCount" class="form-control" disabled="disabled" />
+            </div>
+             <div class="form-group mt-2">
+                <label asp-for="RequestInformation.Area" class="control-label mb-1"><b>Area</b></label>
+                <input asp-for="RequestInformation.Area" class="form-control" disabled="disabled" />
+            </div>
+              <div class="form-group mt-2">
+                <label asp-for="RequestInformation.RoomsTypes" class="control-label mb-1"><b>Rooms Types</b></label>
+                <input asp-for="RequestInformation.RoomsTypes" class="form-control" value = "@string.Join(", ", Model.RequestInformation.RoomsTypes.Select(r => r.Name).ToList())" disabled="disabled" />
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="RequestInformation.RequiredDate" class="control-label mb-1"><b>Free from date</b></label>
+                <input asp-for="RequestInformation.RequiredDate" class="form-control" disabled="disabled" />
+            </div>
+             <div class="form-group mt-2">
+                  <label asp-for="@Model.FromDate" class="form-label"><b>From Date</b></label>
+                <input asp-for="@Model.FromDate" class="form-control" aria-required="true" type="date"/>
+                <span asp-validation-for="FromDate" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                  <label asp-for="@Model.ToDate" class="form-label"><b>To Date</b></label>
+                <input asp-for="@Model.ToDate" class="form-control" aria-required="true" type="date"/>
+                <span asp-validation-for="ToDate" class="text-danger"></span>
             </div>
             <br>
             <div class="form-group  text-center">
-                <input type="submit" value="Reject" class="btn btn-danger" />
+                <input type="submit" value="Confirm" class="btn btn-success" />
             </div>
         </div>
     </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

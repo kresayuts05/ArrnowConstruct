@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArrnowConstruct.Infrastructure.Constants.Enums
 {
-    public enum StatusEnum
+    public enum RequestStatusEnum
     {
         Waiting = 1,
         Confirmed = 2,

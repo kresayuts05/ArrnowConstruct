@@ -12,17 +12,20 @@ namespace ArrnowConstruct.Controllers
         private readonly IClientService clientService;
         private readonly IConstructorService constructorService;
         private readonly ICategoryService categoryService;
+        private readonly ISiteService siteService;
 
         public RequestController(
             IRequestService _requestService,
             IClientService _clientService,
             IConstructorService _constructorService,
-            ICategoryService _categoryService)
+            ICategoryService _categoryService,
+            ISiteService _siteService)
         {
             requestService = _requestService;
             clientService = _clientService;
             constructorService = _constructorService;
             categoryService = _categoryService;
+            siteService = _siteService;
         }
 
         [HttpGet]
@@ -48,6 +51,7 @@ namespace ArrnowConstruct.Controllers
             {
                 ModelState.AddModelError(nameof(model.RoomsCount), "You haven't selected any type of room!");
             }
+
             if (!ModelState.IsValid)
             {
                 model.RoomsTypes = await categoryService.AllCategories();
@@ -71,7 +75,7 @@ namespace ArrnowConstruct.Controllers
             if (this.User.IsInRole(RoleConstants.Client))
             {
                 int clientId = await clientService.GetClientId(userId);
-               myRequests = await requestService.AllRequestsByClientId(clientId);
+                myRequests = await requestService.AllRequestsByClientId(clientId);
             }
             else if (this.User.IsInRole(RoleConstants.Constructor))
             {
@@ -229,6 +233,69 @@ namespace ArrnowConstruct.Controllers
             await requestService.Reject(id);
 
             return RedirectToAction(nameof(Mine));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Confirm(int id)
+        {
+            if ((await requestService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
+
+            if ((await requestService.GetStatus(id) != "Waiting"))
+            {
+                return RedirectToPage(nameof(Mine));
+            }
+
+            var request = await requestService.GetDetailsRequest(id);
+            var model = new RequestConfirmViewModel()
+            {
+                RequestInformation = new RequestViewModel()
+                {
+                    Id = request.Id,
+                    ClientAddress = request.ClientAddress,
+                    ClientEmail = request.ClientEmail,
+                    RoomsCount = request.RoomsCount,
+                    Area = request.Area,
+                    RequiredDate = request.RequiredDate,
+                    Budget = request.Budget,
+                    RoomsTypes = request.RoomsTypes,
+                    IsActive = request.IsActive
+                }
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Confirm(int id, RequestConfirmViewModel model)
+        {
+            if ((await requestService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
+
+            if ((await requestService.GetStatus(id) != "Waiting"))
+            {
+                return RedirectToPage(nameof(Mine));
+            }
+
+            //if (model.RequestInformation.RequiredDate < model.FromDate)
+            //{
+            //    ModelState.AddModelError(nameof(model.FromDate), "The Starting Date should be after the Required Date from the client!");
+
+            //}
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(model);
+            //}
+
+            await requestService.Confirm(id);
+            //   await siteService.Create(id);
+
+            return RedirectToAction("Mine", "Site");
         }
     }
 }

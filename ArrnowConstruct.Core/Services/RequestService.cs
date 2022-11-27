@@ -196,10 +196,16 @@ namespace ArrnowConstruct.Core.Services
               .Where(r => r.Id == id)
               .Select(r => new RequestViewModel()
               {
-                  ConstructorEmail = r.Constructor.User.Email,
+                  Id = r.Id,
                   ClientEmail = r.Client.User.Email,
                   ClientAddress = r.Client.User.Address,
-                  RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd")
+                  RoomsCount = r.RoomsCount,
+                  Area = r.Area,
+                  RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd"),
+                  Budget = r.Budget,
+                  ConstructorEmail = r.Constructor.User.Email,
+                  RoomsTypes =r.RoomsTypes.Select(c => new CategoryModel() { Id = c.Id, Name = c.Name }).ToList(),
+                  IsActive = r.IsActive
               })
               .FirstAsync();
 

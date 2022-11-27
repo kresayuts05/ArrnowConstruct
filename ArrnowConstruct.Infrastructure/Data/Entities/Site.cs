@@ -1,4 +1,4 @@
-﻿using ArrnowConstruct.Infrastructure.Constants.Enums;
+﻿using ArrnowConstruct.Infrastructure.Data.Entities.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -34,7 +34,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public decimal Price { get; set; }
 
         [Required]
-        [EnumDataType(typeof(StatusEnum))]
+        [EnumDataType(typeof(SiteStatusEnum))]
         public string Status { get; set; }
 
         [Required]

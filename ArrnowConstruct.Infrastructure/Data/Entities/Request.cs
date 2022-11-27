@@ -32,7 +32,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public decimal Budget { get; set; }
 
         [Required]
-        [EnumDataType(typeof(StatusEnum))]
+        [EnumDataType(typeof(RequestStatusEnum))]
         public string Status { get; set; }
 
         [Required]

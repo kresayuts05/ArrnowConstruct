@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
     public class CategoryRequest
-    {
-        [Key]
-        public int Id { get; set; }
+    { 
 
         [Required]
         [ForeignKey(nameof(Request))]
