@@ -1,6 +1,7 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
 using ArrnowConstruct.Core.Models.Category;
 using ArrnowConstruct.Core.Models.Request;
+using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +18,16 @@ namespace ArrnowConstruct.Core.Services
     {
         private readonly IRepository repo;
         private readonly ICategoryService categoryService;
+        private readonly IConstructorService constructorService;
 
         public RequestService(
             IRepository _repo,
             ICategoryService _categoryService,
-            IClientService _clientService)
+            IConstructorService _constructorService)
         {
             repo = _repo;
             categoryService = _categoryService;
+            constructorService = _constructorService;
         }
 
         public async Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id)
@@ -36,16 +39,31 @@ namespace ArrnowConstruct.Core.Services
                 .Where(r => r.ClientId == id)
                 .Select(r => new RequestViewModel
                 {
-                    ClientAddress = r.Client.User.Address,
                     Id = r.Id,
                     RoomsCount = r.RoomsCount,
                     Area = r.Area,
                     RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd"),
                     Status = r.Status,
                     Budget = r.Budget,
-                    ConstructorEmail = r.Constructor.User.Email,
                     RoomsTypes = new List<CategoryModel>
                     (r.RoomsTypes.Select(c => new CategoryModel() { Id = c.Id, Name = c.Name }).ToList()),
+                    Client = new ClientModel()
+                    {
+                        ClientId = r.ClientId,
+                        User = new UserModel()
+                        {
+                            Email = r.Client.User.Email,
+                            Address = $"Country: {r.Client.User.Address},{Environment.NewLine} City: {r.Client.User.Address},{Environment.NewLine} Street: {r.Client.User.Address}"
+                        }
+                    },
+                    Constructor = new ConstructorModel()
+                    {
+                        ConstructorId = r.ConstructorId,
+                        User = new UserModel()
+                        {
+                            Email = r.Constructor.User.Email
+                        }
+                    },
                     IsActive = r.IsActive
                 })
                 .ToListAsync();
@@ -60,43 +78,39 @@ namespace ArrnowConstruct.Core.Services
                 .Where(r => r.ConstructorId == id)
                 .Select(r => new RequestViewModel
                 {
-                    ClientAddress = r.Client.User.Address,
                     Id = r.Id,
                     RoomsCount = r.RoomsCount,
                     Area = r.Area,
                     RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd"),
                     Status = r.Status,
                     Budget = r.Budget,
-                    ClientEmail = r.Client.User.Email,
                     RoomsTypes = new List<CategoryModel>
                     (r.RoomsTypes.Select(c => new CategoryModel() { Id = c.Id, Name = c.Name }).ToList()),
+                    Client = new ClientModel()
+                    {
+                        ClientId = r.ClientId,
+                        User = new UserModel()
+                        {
+                            Email = r.Client.User.Email,
+                            Address = $"Country: {r.Client.User.Address},{Environment.NewLine} City: {r.Client.User.Address},{Environment.NewLine} Street: {r.Client.User.Address}"
+                        }
+                    },
+                    Constructor = new ConstructorModel()
+                    {
+                        ConstructorId = r.ConstructorId,
+                        User = new UserModel()
+                        {
+                            Email = r.Constructor.User.Email
+                        }
+                    },
                     IsActive = r.IsActive
                 })
                 .ToListAsync();
         }
 
-        public async Task<int> ConstructorWithEmailExists(string email)
-        {
-            var user = await repo.AllReadonly<User>()
-                .FirstOrDefaultAsync(u => u.Email == email);
-
-            if (user != null)
-            {
-                Constructor constructor = await repo.All<Constructor>()
-                .FirstOrDefaultAsync(c => c.UserId == user.Id);
-
-                if (constructor != null)
-                {
-                    return constructor.Id;
-                }
-            }
-
-            return -1;
-        }
-
         public async Task Create(AddRequestViewModel model, int clientId)
         {
-            int constructorId = await this.ConstructorWithEmailExists(model.ConstructorEmail);
+            int constructorId = await constructorService.ConstructorWithEmailExists(model.ConstructorEmail);
             var categories = await categoryService.CategoriesById(model.CategoryId);
 
             var request = new Request()
@@ -130,7 +144,7 @@ namespace ArrnowConstruct.Core.Services
             }
             await repo.SaveChangesAsync();
 
-            int constructorId = await this.ConstructorWithEmailExists(model.ConstructorEmail);
+            int constructorId = await constructorService.ConstructorWithEmailExists(model.ConstructorEmail);
             var categories = await categoryService.CategoriesById(model.CategoryId);
 
             request.RoomsCount = model.RoomsCount;
@@ -185,7 +199,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<string> GetStatus(int requestId)
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
-            
+
             return request.Status;
         }
 
@@ -197,14 +211,29 @@ namespace ArrnowConstruct.Core.Services
               .Select(r => new RequestViewModel()
               {
                   Id = r.Id,
-                  ClientEmail = r.Client.User.Email,
-                  ClientAddress = r.Client.User.Address,
                   RoomsCount = r.RoomsCount,
                   Area = r.Area,
                   RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd"),
                   Budget = r.Budget,
-                  ConstructorEmail = r.Constructor.User.Email,
-                  RoomsTypes =r.RoomsTypes.Select(c => new CategoryModel() { Id = c.Id, Name = c.Name }).ToList(),
+                  CategoryId = r.RoomsTypes.Select(c => c.Id).ToList(),
+                  RoomsTypes = r.RoomsTypes.Select(c => new CategoryModel() { Id = c.Id, Name = c.Name }).ToList(),
+                  Client = new ClientModel()
+                  {
+                      ClientId = r.ClientId,
+                      User = new UserModel()
+                      {
+                          Email = r.Client.User.Email,
+                          Address = $"Country: {r.Client.User.Address},{Environment.NewLine} City: {r.Client.User.Address},{Environment.NewLine} Street: {r.Client.User.Address}"
+                      }
+                  },
+                  Constructor = new ConstructorModel()
+                  {
+                      ConstructorId = r.ConstructorId,
+                      User = new UserModel()
+                      {
+                          Email = r.Constructor.User.Email
+                      }
+                  },
                   IsActive = r.IsActive
               })
               .FirstAsync();

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArrnowConstruct.Infrastructure.Migrations
 {
     [DbContext(typeof(ArrnowConstructDbContext))]
-    [Migration("20221124230616_SeedData")]
-    partial class SeedData
+    [Migration("20221128214703_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,96 +40,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Kitchen"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Bathroom"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Bedroom"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "LivingRoom"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "DiningRoom"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Hall"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Office"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "GameRoom"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "Pantry"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "Toilet"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Name = "UtilityRoom"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Name = "SpareRoom"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Name = "Cellar"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Name = "Attic"
-                        });
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.CategoryRequest", b =>
-                {
-                    b.Property<int>("RequestId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("RequestId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("CategoriesRequests");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>
@@ -149,13 +59,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Clients");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            UserId = "ae724eb3-355b-48dd-bdaa-c1eaccf666c5"
-                        });
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Constructor", b =>
@@ -178,14 +81,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Constructors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Salary = 1500m,
-                            UserId = "7125d323-7567-4f56-b27e-6b7044014a37"
-                        });
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Post", b =>
@@ -203,6 +98,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Likes")
                         .HasColumnType("int");
@@ -250,6 +148,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(110)
                         .HasColumnType("nvarchar(110)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -338,6 +239,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Property<int>("ConstructorId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("RequiredDate")
                         .HasColumnType("datetime2");
 
@@ -375,6 +279,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -593,52 +500,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ae724eb3-355b-48dd-bdaa-c1eaccf666c5",
-                            AccessFailedCount = 0,
-                            Address = "Edelvais 6 ",
-                            City = "Kazanlak",
-                            ConcurrencyStamp = "0f2f8980-dd27-40ad-9ddb-c7148fb48a56",
-                            Country = "Bulgaria",
-                            Email = "kresa@mail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Kresa",
-                            LastName = "Tsvetkova",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "KRESA@MAIL.COM",
-                            NormalizedUserName = "KRESA",
-                            PasswordHash = "AQAAAAEAACcQAAAAENYSGWDnNjbH7K7lAa8tRq2723WOFtiF6FjEQM79di0D7jh24IE8E07bW0VDfyBklw==",
-                            PhoneNumber = "0886121260",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "768551b8-b73c-4b52-9e2f-7590908b0f2a",
-                            TwoFactorEnabled = false,
-                            UserName = "kresa"
-                        },
-                        new
-                        {
-                            Id = "7125d323-7567-4f56-b27e-6b7044014a37",
-                            AccessFailedCount = 0,
-                            Address = "Petko DePetkov 71",
-                            City = "Kazanlak",
-                            ConcurrencyStamp = "4fb67c04-4311-4ed9-8a25-6762eae316c5",
-                            Country = "Bulgaria",
-                            Email = "guest@mail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Angel",
-                            LastName = "Momov",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ANGEL@MAIL.COM",
-                            NormalizedUserName = "ANGEL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMuwaEzrr4VpZNWi7mMz+848ZwDCBUg78Sary3spAf9/ffpgFBdzzDcnnc2PCp1pCw==",
-                            PhoneNumber = "0888791001",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "1f00834e-084a-4809-988c-b124454605e4",
-                            TwoFactorEnabled = false,
-                            UserName = "angel"
-                        });
                 });
 
             modelBuilder.Entity("CategoryRequest", b =>
@@ -711,22 +572,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "25f73449-f9e8-40b4-87ee-93fc6c242339",
-                            ConcurrencyStamp = "429582e5-a512-4d47-8b78-025683ebdd30",
-                            Name = "Client",
-                            NormalizedName = "CLIENT"
-                        },
-                        new
-                        {
-                            Id = "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
-                            ConcurrencyStamp = "d9b41cf6-c493-41f7-8429-d447b8533cb3",
-                            Name = "Constructor",
-                            NormalizedName = "CONSTRUCTOR"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -837,25 +682,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.CategoryRequest", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Request", "Request")
-                        .WithMany()
-                        .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>

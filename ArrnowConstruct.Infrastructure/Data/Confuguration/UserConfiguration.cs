@@ -38,7 +38,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
             };
 
             user.PasswordHash =
-                 hasher.HashPassword(user, "constructor123");
+                 hasher.HashPassword(user, "123456");
 
             users.Add(user);
 
@@ -58,7 +58,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
             };
 
             user.PasswordHash =
-                 hasher.HashPassword(user, "admin123");
+                 hasher.HashPassword(user, "123456");
 
             users.Add(user);
 
@@ -78,7 +78,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
             };
 
             user.PasswordHash =
-            hasher.HashPassword(user, "client123");
+            hasher.HashPassword(user, "123456");
 
             users.Add(user);
 

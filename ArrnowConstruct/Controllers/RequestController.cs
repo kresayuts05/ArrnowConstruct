@@ -3,6 +3,7 @@ using ArrnowConstruct.Core.Models.Request;
 using ArrnowConstruct.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using ArrnowConstruct.Core.Constants;
+using System.Globalization;
 
 namespace ArrnowConstruct.Controllers
 {
@@ -168,8 +169,8 @@ namespace ArrnowConstruct.Controllers
             var request = await requestService.GetDetailsRequest(id);
             var model = new RequestViewModel()
             {
-                ClientAddress = request.ClientAddress,
-                ConstructorEmail = request.ConstructorEmail
+                Client = request.Client,
+                Constructor = request.Constructor
             };
 
             return View(model);
@@ -209,8 +210,8 @@ namespace ArrnowConstruct.Controllers
             var request = await requestService.GetDetailsRequest(id);
             var model = new RequestViewModel()
             {
-                ClientAddress = request.ClientAddress,
-                ClientEmail = request.ClientEmail,
+                Client = request.Client,
+                Constructor = request.Constructor,
                 RequiredDate = request.RequiredDate
             };
 
@@ -249,21 +250,7 @@ namespace ArrnowConstruct.Controllers
             }
 
             var request = await requestService.GetDetailsRequest(id);
-            var model = new RequestConfirmViewModel()
-            {
-                RequestInformation = new RequestViewModel()
-                {
-                    Id = request.Id,
-                    ClientAddress = request.ClientAddress,
-                    ClientEmail = request.ClientEmail,
-                    RoomsCount = request.RoomsCount,
-                    Area = request.Area,
-                    RequiredDate = request.RequiredDate,
-                    Budget = request.Budget,
-                    RoomsTypes = request.RoomsTypes,
-                    IsActive = request.IsActive
-                }
-            };
+            var model = new RequestConfirmViewModel();
 
             return View(model);
         }
@@ -271,29 +258,37 @@ namespace ArrnowConstruct.Controllers
         [HttpPost]
         public async Task<IActionResult> Confirm(int id, RequestConfirmViewModel model)
         {
+            var request = await requestService.GetDetailsRequest(id);
+
             if ((await requestService.Exists(id)) == false)
             {
                 return RedirectToAction(nameof(Mine));
             }
-
             if ((await requestService.GetStatus(id) != "Waiting"))
             {
                 return RedirectToPage(nameof(Mine));
             }
+            if (model.Price > request.Budget)
+            {
+                ModelState.AddModelError(nameof(model.Price), "The price you chose should not be bigger than client's budget! Otherwise reject the request!");
+            }
 
-            //if (model.RequestInformation.RequiredDate < model.FromDate)
-            //{
-            //    ModelState.AddModelError(nameof(model.FromDate), "The Starting Date should be after the Required Date from the client!");
 
-            //}
+            var fromDate = DateTime.ParseExact(model.FromDate, "yyyy-M-d", CultureInfo.CurrentCulture);
+            var toDate = DateTime.ParseExact(model.ToDate, "yyyy-M-d", CultureInfo.CurrentCulture);
 
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(model);
-            //}
+            if (DateTime.Compare(fromDate, toDate) > 0)
+            {
+                ModelState.AddModelError(nameof(model.FromDate), "The Starting Date should be after the  Starting Date from the client!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
             await requestService.Confirm(id);
-            //   await siteService.Create(id);
+            await siteService.Create(request,model);
 
             return RedirectToAction("Mine", "Site");
         }

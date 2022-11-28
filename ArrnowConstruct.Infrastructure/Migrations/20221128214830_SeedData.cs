@@ -4,7 +4,7 @@
 
 namespace ArrnowConstruct.Infrastructure.Migrations
 {
-    public partial class AddingIsActiveProperties : Migration
+    public partial class SeedData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,14 +31,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                 table: "AspNetUserTokens");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_CategoriesRequests_Categories_CategoryId",
-                table: "CategoriesRequests");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_CategoriesRequests_Requests_RequestId",
-                table: "CategoriesRequests");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_CategoryRequest_Categories_RoomsTypesId",
@@ -128,61 +120,61 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 name: "FK_Sites_Constructors_ConstructorId",
                 table: "Sites");
 
-            migrationBuilder.AddColumn<bool>(
-                name: "IsActive",
-                table: "Reviews",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsActive",
-                table: "Requests",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsActive",
-                table: "Posts",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsActive",
-                table: "PostComments",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
-
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "25f73449-f9e8-40b4-87ee-93fc6c242339",
-                column: "ConcurrencyStamp",
-                value: "cfd3abbd-a746-43b4-ba87-cf021971dbe0");
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "862452b3-58ce-477a-93c5-6337221b5516", "Client", "CLIENT" },
+                    { "4033acf9-98f0-49e3-aafc-fd4fcb71c67e", "619d735a-ff4d-4142-95e6-4c73dc7d846b", "Administrator", "ADMINISTRATOR" },
+                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "9fa70d26-e827-4d96-be66-f09665537f7c", "Constructor", "CONSTRUCTOR" }
+                });
 
-            migrationBuilder.UpdateData(
-                table: "AspNetRoles",
-                keyColumn: "Id",
-                keyValue: "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
-                column: "ConcurrencyStamp",
-                value: "df10b537-ee5e-4812-8d53-4f6d9aeafbda");
-
-            migrationBuilder.UpdateData(
+            migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                keyColumn: "Id",
-                keyValue: "7125d323-7567-4f56-b27e-6b7044014a37",
-                columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "13746876-3591-42fe-8b7c-9e68ddd4ea04", "AQAAAAEAACcQAAAAELM9BlFOWM6hk3lB6X/zTElG5t1cGbddIOIqiWObLLUuCOi/KMuKjamGMXbOAfdLAg==", "64c14286-88e4-4aa4-810d-d8139974ad5b" });
+                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "8894b665-c764-4a1c-9370-928e72f35c62", "Bulgaria", "angel@mail.com", false, "Angel", "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEIvVB3totgLGpGnJl7WuABcXLXWRQhxN7DqZODNXyit+RgOAL1JP9BRrbK00Ki3MOg==", "0888791001", false, "0a2b3be8-a2bc-4c91-b46d-2b1b4e3fa8ed", false, "angel" },
+                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "ce7753d6-d9af-4fe5-aaa9-0267b2043e8e", "Bulgaria", "kresa@mail.com", false, "Kresa", "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAEB7ZXCGTrfO+qr5r3xD9RnGpZNbe5XTUpo+hLe9XRc0KN+j6gw7aQKJFpj+iUlH40w==", "0886121260", false, "708c7c4f-b5f0-42d6-9020-9481580bef0d", false, "kresa" },
+                    { "babdaf39-3545-48e1-877e-13d4bb4d597f", 0, "Graf Ignatiev 6 ", "Kazanlak", "28a82f18-ff4e-425c-9a8a-40cde8627c25", "Bulgaria", "nikol@mail.com", false, "Nikol", "Grueva", false, null, "NIKOL@MAIL.COM", "NIKOL", "AQAAAAEAACcQAAAAEPUSO9UraGe3iF74mJPDROwgByRlOZ8qB4rg+kzWGm2Q8V09zKR6zjOizUratD23vA==", "0886121261", false, "f404643d-1216-471e-89e7-6ead43c5cfae", false, "nikol" }
+                });
 
-            migrationBuilder.UpdateData(
-                table: "AspNetUsers",
-                keyColumn: "Id",
-                keyValue: "ae724eb3-355b-48dd-bdaa-c1eaccf666c5",
-                columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "7076861f-d0c7-4f3b-b053-b23671446677", "AQAAAAEAACcQAAAAEG+5xjHHka/SUmoIg+p/7XVLgMPUANISqREsQwBm6NoAsYr3IF+hk39NzJYdDVlUKw==", "5ea2876f-f536-45c6-aff6-16346c322b2e" });
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Kitchen" },
+                    { 2, "Bathroom" },
+                    { 3, "Bedroom" },
+                    { 4, "LivingRoom" },
+                    { 5, "DiningRoom" },
+                    { 6, "Hall" },
+                    { 7, "Office" },
+                    { 8, "GameRoom" },
+                    { 9, "Pantry" },
+                    { 10, "Toilet" },
+                    { 11, "UtilityRoom" },
+                    { 12, "SpareRoom" },
+                    { 13, "Cellar" },
+                    { 14, "Attic" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "4033acf9-98f0-49e3-aafc-fd4fcb71c67e", "ae724eb3-355b-48dd-bdaa-c1eaccf666c5" });
+
+            migrationBuilder.InsertData(
+                table: "Clients",
+                columns: new[] { "Id", "UserId" },
+                values: new object[] { 1, "ae724eb3-355b-48dd-bdaa-c1eaccf666c5" });
+
+            migrationBuilder.InsertData(
+                table: "Constructors",
+                columns: new[] { "Id", "Salary", "UserId" },
+                values: new object[] { 1, 1500m, "7125d323-7567-4f56-b27e-6b7044014a37" });
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
@@ -229,22 +221,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 table: "AspNetUserTokens",
                 column: "UserId",
                 principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CategoriesRequests_Categories_CategoryId",
-                table: "CategoriesRequests",
-                column: "CategoryId",
-                principalTable: "Categories",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CategoriesRequests_Requests_RequestId",
-                table: "CategoriesRequests",
-                column: "RequestId",
-                principalTable: "Requests",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
@@ -452,14 +428,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 table: "AspNetUserTokens");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_CategoriesRequests_Categories_CategoryId",
-                table: "CategoriesRequests");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_CategoriesRequests_Requests_RequestId",
-                table: "CategoriesRequests");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_CategoryRequest_Categories_RoomsTypesId",
                 table: "CategoryRequest");
 
@@ -547,49 +515,120 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 name: "FK_Sites_Constructors_ConstructorId",
                 table: "Sites");
 
-            migrationBuilder.DropColumn(
-                name: "IsActive",
-                table: "Reviews");
-
-            migrationBuilder.DropColumn(
-                name: "IsActive",
-                table: "Requests");
-
-            migrationBuilder.DropColumn(
-                name: "IsActive",
-                table: "Posts");
-
-            migrationBuilder.DropColumn(
-                name: "IsActive",
-                table: "PostComments");
-
-            migrationBuilder.UpdateData(
+            migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "25f73449-f9e8-40b4-87ee-93fc6c242339",
-                column: "ConcurrencyStamp",
-                value: "429582e5-a512-4d47-8b78-025683ebdd30");
+                keyValue: "25f73449-f9e8-40b4-87ee-93fc6c242339");
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
-                column: "ConcurrencyStamp",
-                value: "d9b41cf6-c493-41f7-8429-d447b8533cb3");
+                keyValue: "eed2d778-89cf-4c3c-a710-c8d61811f4c7");
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.DeleteData(
+                table: "AspNetUserRoles",
+                keyColumns: new[] { "RoleId", "UserId" },
+                keyValues: new object[] { "4033acf9-98f0-49e3-aafc-fd4fcb71c67e", "ae724eb3-355b-48dd-bdaa-c1eaccf666c5" });
+
+            migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "7125d323-7567-4f56-b27e-6b7044014a37",
-                columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "4fb67c04-4311-4ed9-8a25-6762eae316c5", "AQAAAAEAACcQAAAAEMuwaEzrr4VpZNWi7mMz+848ZwDCBUg78Sary3spAf9/ffpgFBdzzDcnnc2PCp1pCw==", "1f00834e-084a-4809-988c-b124454605e4" });
+                keyValue: "babdaf39-3545-48e1-877e-13d4bb4d597f");
 
-            migrationBuilder.UpdateData(
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 1);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 2);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 3);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 4);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 5);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 6);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 7);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 8);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 9);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 10);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 11);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 12);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 13);
+
+            migrationBuilder.DeleteData(
+                table: "Categories",
+                keyColumn: "Id",
+                keyValue: 14);
+
+            migrationBuilder.DeleteData(
+                table: "Clients",
+                keyColumn: "Id",
+                keyValue: 1);
+
+            migrationBuilder.DeleteData(
+                table: "Constructors",
+                keyColumn: "Id",
+                keyValue: 1);
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "4033acf9-98f0-49e3-aafc-fd4fcb71c67e");
+
+            migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "ae724eb3-355b-48dd-bdaa-c1eaccf666c5",
-                columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "0f2f8980-dd27-40ad-9ddb-c7148fb48a56", "AQAAAAEAACcQAAAAENYSGWDnNjbH7K7lAa8tRq2723WOFtiF6FjEQM79di0D7jh24IE8E07bW0VDfyBklw==", "768551b8-b73c-4b52-9e2f-7590908b0f2a" });
+                keyValue: "7125d323-7567-4f56-b27e-6b7044014a37");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUsers",
+                keyColumn: "Id",
+                keyValue: "ae724eb3-355b-48dd-bdaa-c1eaccf666c5");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
@@ -636,22 +675,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 table: "AspNetUserTokens",
                 column: "UserId",
                 principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CategoriesRequests_Categories_CategoryId",
-                table: "CategoriesRequests",
-                column: "CategoryId",
-                principalTable: "Categories",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CategoriesRequests_Requests_RequestId",
-                table: "CategoriesRequests",
-                column: "RequestId",
-                principalTable: "Requests",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 

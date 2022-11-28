@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Models.Category;
+using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -26,15 +27,9 @@ namespace ArrnowConstruct.Core.Models.Request
 
         public string Status { get; set; }
 
-        public int ClientId { get; set; }
+        public ClientModel Client { get; set; }
 
-        public string ClientAddress { get; set; }
-
-        public string ClientEmail { get; set; }
-
-        public int ConstructorId { get; set; }
-
-        public string ConstructorEmail { get; set; }
+        public ConstructorModel Constructor { get; set; }
 
         public bool IsActive { get; set; }
 

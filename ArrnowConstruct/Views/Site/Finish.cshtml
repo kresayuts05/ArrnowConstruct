@@ -1,13 +1,13 @@
-﻿@model RequestViewModel
+﻿@model SiteViewModel
 
 @{
-    ViewBag.Title = "Delete Request";
+    ViewBag.Title = "Finish Site";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<form asp-action="Delete">
+<form asp-action="Finish">
     <div class="row  align-items-center justify-content-center">
         <div class="col-md-6 ">
             <div class="form-group mt-2">
@@ -15,12 +15,12 @@
                 <input asp-for="Client.User.Address" class="form-control" disabled="disabled" />
             </div>
             <div class="form-group mt-2">
-                <label asp-for="Constructor.User.Email" class="control-label mb-1"><b>Constructor Email</b></label>
-                <input asp-for="Constructor.User.Email" class="form-control" disabled="disabled" />
+                <label asp-for="Client.User.Email" class="control-label mb-1"><b>Client's Email</b></label>
+                <input asp-for="Client.User.Email" class="form-control" disabled="disabled" />
             </div>
             <br>
             <div class="form-group  text-center">
-                <input type="submit" value="Delete" class="btn btn-danger" />
+                <input type="submit" value="Finish" class="btn btn-purple" />
             </div>
         </div>
     </div>

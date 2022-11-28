@@ -24,7 +24,7 @@
             {
                 <div class="card mb-3 col-md-4">
                     <div class="card-body text-center">
-                        <p>Address: <b>@(model.ClientAddress)</b></p>
+                        <p>Address: <b>@(model.Client.User.Address)</b></p>
                         <p>
                             Budget:
                             <b>@String.Format("{0:f2}", model.Budget) BGN</b>
@@ -34,11 +34,11 @@
                         <p>Free from date: <b>@(model.RequiredDate)</b></p>
                         @if (this.User.IsInRole(RoleConstants.Client))
                         {
-                            <p>Constructor: <b>@(model.ConstructorEmail)</b></p>
+                            <p>Constructor: <b>@(model.Constructor.User.Email)</b></p>
                         }
                         else if (this.User.IsInRole(RoleConstants.Constructor))
                         {
-                            <p>Constructor: <b>@(model.ClientEmail)</b></p>
+                            <p>Client: <b>@(model.Client.User.Email)</b></p>
                         }
 
                         <p>Room Categories:<b>@string.Join(", ", @model.RoomsTypes.Select(r => r.Name).ToList())</b> </p>

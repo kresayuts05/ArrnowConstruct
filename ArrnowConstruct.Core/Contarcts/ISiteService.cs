@@ -1,4 +1,5 @@
-﻿using ArrnowConstruct.Core.Models.Site;
+﻿using ArrnowConstruct.Core.Models.Request;
+using ArrnowConstruct.Core.Models.Site;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,16 @@ namespace ArrnowConstruct.Core.Contarcts
 {
     public interface ISiteService
     {
-        //Task Create(SiteFormViewModel model, int constructorId);
+        Task Create(RequestViewModel request, RequestConfirmViewModel model);
+
+        Task<IEnumerable<SiteViewModel>> AllSitesByConstructorId(int id);
+
+        Task Finish(int siteId);
+
+        Task<string> GetStatus(int siteId);
+
+        Task<SiteViewModel> SiteById(int id);
+
+        Task<bool> Exists(int id);
     }
 }

@@ -46,5 +46,6 @@ namespace ArrnowConstruct.Core.Services
                  .Where(c => ids.Contains(c.Id))
                  .ToListAsync();
         }
+
     }
 }

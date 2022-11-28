@@ -52,5 +52,24 @@ namespace ArrnowConstruct.Core.Services
                 .Select(c => c.User)
                 .FirstAsync();
         }
+
+        public async Task<int> ConstructorWithEmailExists(string email)
+        {
+            var user = await repo.AllReadonly<User>()
+                .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user != null)
+            {
+                Constructor constructor = await repo.All<Constructor>()
+                .FirstOrDefaultAsync(c => c.UserId == user.Id);
+
+                if (constructor != null)
+                {
+                    return constructor.Id;
+                }
+            }
+
+            return -1;
+        }
     }
 }

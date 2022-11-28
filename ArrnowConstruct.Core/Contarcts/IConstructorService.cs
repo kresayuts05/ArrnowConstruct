@@ -17,5 +17,7 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<int> GetConstructorId(string userId);
 
+        Task<int> ConstructorWithEmailExists(string email);
+
     }
 }

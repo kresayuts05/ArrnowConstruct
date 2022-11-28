@@ -10,7 +10,6 @@ namespace ArrnowConstruct.Core.Contarcts
 {
     public interface IRequestService
     {
-        Task<int> ConstructorWithEmailExists(string email);
 
         Task Create(AddRequestViewModel model, int clientId);
 
@@ -23,7 +22,6 @@ namespace ArrnowConstruct.Core.Contarcts
         Task<bool> Exists(int id);
 
         Task Edit(int requestId, AddRequestViewModel model);
-
 
         Task<string> GetStatus(int requestId);
 
