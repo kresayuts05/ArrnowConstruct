@@ -32,7 +32,6 @@
     <Folder Include="Areas\Administrator\Data\" />
     <Folder Include="Areas\Administrator\Models\" />
     <Folder Include="Models\Post\" />
-    <Folder Include="Views\Post\" />
   </ItemGroup>
 
 </Project>

@@ -1,27 +1,52 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Models.Post;
 using ArrnowConstruct.Infrastructure.Data.Common;
+using ArrnowConstruct.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace ArrnowConstruct.Core.Services
 {
     public class PostService : IPostService
     {
         private readonly IRepository repo;
-        private readonly IPostService postService;
-        private readonly IConstructorService constructorService;
+        private readonly ISiteService siteService;
 
         public PostService(
             IRepository _repo,
-            IPostService _postService,
-            IConstructorService _constructorService)
+            ISiteService _siteService)
         {
             repo = _repo;
-            postService = _postService;
-            constructorService = _constructorService;
+            siteService = _siteService;
+        }
+
+        public async Task Create(int siteId, PostFormViewModel model)
+        {
+            var post = new Post()
+            {
+                Title = model.Title,
+                CreatedOn = DateTime.Now,
+                Description = model.Description,
+                ShortContent = model.ShortContent,
+                IsActive = true,
+                SiteId = siteId
+            };
+
+            //post.PostImages = new List<PostImage>()
+            //{
+            //        new PostImage()
+            //        {
+            //            Image = model.Image,
+            //            PostId = post.Id
+            //        }
+            //    };
+
+            await repo.AddAsync(post);
+            await repo.SaveChangesAsync();
         }
 
         //public async Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id)

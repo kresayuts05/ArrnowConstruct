@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArrnowConstruct.Infrastructure.Migrations
 {
     [DbContext(typeof(ArrnowConstructDbContext))]
-    [Migration("20221128214703_InitialMigration")]
+    [Migration("20221129144721_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -179,14 +179,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<byte[]>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -349,14 +344,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<byte[]>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
@@ -449,6 +439,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()

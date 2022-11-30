@@ -8,22 +8,16 @@ namespace ArrnowConstruct.Controllers
     public class SiteController : BaseController
     {
         private readonly IRequestService requestService;
-        private readonly IClientService clientService;
         private readonly IConstructorService constructorService;
-        private readonly ICategoryService categoryService;
         private readonly ISiteService siteService;
 
         public SiteController(
            IRequestService _requestService,
-           IClientService _clientService,
            IConstructorService _constructorService,
-           ICategoryService _categoryService,
            ISiteService _siteService)
         {
-            requestService = _requestService;
-            clientService = _clientService;
+            requestService = _requestService; 
             constructorService = _constructorService;
-            categoryService = _categoryService;
             siteService = _siteService;
         }
 
@@ -45,7 +39,7 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToAction(nameof(Mine));
             }
 
-            if ((await siteService.GetStatus(id) != "In Process"))
+            if ((await siteService.GetStatus(id) != "InProcess"))
             {
                 return RedirectToPage(nameof(Mine));
             }
@@ -63,12 +57,12 @@ namespace ArrnowConstruct.Controllers
         [HttpPost]
         public async Task<IActionResult> Finish(int id, SiteViewModel model)
         {
-            if ((await requestService.Exists(id)) == false)
+            if ((await siteService.Exists(id)) == false)
             {
                 return RedirectToAction(nameof(Mine));
             }
 
-            if ((await requestService.GetStatus(id) != "Waiting"))
+            if ((await siteService.GetStatus(id) != "InProcess"))
             {
                 return RedirectToPage(nameof(Mine));
             }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArrnowConstruct.Infrastructure.Migrations
 {
     [DbContext(typeof(ArrnowConstructDbContext))]
-    [Migration("20221128214830_SeedData")]
+    [Migration("20221129145709_SeedData")]
     partial class SeedData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,14 +266,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<byte[]>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -436,14 +431,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<byte[]>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
@@ -537,6 +527,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -595,7 +588,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Graf Ignatiev 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "28a82f18-ff4e-425c-9a8a-40cde8627c25",
+                            ConcurrencyStamp = "cbb434ef-f64c-4506-ac66-be217372afbd",
                             Country = "Bulgaria",
                             Email = "nikol@mail.com",
                             EmailConfirmed = false,
@@ -604,10 +597,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "NIKOL@MAIL.COM",
                             NormalizedUserName = "NIKOL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPUSO9UraGe3iF74mJPDROwgByRlOZ8qB4rg+kzWGm2Q8V09zKR6zjOizUratD23vA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDNT8l0sKFPxOKNarvRJW0egSec/2WGkvw4+bjpxVkkwNubh/4zpO5p/Aw/0/D9kWg==",
                             PhoneNumber = "0886121261",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f404643d-1216-471e-89e7-6ead43c5cfae",
+                            SecurityStamp = "44a0a2d0-121a-4a3a-9ea5-68bbb4319385",
                             TwoFactorEnabled = false,
                             UserName = "nikol"
                         },
@@ -617,7 +610,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Edelvais 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "ce7753d6-d9af-4fe5-aaa9-0267b2043e8e",
+                            ConcurrencyStamp = "41c2334c-7968-43f4-9cc0-063ac8fc4ae6",
                             Country = "Bulgaria",
                             Email = "kresa@mail.com",
                             EmailConfirmed = false,
@@ -626,10 +619,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KRESA@MAIL.COM",
                             NormalizedUserName = "KRESA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB7ZXCGTrfO+qr5r3xD9RnGpZNbe5XTUpo+hLe9XRc0KN+j6gw7aQKJFpj+iUlH40w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIVp6QuyLIKumiLaZM6P1Jx15P+vE7sKZ1W4uj74F+75wzFGfCikwO4XpJs2UtgCPw==",
                             PhoneNumber = "0886121260",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "708c7c4f-b5f0-42d6-9020-9481580bef0d",
+                            SecurityStamp = "b27f14dd-3e09-42cb-b32d-78a27a8ddf36",
                             TwoFactorEnabled = false,
                             UserName = "kresa"
                         },
@@ -639,7 +632,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Petko DePetkov 71",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "8894b665-c764-4a1c-9370-928e72f35c62",
+                            ConcurrencyStamp = "66a44a91-f467-4318-a376-b7eae9951588",
                             Country = "Bulgaria",
                             Email = "angel@mail.com",
                             EmailConfirmed = false,
@@ -648,10 +641,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ANGEL@MAIL.COM",
                             NormalizedUserName = "ANGEL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIvVB3totgLGpGnJl7WuABcXLXWRQhxN7DqZODNXyit+RgOAL1JP9BRrbK00Ki3MOg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFQr+vd3g65WUuzmBMAPZyXbdeYcTkheV/IP2xME0kmKcsA0XQ1L/xy3EUUI2ncB9Q==",
                             PhoneNumber = "0888791001",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0a2b3be8-a2bc-4c91-b46d-2b1b4e3fa8ed",
+                            SecurityStamp = "ac6ae98b-2ecc-46d6-9512-a51c44bc6d67",
                             TwoFactorEnabled = false,
                             UserName = "angel"
                         });
@@ -732,21 +725,21 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         new
                         {
                             Id = "4033acf9-98f0-49e3-aafc-fd4fcb71c67e",
-                            ConcurrencyStamp = "619d735a-ff4d-4142-95e6-4c73dc7d846b",
+                            ConcurrencyStamp = "297be09d-65cf-448f-b85e-31cdbb8f9cee",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "25f73449-f9e8-40b4-87ee-93fc6c242339",
-                            ConcurrencyStamp = "862452b3-58ce-477a-93c5-6337221b5516",
+                            ConcurrencyStamp = "7ebcfc94-85cf-43e3-9904-0f8d0eff06dd",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
-                            ConcurrencyStamp = "9fa70d26-e827-4d96-be66-f09665537f7c",
+                            ConcurrencyStamp = "16b234c5-15e0-4824-be64-36e74722d4ff",
                             Name = "Constructor",
                             NormalizedName = "CONSTRUCTOR"
                         });

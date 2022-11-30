@@ -16,11 +16,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(NameMaxLength)]
-        public string Name { get; set; }
-
-        [Required]
-        public string ImageUrl { get; set; }
+        public byte[] Image { get; set; }
 
         [Required]
         [ForeignKey(nameof(Review))]

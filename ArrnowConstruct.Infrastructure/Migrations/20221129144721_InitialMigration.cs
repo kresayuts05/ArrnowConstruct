@@ -33,6 +33,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Country = table.Column<string>(type: "nvarchar(56)", maxLength: 56, nullable: false),
                     City = table.Column<string>(type: "nvarchar(169)", maxLength: 169, nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
@@ -410,8 +411,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -517,8 +517,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     ReviewId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

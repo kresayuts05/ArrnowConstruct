@@ -31,5 +31,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         [Required]
         [MaxLength(CityMaxLength)]
         public string City { get; set; }
+
+        public byte[]? Image { get; set; }
     }
 }

@@ -91,11 +91,11 @@ namespace ArrnowConstruct.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<string> GetStatus(int requestId)
+        public async Task<string> GetStatus(int siteId)
         {
-            var request = await repo.GetByIdAsync<Request>(requestId);
+            var site = await repo.GetByIdAsync<Site>(siteId);
 
-            return request.Status;
+            return site.Status;
         }
 
         public async Task<SiteViewModel> SiteById(int id)
@@ -109,7 +109,13 @@ namespace ArrnowConstruct.Core.Services
                  FromDate = s.FromDate.ToString("yyyy-M-d"),
                  ToDate = s.ToDate.ToString("yyyy-M-d"),
                  Status = s.Status,
-                 Client = new ClientModel() { ClientId = s.ClientId },
+                 Client = new ClientModel() { ClientId = s.ClientId,
+                     User = new UserModel()
+                     {
+                         Email = s.Client.User.Email,
+                         Address = $"Country: {s.Client.User.Address},{Environment.NewLine} City: {s.Client.User.Address},{Environment.NewLine} Street: {s.Client.User.Address}"
+                     }
+                 },
                  Constructor = new ConstructorModel() { ConstructorId = s.ConstructorId },
                  RoomsTypes = s.RoomsTypes.Select(c => c.Name).ToList()
              })
@@ -121,26 +127,6 @@ namespace ArrnowConstruct.Core.Services
         {
             return await repo.AllReadonly<Site>()
                 .AnyAsync(s => s.Id == id);
-        }
-
-        public async Task<SiteViewModel> RequestById(int id)
-        {
-            var request = await repo.All<Site>()
-             .Where(r => r.Id == id)
-             .Select(s => new SiteViewModel()
-             {
-                 RoomsCount = s.RoomsCount,
-                 Area = s.Area,
-                 FromDate = s.FromDate.ToString("yyyy-M-d"),
-                 ToDate = s.ToDate.ToString("yyyy-M-d"),
-                 Status = s.Status,
-                 Client = new ClientModel() { ClientId = s.ClientId },
-                 Constructor = new ConstructorModel() { ConstructorId = s.ConstructorId },
-                 RoomsTypes = s.RoomsTypes.Select(c => c.Name).ToList()
-             })
-             .FirstAsync();
-
-            return request;
         }
 
         public async Task Finish(int siteId)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArrnowConstruct.Core.Models.Post;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace ArrnowConstruct.Core.Contarcts
     {
         //Task<int> ConstructorWithEmailExists(string email);
 
-      //  Task Create(AddRequestViewModel model, int clientId);
+      Task Create(int siteId, PostFormViewModel model);
 
         //Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id);
 
