@@ -32,6 +32,6 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         [MaxLength(CityMaxLength)]
         public string City { get; set; }
 
-        public byte[]? Image { get; set; }
+        public ICollection<Image> Images { get; set; } = new HashSet<Image>();
     }
 }

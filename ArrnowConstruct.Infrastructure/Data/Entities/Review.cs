@@ -36,24 +36,12 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         [Required]
         public bool IsActive { get; set; }
 
-        public ICollection<ReviewImage> Images { get; set; } = new HashSet<ReviewImage>();
-
         [Required]
         [ForeignKey(nameof(Post))]
         public int PostId { get; set; }
 
         public Post Post { get; set; }
 
-        //[Required]
-        //[ForeignKey(nameof(Client))]
-        //public string ClientId { get; set; }
-
-        //public Client Client { get; set; }
-
-        //[Required]
-        //[ForeignKey(nameof(Constructor))]
-        //public string ConstructorId { get; set; }
-
-        //public Constructor Constructor { get; set; }
+      //  public ICollection<Image> Images { get; set; } = new HashSet<Image>();
     }
 }

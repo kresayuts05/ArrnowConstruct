@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ArrnowConstruct.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -36,16 +37,12 @@
 
                             @if (this.User.IsInRole(RoleConstants.Client))
                             {
-
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Request" asp-action="Add">Make a Request</a>
                                 </li>
                             }
                             else if (this.User.IsInRole(RoleConstants.Constructor))
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Post" asp-action="Add">Make a Post</a>
-                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-light" asp-area="" asp-controller="Post" asp-action="Mine">My Posts</a>
                                 </li>
@@ -75,7 +72,7 @@
             &copy; @DateTime.UtcNow.Year - ArrnowConstruct - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

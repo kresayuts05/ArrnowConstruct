@@ -106,6 +106,7 @@ namespace ArrnowConstruct.Core.Services
              {
                  RoomsCount = s.RoomsCount,
                  Area = s.Area,
+                 Price = s.Price,
                  FromDate = s.FromDate.ToString("yyyy-M-d"),
                  ToDate = s.ToDate.ToString("yyyy-M-d"),
                  Status = s.Status,
@@ -113,10 +114,18 @@ namespace ArrnowConstruct.Core.Services
                      User = new UserModel()
                      {
                          Email = s.Client.User.Email,
-                         Address = $"Country: {s.Client.User.Address},{Environment.NewLine} City: {s.Client.User.Address},{Environment.NewLine} Street: {s.Client.User.Address}"
+                         Address = $"Country: {s.Client.User.Address},{Environment.NewLine} City: {s.Client.User.Address},{Environment.NewLine} Street: {s.Client.User.Address}",
+                         Phone = s.Client.User.PhoneNumber,
+                         FirstName = s.Client.User.FirstName,
+                         LastName = s.Client.User.LastName
                      }
                  },
-                 Constructor = new ConstructorModel() { ConstructorId = s.ConstructorId },
+                 Constructor = new ConstructorModel() { ConstructorId = s.ConstructorId,
+                     User = new UserModel()
+                     {
+                        Id = s.Constructor.User.Id
+                     }
+                 },
                  RoomsTypes = s.RoomsTypes.Select(c => c.Name).ToList()
              })
              .FirstAsync();

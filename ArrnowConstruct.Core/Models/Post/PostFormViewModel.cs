@@ -1,5 +1,6 @@
 ﻿using ArrnowConstruct.Core.Models.Site;
 using ArrnowConstruct.Core.Models.User;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -33,16 +34,12 @@ namespace ArrnowConstruct.Core.Models.Post
 
         public int Likes { get; set; }
 
-        public byte[] Image { get; set; }
+        public ICollection<IFormFile> Images { get; set; }
 
         [Required]
         public bool IsActive { get; set; }
 
         [Required]
         public int SiteId { get; set; }
-
-        public ClientModel Client { get; set; }
-
-        public ConstructorModel Constructor { get; set; }
     }
 }

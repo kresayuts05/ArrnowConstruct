@@ -5,23 +5,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.ReviewImageConstants;
-
 
 namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
-    public class ReviewImage
+    public class Image
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public byte[] Image { get; set; }
+        public string UrlPath { get; set; }
+
+        public User User { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Review))]
-        public int ReviewId { get; set; }
+        public bool IsActive { get; set; }
 
-        public Review Review { get; set; }
+        public DateTime? DeletedOn { get; set; }
+
+        [ForeignKey(nameof(Post))]
+        public int PostId { get; set; }
+        public Post Post { get; set; }
+
+        //Add key for reviws
     }
 }

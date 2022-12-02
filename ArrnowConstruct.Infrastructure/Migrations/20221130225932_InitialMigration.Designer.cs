@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArrnowConstruct.Infrastructure.Migrations
 {
     [DbContext(typeof(ArrnowConstructDbContext))]
-    [Migration("20221129144721_InitialMigration")]
+    [Migration("20221130225932_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,6 +81,39 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Constructors");
+                });
+
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UrlPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Image");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Post", b =>
@@ -169,28 +202,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PostComments");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<byte[]>("Image")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("PostImages");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostLikes", b =>
@@ -336,28 +347,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.ToTable("ReviewComments");
                 });
 
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.ReviewImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<byte[]>("Image")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("ReviewId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewId");
-
-                    b.ToTable("ReviewImages");
-                });
-
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
                 {
                     b.Property<int>("Id")
@@ -439,9 +428,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -699,6 +685,23 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Image", b =>
+                {
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
+                        .WithMany("Image")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
+                        .WithMany("Images")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Post", b =>
                 {
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Site", "Site")
@@ -727,17 +730,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("Post");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostImage", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
-                        .WithMany("PostImages")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostLikes", b =>
@@ -810,17 +802,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("Review");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.ReviewImage", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Review", "Review")
-                        .WithMany("Images")
-                        .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Review");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
@@ -952,14 +933,14 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Post", b =>
                 {
-                    b.Navigation("PostComments");
+                    b.Navigation("Image");
 
-                    b.Navigation("PostImages");
+                    b.Navigation("PostComments");
 
                     b.Navigation("PostLikes");
                 });
 
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Review", b =>
+            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.User", b =>
                 {
                     b.Navigation("Images");
                 });

@@ -18,14 +18,13 @@ namespace ArrnowConstruct.Infrastructure.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostComment> PostComments { get; set; }
         public DbSet<PostLikes> PostsLikes { get; set; }
-        public DbSet<PostImage> PostImages { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ReviewComment> ReviewComments { get; set; }
-        public DbSet<ReviewImage> ReviewImages { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<Category> Categories { get; set; }
-
+        public DbSet<Image> Image { get; set; }
+        //in plural form
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

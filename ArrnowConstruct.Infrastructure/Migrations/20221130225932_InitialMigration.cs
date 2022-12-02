@@ -33,7 +33,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Country = table.Column<string>(type: "nvarchar(56)", maxLength: 56, nullable: false),
                     City = table.Column<string>(type: "nvarchar(169)", maxLength: 169, nullable: false),
-                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
@@ -375,6 +374,34 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Image",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UrlPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PostId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Image", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Image_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Image_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PostComments",
                 columns: table => new
                 {
@@ -399,26 +426,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PostComments_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PostImages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PostImages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PostImages_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
@@ -511,26 +518,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ReviewImages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    ReviewId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReviewImages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ReviewImages_Reviews_ReviewId",
-                        column: x => x.ReviewId,
-                        principalTable: "Reviews",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -596,6 +583,16 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Image_PostId",
+                table: "Image",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Image_UserId",
+                table: "Image",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PostComments_PostId",
                 table: "PostComments",
                 column: "PostId");
@@ -604,11 +601,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 name: "IX_PostComments_UserId",
                 table: "PostComments",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PostImages_PostId",
-                table: "PostImages",
-                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_SiteId",
@@ -639,11 +631,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 name: "IX_ReviewComments_UserId",
                 table: "ReviewComments",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ReviewImages_ReviewId",
-                table: "ReviewImages",
-                column: "ReviewId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_ClientId",
@@ -693,19 +680,16 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 name: "ClientConstructor");
 
             migrationBuilder.DropTable(
-                name: "PostComments");
+                name: "Image");
 
             migrationBuilder.DropTable(
-                name: "PostImages");
+                name: "PostComments");
 
             migrationBuilder.DropTable(
                 name: "PostsLikes");
 
             migrationBuilder.DropTable(
                 name: "ReviewComments");
-
-            migrationBuilder.DropTable(
-                name: "ReviewImages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

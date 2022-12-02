@@ -65,16 +65,16 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 table: "Constructors");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Image_Posts_PostId",
+                table: "Image");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_PostComments_AspNetUsers_UserId",
                 table: "PostComments");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_PostComments_Posts_PostId",
                 table: "PostComments");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_PostImages_Posts_PostId",
-                table: "PostImages");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Posts_Sites_SiteId",
@@ -105,10 +105,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 table: "ReviewComments");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ReviewImages_Reviews_ReviewId",
-                table: "ReviewImages");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_Reviews_Posts_PostId",
                 table: "Reviews");
 
@@ -125,19 +121,19 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "7ebcfc94-85cf-43e3-9904-0f8d0eff06dd", "Client", "CLIENT" },
-                    { "4033acf9-98f0-49e3-aafc-fd4fcb71c67e", "297be09d-65cf-448f-b85e-31cdbb8f9cee", "Administrator", "ADMINISTRATOR" },
-                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "16b234c5-15e0-4824-be64-36e74722d4ff", "Constructor", "CONSTRUCTOR" }
+                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "a6766806-d5d9-4cb1-92d2-956770a15498", "Client", "CLIENT" },
+                    { "4033acf9-98f0-49e3-aafc-fd4fcb71c67e", "c28ce8e0-637f-4845-9a9f-3e3859ffe71c", "Administrator", "ADMINISTRATOR" },
+                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "e6bc6b34-6560-4b60-8cc3-339da7621ff7", "Constructor", "CONSTRUCTOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "Image", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "66a44a91-f467-4318-a376-b7eae9951588", "Bulgaria", "angel@mail.com", false, "Angel", null, "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEFQr+vd3g65WUuzmBMAPZyXbdeYcTkheV/IP2xME0kmKcsA0XQ1L/xy3EUUI2ncB9Q==", "0888791001", false, "ac6ae98b-2ecc-46d6-9512-a51c44bc6d67", false, "angel" },
-                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "41c2334c-7968-43f4-9cc0-063ac8fc4ae6", "Bulgaria", "kresa@mail.com", false, "Kresa", null, "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAEIVp6QuyLIKumiLaZM6P1Jx15P+vE7sKZ1W4uj74F+75wzFGfCikwO4XpJs2UtgCPw==", "0886121260", false, "b27f14dd-3e09-42cb-b32d-78a27a8ddf36", false, "kresa" },
-                    { "babdaf39-3545-48e1-877e-13d4bb4d597f", 0, "Graf Ignatiev 6 ", "Kazanlak", "cbb434ef-f64c-4506-ac66-be217372afbd", "Bulgaria", "nikol@mail.com", false, "Nikol", null, "Grueva", false, null, "NIKOL@MAIL.COM", "NIKOL", "AQAAAAEAACcQAAAAEDNT8l0sKFPxOKNarvRJW0egSec/2WGkvw4+bjpxVkkwNubh/4zpO5p/Aw/0/D9kWg==", "0886121261", false, "44a0a2d0-121a-4a3a-9ea5-68bbb4319385", false, "nikol" }
+                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "54b68423-abaa-4bea-9f7b-db703c46ac53", "Bulgaria", "angel@mail.com", false, "Angel", "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEAPqG/d2PwkSYb3IcETGvBgcift1+6KqHn1PvuQARs37LIpY9HIi8vZY+ZgivdIKSw==", "0888791001", false, "4441d42e-ae9a-432b-8f99-d329468946fb", false, "angel" },
+                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "0d8809bd-d9e2-440a-9c53-b947dbeb3284", "Bulgaria", "kresa@mail.com", false, "Kresa", "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAEOlxxBHdBvMzsZ/ZTuUEjoVyughL48CewGx2C5c0cdBf4Srlbrl95og+DYGVdvKZ5w==", "0886121260", false, "19362fee-7719-45c3-b31d-be953f12bd87", false, "kresa" },
+                    { "babdaf39-3545-48e1-877e-13d4bb4d597f", 0, "Graf Ignatiev 6 ", "Kazanlak", "2e277ede-1a04-466c-8415-5ca8061068c0", "Bulgaria", "nikol@mail.com", false, "Nikol", "Grueva", false, null, "NIKOL@MAIL.COM", "NIKOL", "AQAAAAEAACcQAAAAEAtw/wpmdzo144dLPj0+b+gEETEwQbfwUg6sltEHJogsPopP7mtw9XAk/NIN1Z49nA==", "0886121261", false, "ea8aa8bb-ad64-47f8-b1d1-7ff05b4dc227", false, "nikol" }
                 });
 
             migrationBuilder.InsertData(
@@ -289,6 +285,14 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Image_Posts_PostId",
+                table: "Image",
+                column: "PostId",
+                principalTable: "Posts",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_PostComments_AspNetUsers_UserId",
                 table: "PostComments",
                 column: "UserId",
@@ -299,14 +303,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_PostComments_Posts_PostId",
                 table: "PostComments",
-                column: "PostId",
-                principalTable: "Posts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_PostImages_Posts_PostId",
-                table: "PostImages",
                 column: "PostId",
                 principalTable: "Posts",
                 principalColumn: "Id",
@@ -364,14 +360,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 name: "FK_ReviewComments_Reviews_Reviewid",
                 table: "ReviewComments",
                 column: "Reviewid",
-                principalTable: "Reviews",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ReviewImages_Reviews_ReviewId",
-                table: "ReviewImages",
-                column: "ReviewId",
                 principalTable: "Reviews",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -460,16 +448,16 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 table: "Constructors");
 
             migrationBuilder.DropForeignKey(
+                name: "FK_Image_Posts_PostId",
+                table: "Image");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_PostComments_AspNetUsers_UserId",
                 table: "PostComments");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_PostComments_Posts_PostId",
                 table: "PostComments");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_PostImages_Posts_PostId",
-                table: "PostImages");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Posts_Sites_SiteId",
@@ -498,10 +486,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_ReviewComments_Reviews_Reviewid",
                 table: "ReviewComments");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ReviewImages_Reviews_ReviewId",
-                table: "ReviewImages");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Reviews_Posts_PostId",
@@ -743,6 +727,14 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Image_Posts_PostId",
+                table: "Image",
+                column: "PostId",
+                principalTable: "Posts",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_PostComments_AspNetUsers_UserId",
                 table: "PostComments",
                 column: "UserId",
@@ -753,14 +745,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_PostComments_Posts_PostId",
                 table: "PostComments",
-                column: "PostId",
-                principalTable: "Posts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_PostImages_Posts_PostId",
-                table: "PostImages",
                 column: "PostId",
                 principalTable: "Posts",
                 principalColumn: "Id",
@@ -818,14 +802,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 name: "FK_ReviewComments_Reviews_Reviewid",
                 table: "ReviewComments",
                 column: "Reviewid",
-                principalTable: "Reviews",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ReviewImages_Reviews_ReviewId",
-                table: "ReviewImages",
-                column: "ReviewId",
                 principalTable: "Reviews",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);

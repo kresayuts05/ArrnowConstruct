@@ -1,7 +1,9 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
 using ArrnowConstruct.Core.Models.Post;
+using ArrnowConstruct.Core.Models.Site;
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +17,19 @@ namespace ArrnowConstruct.Core.Services
     {
         private readonly IRepository repo;
         private readonly ISiteService siteService;
+        private readonly IImageService imageService;
 
         public PostService(
             IRepository _repo,
-            ISiteService _siteService)
+            ISiteService _siteService,
+            IImageService _imageservice)
         {
             repo = _repo;
             siteService = _siteService;
+            imageService = _imageservice;
         }
 
-        public async Task Create(int siteId, PostFormViewModel model)
+        public async Task Create(PostFormViewModel model)
         {
             var post = new Post()
             {
@@ -33,174 +38,72 @@ namespace ArrnowConstruct.Core.Services
                 Description = model.Description,
                 ShortContent = model.ShortContent,
                 IsActive = true,
-                SiteId = siteId
+                SiteId = model.Id
             };
-
-            //post.PostImages = new List<PostImage>()
-            //{
-            //        new PostImage()
-            //        {
-            //            Image = model.Image,
-            //            PostId = post.Id
-            //        }
-            //    };
 
             await repo.AddAsync(post);
             await repo.SaveChangesAsync();
+
+            foreach (var imageInfo in model.Images)
+            {
+                var image = await this.imageService.UploadImage(imageInfo, "images", post.Id);
+                post.Image.Add(image);
+            }
         }
 
-        //public async Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id)
-        //{
-        //    //   var user = await clientService.GetUserByClientId(id);
+        public async Task<IEnumerable<PostViewModel>> AllPostsByConstructor(int id)
+        {
 
-        //    return await repo.All<Request>()
-        //        .Where(r => r.IsActive == true)
-        //        .Where(r => r.ClientId == id)
-        //        .Select(r => new RequestViewModel
-        //        {
-        //            ClientAddress = r.Client.User.Address,
-        //            Id = r.Id,
-        //            RoomsCount = r.RoomsCount,
-        //            Area = r.Area,
-        //            RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd"),
-        //            Status = r.Status,
-        //            Budget = r.Budget,
-        //            ConstructorEmail = r.Constructor.User.Email,
-        //            RoomsTypes = new List<CategoryModel>
-        //            (r.RoomsTypes.Select(c => new CategoryModel() { Id = c.Id, Name = c.Name }).ToList()),
-        //            IsActive = r.IsActive
-        //        })
-        //        .ToListAsync();
-        //}
+            var posts = await repo.All<Post>()
+                 .Where(p => p.Site.ConstructorId == id)
+                 .Select(p => new PostViewModel
+                 {
+                     Id = p.Id,
+                     CreatedOn = p.CreatedOn.ToString("yyyy-M-d"),
+                     Description = p.Description,
+                     ShortContent = p.ShortContent,
+                     Title = p.Title,
+                     Likes = p.Likes,
+                     Images = p.Image.Select(i => i.UrlPath).ToList(),
+                     Site = new SiteViewModel() { Id = p.Site.Id }
+                 })
+                 .ToListAsync();
 
-        //public async Task<int> ConstructorWithEmailExists(string email)
-        //{
-        //    var user = await repo.AllReadonly<User>()
-        //        .FirstOrDefaultAsync(u => u.Email == email);
+            foreach (var post in posts)
+            {
+                var site = await siteService.SiteById(post.Site.Id);
+                post.Site = site;
+            }
 
-        //    if (user != null)
-        //    {
-        //        Constructor constructor = await repo.All<Constructor>()
-        //        .FirstOrDefaultAsync(c => c.UserId == user.Id);
+            return posts;
+        }
 
-        //        if (constructor != null)
-        //        {
-        //            return constructor.Id;
-        //        }
-        //    }
+        public async Task<PostViewModel> PostDetailsById(int id)
+        {
+         var post =  await repo.AllReadonly<Post>()
+                 .Where(p => p.IsActive)
+                 .Where(p => p.Id == id)
+                 .Select(p => new PostViewModel()
+                 {
+                     CreatedOn = p.CreatedOn.ToString("yyyy-M-d"),
+                     Description = p.Description,
+                     ShortContent = p.ShortContent,
+                     Title = p.Title,
+                     Likes = p.Likes,
+                     Images = p.Image.Select(i => i.UrlPath).ToList(),
+                     Site = new SiteViewModel() { Id = p.Site.Id }
+                 })
+                 .FirstAsync();
 
-        //    return -1;
-        //}
+            post.Site = await siteService.SiteById(post.Site.Id);
+            return post;
+        }
 
-        //public async Task Create(AddRequestViewModel model, int clientId)
-        //{
-        //    int constructorId = await this.ConstructorWithEmailExists(model.ConstructorEmail);
-        //    var categories = await categoryService.CategoriesById(model.CategoryId);
-
-        //    var request = new Request()
-        //    {
-        //        RoomsCount = model.RoomsCount,
-        //        Area = model.Area,
-        //        RequiredDate = DateTime.ParseExact(model.RequiredDate, "yyyy-MM-dd", CultureInfo.CurrentCulture),
-        //        Budget = model.Budget,
-        //        Status = "Waiting",
-        //        ClientId = clientId,
-        //        ConstructorId = constructorId,
-        //        RoomsTypes = categories.ToList(),
-        //        IsActive = true
-        //    };
-
-        //    await repo.AddAsync(request);
-        //    await repo.SaveChangesAsync();
-        //}
-
-        //public async Task Edit(int requestId, AddRequestViewModel model)
-        //{
-        //    var request = await repo.GetByIdAsync<Request>(requestId);
-
-        //    var sth = repo.All<Category>()
-        //        .Include(c => c.Requests)
-        //        .Where(r => r.Requests.All(c => c.Id == requestId));
-
-        //    foreach (var c in sth)
-        //    {
-        //        c.Requests.Remove(request);
-        //    }
-        //    await repo.SaveChangesAsync();
-
-        //    int constructorId = await this.ConstructorWithEmailExists(model.ConstructorEmail);
-        //    var categories = await categoryService.CategoriesById(model.CategoryId);
-
-        //    request.RoomsCount = model.RoomsCount;
-        //    request.Area = model.Area;
-        //    request.RequiredDate = DateTime.ParseExact(model.RequiredDate, "yyyy-MM-dd", CultureInfo.CurrentCulture);
-        //    request.Budget = model.Budget;
-        //    request.ConstructorId = constructorId;
-        //    request.RoomsTypes = categories.ToList();
-        //    request.IsActive = model.IsActive;
-
-        //    await repo.SaveChangesAsync();
-        //}
-
-        //public async Task<bool> Exists(int id)
-        //{
-        //    return await repo.AllReadonly<Request>()
-        //        .AnyAsync(r => r.Id == id && r.Status == "Waiting" && r.IsActive == true);
-        //}
-
-        //public async Task<AddRequestViewModel> RequestById(int id)
-        //{
-        //    var request = await repo.All<Request>()
-        //     .Where(r => r.IsActive == true)
-        //     .Where(r => r.Id == id)
-        //     .Select(r => new AddRequestViewModel()
-        //     {
-        //         Id = r.Id,
-        //         ClientId = r.ClientId,
-        //         RoomsCount = r.RoomsCount,
-        //         Area = r.Area,
-        //         RequiredDate = r.RequiredDate.ToString("yyyy-MM-dd"),
-        //         Budget = r.Budget,
-        //         ConstructorEmail = r.Constructor.User.Email,
-        //         RoomsTypes = new List<CategoryModel>
-        //         (r.RoomsTypes.Select(r => new CategoryModel() { Id = r.Id, Name = r.Name }).ToList()),
-        //         IsActive = r.IsActive
-        //     })
-        //     .FirstAsync();
-
-        //    return request;
-        //}
-
-
-        //public async Task Delete(int requestId)
-        //{
-        //    var request = await repo.GetByIdAsync<Request>(requestId);
-        //    request.IsActive = false;
-
-        //    await repo.SaveChangesAsync();
-        //}
-
-        //public async Task<string> GetStatus(int requestId)
-        //{
-        //    var request = await repo.GetByIdAsync<Request>(requestId);
-
-        //    return request.Status;
-        //}
-
-        //public async Task<RequestViewModel> GetDetailsRequest(int id)
-        //{
-        //    var request = await repo.All<Request>()
-        //      .Where(r => r.IsActive == true)
-        //      .Where(r => r.Id == id)
-        //      .Select(r => new RequestViewModel()
-        //      {
-        //          ConstructorEmail = r.Constructor.User.Email,
-        //          ClientAddress = r.Client.User.Address
-        //      })
-        //      .FirstAsync();
-
-        //    return request;
-        //}
+        public async Task<bool> Exists(int id)
+        {
+            return await repo.AllReadonly<Post>()
+                .AnyAsync(p => p.Id == id && p.IsActive == true);
+        }
     }
 }
 

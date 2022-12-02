@@ -51,22 +51,9 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         public ICollection<PostComment> PostComments { get; set; } = new HashSet<PostComment>();
 
-        public ICollection<PostImage> PostImages { get; set; } = new HashSet<PostImage>();
+        public ICollection<Image> Image{ get; set; } = new HashSet<Image>();
 
         public ICollection<PostLikes> PostLikes { get; set; } = new HashSet<PostLikes>();
 
-
-
-        //[Required]
-        //[ForeignKey(nameof(Constructor))]
-        //public string ConstructorId { get; set; }
-
-        //public Constructor Constructor { get; set; }
-
-        //[Required]
-        //[ForeignKey(nameof(Client))]
-        //public string ClientId { get; set; }
-
-        //public Client Client { get; set; }
     }
 }
