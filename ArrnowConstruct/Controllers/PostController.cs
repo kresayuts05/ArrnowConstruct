@@ -5,6 +5,7 @@ using ArrnowConstruct.Core.Models.Site;
 using ArrnowConstruct.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Web.Helpers;
 
 namespace ArrnowConstruct.Controllers
@@ -38,7 +39,10 @@ namespace ArrnowConstruct.Controllers
         [HttpGet]
         public IActionResult Create(int siteId)
         {
-            var model = new PostFormViewModel();
+            var model = new PostFormViewModel()
+            {
+                SiteId = siteId
+            };
 
             return View(model);
         }
@@ -65,14 +69,70 @@ namespace ArrnowConstruct.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
-        //    if ((await postService.Exists(id)) == false)
-        //    {
-        //        //return RedirectToAction(nameof(All));
-        //    }
+            if ((await postService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
 
             var model = await postService.PostDetailsById(id);
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if ((await postService.Exists(id)) == false)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var post = await postService.PostDetailsById(id);
+
+            var model = new PostFormViewModel()
+            {
+                Id = post.Id,
+                Description = post.Description,
+                ShortContent = post.ShortContent,
+                Title = post.Title,
+                Likes = post.Likes,
+                SiteId = post.Site.Id
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int postId, PostFormViewModel model)
+        {
+        //    if (postId != model.Id)
+        //    {
+        //        return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+        //    }
+
+        //    if ((await postService.Exists(model.Id)) == false)
+        //    {
+        //        ModelState.AddModelError("", "Post does not exist");
+
+        //        return View(model);
+        //    }
+
+        //    if (model.IsActive == false)
+        //    {
+        //        ModelState.AddModelError(nameof(model.Id), "Post does not exist");
+
+        //        return RedirectToAction("Mine", "Post");
+        //    }
+
+        //    if (ModelState.IsValid == false)
+        //    {
+        //        return RedirectToAction("Mine", "Post");
+        //    }
+
+
+            await postService.Edit(model.Id, model);
+
+            return RedirectToAction(nameof(Mine), new { model.Id });
         }
     }
 }

@@ -28,5 +28,6 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public Post Post { get; set; }
 
         //Add key for reviws
+        // make user photo keys
     }
 }

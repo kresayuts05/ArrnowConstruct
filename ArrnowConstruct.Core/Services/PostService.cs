@@ -64,7 +64,7 @@ namespace ArrnowConstruct.Core.Services
                      ShortContent = p.ShortContent,
                      Title = p.Title,
                      Likes = p.Likes,
-                     Images = p.Image.Select(i => i.UrlPath).ToList(),
+                     Images = p.Image.Where(i => i.IsActive == true).Select(i => i.UrlPath).ToList(),
                      Site = new SiteViewModel() { Id = p.Site.Id }
                  })
                  .ToListAsync();
@@ -80,20 +80,21 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<PostViewModel> PostDetailsById(int id)
         {
-         var post =  await repo.AllReadonly<Post>()
-                 .Where(p => p.IsActive)
-                 .Where(p => p.Id == id)
-                 .Select(p => new PostViewModel()
-                 {
-                     CreatedOn = p.CreatedOn.ToString("yyyy-M-d"),
-                     Description = p.Description,
-                     ShortContent = p.ShortContent,
-                     Title = p.Title,
-                     Likes = p.Likes,
-                     Images = p.Image.Select(i => i.UrlPath).ToList(),
-                     Site = new SiteViewModel() { Id = p.Site.Id }
-                 })
-                 .FirstAsync();
+            var post = await repo.AllReadonly<Post>()
+                    .Where(p => p.IsActive)
+                    .Where(p => p.Id == id)
+                    .Select(p => new PostViewModel()
+                    {
+                        Id = p.Id,
+                        CreatedOn = p.CreatedOn.ToString("yyyy-M-d"),
+                        Description = p.Description,
+                        ShortContent = p.ShortContent,
+                        Title = p.Title,
+                        Likes = p.Likes,
+                        Images = p.Image.Where(i => i.IsActive == true).Select(i => i.UrlPath).ToList(),
+                        Site = new SiteViewModel() { Id = p.Site.Id }
+                    })
+                    .FirstAsync();
 
             post.Site = await siteService.SiteById(post.Site.Id);
             return post;
@@ -103,6 +104,35 @@ namespace ArrnowConstruct.Core.Services
         {
             return await repo.AllReadonly<Post>()
                 .AnyAsync(p => p.Id == id && p.IsActive == true);
+        }
+
+        public async Task Edit(int postId, PostFormViewModel model)
+        {
+            var post = await repo.GetByIdAsync<Post>(postId);
+
+            var images = await repo.All<Image>()
+                .Where(i => i.PostId == postId && i.IsActive == true)
+                .ToListAsync();
+
+            foreach (var image in images)
+            {
+                image.IsActive = false;
+            }
+
+            post.Title = model.Title;
+            post.UpdatedOn = DateTime.Now;
+            post.Description = model.Description;
+            post.ShortContent = model.ShortContent;
+
+            await repo.SaveChangesAsync();
+
+            foreach (var imageInfo in model.Images)
+            {
+                var image = await this.imageService.UploadImage(imageInfo, "images", post.Id);
+                post.Image.Add(image);
+            }
+
+            await repo.SaveChangesAsync();
         }
     }
 }
