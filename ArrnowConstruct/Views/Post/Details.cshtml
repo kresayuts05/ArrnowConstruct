@@ -42,17 +42,18 @@
                 Total Price:
                 <b>@String.Format("{0:f2}", Model.Site.Price) BGN</b>
             </p>
-             <p>Started on date: <b>@Model.Site.FromDate</b></p>
-             <p>Finished on date: <b>@Model.Site.ToDate</b></p>
+            <p>Started on date: <b>@Model.Site.FromDate</b></p>
+            <p>Finished on date: <b>@Model.Site.ToDate</b></p>
             <p>Description: <b>@Model.Description</b></p>
             <p>Rooms Count: <b>@(Model.Site.RoomsCount)</b></p>
             <p>Room Categories: <b>@(string.Join(", ", Model.Site.RoomsTypes))</b> </p>
             <p>Area: <b>@(Model.Site.Area)</b></p>
             <p>CreatedOn: <b>@(Model.CreatedOn)</b></p>
             <p></p>
-            <div class="card" style="width: 18rem;">
+            <div class="card absolute" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Client Info</h5>
+                    <hr></hr>
                     <p class="card-text">Email:  @Model.Site.Client.User.Email</p>
                     <p class="card-text">Phone Number: @Model.Site.Client.User.Phone</p>
                     <p class="card-text">Full Name: @Model.Site.Client.User.FirstName @Model.Site.Client.User.LastName</p>
@@ -65,18 +66,13 @@
                 {
                     @if (Model.Site.Constructor.User.Id == User.Id())
                     {
-                        <a class="btn btn-warning" asp-controller="Post" asp-action="Edit"
-                   asp-route-id="@Model.Id">Edit</a>
-                        <a class="ml-2 btn btn-danger" asp-controller="Post" asp-action="Delete"
-                   asp-route-id="@Model.Id">Delete</a>
+                        <a class="btn btn-purple" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                        <a class="ml-2 btn btn-danger" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
                     }
                     else
                     {
-                      <a class="btn btn-warning" asp-controller="Post" asp-action="Like"
-                   asp-route-id="@Model.Id">Like</a> 
-                   <a class="btn btn-warning" asp-controller="Post" asp-action="Comment"
-                   asp-route-id="@Model.Id">Comment</a>  
-
+                        <a class="btn btn-warning" asp-controller="Post" asp-action="Like" asp-route-id="@Model.Id">Like</a>
+                        <a class="btn btn-warning" asp-controller="Post" asp-action="Comment" asp-route-id="@Model.Id">Comment</a>
                     }
                 }
             </div>

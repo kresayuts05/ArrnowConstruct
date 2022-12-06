@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.UserConstants;
 
-namespace ArrnowConstruct.Models.Account
+namespace ArrnowConstruct.Core.Models.Profile
 {
     public class RegisterViewModel
     {
+        public string Id { get; set; }
+
         [Required]
         [EmailAddress]
         [StringLength(EmailMaxLength, MinimumLength = EmailMinLength)]

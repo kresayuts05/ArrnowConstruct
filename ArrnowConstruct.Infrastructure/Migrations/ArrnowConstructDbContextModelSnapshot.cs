@@ -176,9 +176,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -189,14 +186,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Image");
                 });
@@ -542,6 +534,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -572,7 +567,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Graf Ignatiev 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "2e277ede-1a04-466c-8415-5ca8061068c0",
+                            ConcurrencyStamp = "f046694d-e1ee-4134-8c54-18706d4569d8",
                             Country = "Bulgaria",
                             Email = "nikol@mail.com",
                             EmailConfirmed = false,
@@ -581,10 +576,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "NIKOL@MAIL.COM",
                             NormalizedUserName = "NIKOL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAtw/wpmdzo144dLPj0+b+gEETEwQbfwUg6sltEHJogsPopP7mtw9XAk/NIN1Z49nA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOu821VL+z/pDtj+rwKWPfRSTQbHZ/STGVVaP71ItRss8f/tKlDlVFiM1LCj91jn5g==",
                             PhoneNumber = "0886121261",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ea8aa8bb-ad64-47f8-b1d1-7ff05b4dc227",
+                            SecurityStamp = "8052c67c-bf9d-4056-ad99-3555e2c7cb40",
                             TwoFactorEnabled = false,
                             UserName = "nikol"
                         },
@@ -594,7 +589,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Edelvais 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "0d8809bd-d9e2-440a-9c53-b947dbeb3284",
+                            ConcurrencyStamp = "3182caa0-5644-48c6-a4bc-c07daaa78abc",
                             Country = "Bulgaria",
                             Email = "kresa@mail.com",
                             EmailConfirmed = false,
@@ -603,10 +598,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KRESA@MAIL.COM",
                             NormalizedUserName = "KRESA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOlxxBHdBvMzsZ/ZTuUEjoVyughL48CewGx2C5c0cdBf4Srlbrl95og+DYGVdvKZ5w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDYpC4qG2+gq8FDHpu50mHWgG2kk/87zBgCnvBKgMQ/EoL38FtOwaYPvy+NtO81H0w==",
                             PhoneNumber = "0886121260",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "19362fee-7719-45c3-b31d-be953f12bd87",
+                            SecurityStamp = "c7003d3f-72c5-4062-8374-105e4f64d20f",
                             TwoFactorEnabled = false,
                             UserName = "kresa"
                         },
@@ -616,7 +611,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Petko DePetkov 71",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "54b68423-abaa-4bea-9f7b-db703c46ac53",
+                            ConcurrencyStamp = "ed5956ee-84b5-4b5b-999b-9c67356ccace",
                             Country = "Bulgaria",
                             Email = "angel@mail.com",
                             EmailConfirmed = false,
@@ -625,10 +620,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ANGEL@MAIL.COM",
                             NormalizedUserName = "ANGEL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAPqG/d2PwkSYb3IcETGvBgcift1+6KqHn1PvuQARs37LIpY9HIi8vZY+ZgivdIKSw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIio/8pqmk6+qZXzt1zn5r++uUAJlvcjHID8rb+80c6kP+0kLK3RgD+SF0TttDw1cA==",
                             PhoneNumber = "0888791001",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4441d42e-ae9a-432b-8f99-d329468946fb",
+                            ProfilePictureUrl = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp",
+                            SecurityStamp = "0541244a-afab-4ac8-b90a-3d3ab833bfbc",
                             TwoFactorEnabled = false,
                             UserName = "angel"
                         });
@@ -709,21 +705,21 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         new
                         {
                             Id = "4033acf9-98f0-49e3-aafc-fd4fcb71c67e",
-                            ConcurrencyStamp = "c28ce8e0-637f-4845-9a9f-3e3859ffe71c",
+                            ConcurrencyStamp = "66609e63-f7f1-48ce-85df-a08ceb41d7e1",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "25f73449-f9e8-40b4-87ee-93fc6c242339",
-                            ConcurrencyStamp = "a6766806-d5d9-4cb1-92d2-956770a15498",
+                            ConcurrencyStamp = "4cb59b81-c23a-4f6d-adfd-dfc81adb19a1",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
-                            ConcurrencyStamp = "e6bc6b34-6560-4b60-8cc3-339da7621ff7",
+                            ConcurrencyStamp = "66b01105-fced-4b05-83fd-9fd2b2b2ca01",
                             Name = "Constructor",
                             NormalizedName = "CONSTRUCTOR"
                         });
@@ -876,13 +872,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
-                        .WithMany("Images")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Post");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Post", b =>
@@ -1121,11 +1111,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("PostComments");
 
                     b.Navigation("PostLikes");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.User", b =>
-                {
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

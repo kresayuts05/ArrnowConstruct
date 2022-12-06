@@ -1,7 +1,7 @@
 ﻿using ArrnowConstruct.Core.Constants;
 using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Models.Profile;
 using ArrnowConstruct.Infrastructure.Data.Entities;
-using ArrnowConstruct.Models.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -57,8 +57,7 @@ namespace ArrnowConstruct.Controllers
                 PhoneNumber = model.PhoneNumber,
                 Address = model.Address,
                 City = model.City,
-                Country = model.Country,
-                EmailConfirmed = true
+                Country = model.Country
             };
 
             var result = await userManager.CreateAsync(user, model.Password);

@@ -74,7 +74,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
                 LastName = "Momov",
                 City = "Kazanlak",
                 Address = "Petko DePetkov 71",
-                Country = "Bulgaria"
+                Country = "Bulgaria",
+                ProfilePictureUrl = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
             };
 
             user.PasswordHash =

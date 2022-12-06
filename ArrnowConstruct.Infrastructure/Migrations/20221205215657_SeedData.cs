@@ -121,19 +121,19 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "a6766806-d5d9-4cb1-92d2-956770a15498", "Client", "CLIENT" },
-                    { "4033acf9-98f0-49e3-aafc-fd4fcb71c67e", "c28ce8e0-637f-4845-9a9f-3e3859ffe71c", "Administrator", "ADMINISTRATOR" },
-                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "e6bc6b34-6560-4b60-8cc3-339da7621ff7", "Constructor", "CONSTRUCTOR" }
+                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "4cb59b81-c23a-4f6d-adfd-dfc81adb19a1", "Client", "CLIENT" },
+                    { "4033acf9-98f0-49e3-aafc-fd4fcb71c67e", "66609e63-f7f1-48ce-85df-a08ceb41d7e1", "Administrator", "ADMINISTRATOR" },
+                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "66b01105-fced-4b05-83fd-9fd2b2b2ca01", "Constructor", "CONSTRUCTOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "54b68423-abaa-4bea-9f7b-db703c46ac53", "Bulgaria", "angel@mail.com", false, "Angel", "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEAPqG/d2PwkSYb3IcETGvBgcift1+6KqHn1PvuQARs37LIpY9HIi8vZY+ZgivdIKSw==", "0888791001", false, "4441d42e-ae9a-432b-8f99-d329468946fb", false, "angel" },
-                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "0d8809bd-d9e2-440a-9c53-b947dbeb3284", "Bulgaria", "kresa@mail.com", false, "Kresa", "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAEOlxxBHdBvMzsZ/ZTuUEjoVyughL48CewGx2C5c0cdBf4Srlbrl95og+DYGVdvKZ5w==", "0886121260", false, "19362fee-7719-45c3-b31d-be953f12bd87", false, "kresa" },
-                    { "babdaf39-3545-48e1-877e-13d4bb4d597f", 0, "Graf Ignatiev 6 ", "Kazanlak", "2e277ede-1a04-466c-8415-5ca8061068c0", "Bulgaria", "nikol@mail.com", false, "Nikol", "Grueva", false, null, "NIKOL@MAIL.COM", "NIKOL", "AQAAAAEAACcQAAAAEAtw/wpmdzo144dLPj0+b+gEETEwQbfwUg6sltEHJogsPopP7mtw9XAk/NIN1Z49nA==", "0886121261", false, "ea8aa8bb-ad64-47f8-b1d1-7ff05b4dc227", false, "nikol" }
+                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "ed5956ee-84b5-4b5b-999b-9c67356ccace", "Bulgaria", "angel@mail.com", false, "Angel", "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEIio/8pqmk6+qZXzt1zn5r++uUAJlvcjHID8rb+80c6kP+0kLK3RgD+SF0TttDw1cA==", "0888791001", false, "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp", "0541244a-afab-4ac8-b90a-3d3ab833bfbc", false, "angel" },
+                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "3182caa0-5644-48c6-a4bc-c07daaa78abc", "Bulgaria", "kresa@mail.com", false, "Kresa", "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAEDYpC4qG2+gq8FDHpu50mHWgG2kk/87zBgCnvBKgMQ/EoL38FtOwaYPvy+NtO81H0w==", "0886121260", false, null, "c7003d3f-72c5-4062-8374-105e4f64d20f", false, "kresa" },
+                    { "babdaf39-3545-48e1-877e-13d4bb4d597f", 0, "Graf Ignatiev 6 ", "Kazanlak", "f046694d-e1ee-4134-8c54-18706d4569d8", "Bulgaria", "nikol@mail.com", false, "Nikol", "Grueva", false, null, "NIKOL@MAIL.COM", "NIKOL", "AQAAAAEAACcQAAAAEOu821VL+z/pDtj+rwKWPfRSTQbHZ/STGVVaP71ItRss8f/tKlDlVFiM1LCj91jn5g==", "0886121261", false, null, "8052c67c-bf9d-4056-ad99-3555e2c7cb40", false, "nikol" }
                 });
 
             migrationBuilder.InsertData(

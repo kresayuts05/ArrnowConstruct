@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ArrnowConstruct.Models.Account
+namespace ArrnowConstruct.Core.Models.Profile
 {
     public class LoginViewModel
     {

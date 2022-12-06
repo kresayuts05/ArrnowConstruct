@@ -16,12 +16,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         [Required]
         public string UrlPath { get; set; }
 
-        public User User { get; set; }
-
         [Required]
         public bool IsActive { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
 
         [ForeignKey(nameof(Post))]
         public int PostId { get; set; }

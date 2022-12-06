@@ -134,5 +134,31 @@ namespace ArrnowConstruct.Controllers
 
             return RedirectToAction(nameof(Mine), new { model.Id });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if ((await postService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
+
+            var requestModel = await postService.PostDetailsById(id);
+
+            return View(requestModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, PostViewModel model)
+        {
+            if ((await postService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
+
+            await postService.Delete(id);
+
+            return RedirectToAction(nameof(Mine));
+        }
     }
 }

@@ -135,3 +135,12 @@ body {
         background-color: #962C9E;
         color: #ffffff;
     }
+
+div.absolute {
+    position: absolute;
+   bottom : 0%;
+    right: 0;
+    width: 200px;
+    height: 200px;
+  /*  border: 1.5px solid #808080;*/
+}

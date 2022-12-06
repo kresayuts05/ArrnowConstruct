@@ -18,15 +18,18 @@ namespace ArrnowConstruct.Core.Services
         private readonly IRepository repo;
         private readonly ISiteService siteService;
         private readonly IImageService imageService;
+        private readonly IConstructorService constructorService;
 
         public PostService(
             IRepository _repo,
             ISiteService _siteService,
-            IImageService _imageservice)
+            IImageService _imageservice,
+            IConstructorService _constructorService)
         {
             repo = _repo;
             siteService = _siteService;
             imageService = _imageservice;
+            constructorService = _constructorService;
         }
 
         public async Task Create(PostFormViewModel model)
@@ -55,7 +58,7 @@ namespace ArrnowConstruct.Core.Services
         {
 
             var posts = await repo.All<Post>()
-                 .Where(p => p.Site.ConstructorId == id)
+                 .Where(p => p.Site.ConstructorId == id && p.IsActive == true)
                  .Select(p => new PostViewModel
                  {
                      Id = p.Id,
@@ -126,6 +129,7 @@ namespace ArrnowConstruct.Core.Services
 
             await repo.SaveChangesAsync();
 
+            post.Image = new List<Image>();
             foreach (var imageInfo in model.Images)
             {
                 var image = await this.imageService.UploadImage(imageInfo, "images", post.Id);
@@ -133,6 +137,24 @@ namespace ArrnowConstruct.Core.Services
             }
 
             await repo.SaveChangesAsync();
+        }
+
+        public async Task Delete(int postId)
+        {
+            var post = await repo.GetByIdAsync<Post>(postId);
+            post.IsActive = false;
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<List<int>> AllPostsIdByUserId(string userId)
+        {
+            var constructorId = await constructorService.GetConstructorId(userId);
+
+            return await repo.All<Post>()
+                .Where(p => p.Site.ConstructorId == constructorId)
+                .Select(p => p.Id)
+                .ToListAsync();
         }
     }
 }

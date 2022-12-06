@@ -18,5 +18,9 @@ namespace ArrnowConstruct.Core.Contarcts
         Task<PostViewModel> PostDetailsById(int id);
 
         Task Edit(int postId, PostFormViewModel model);
+
+        Task Delete(int postId);
+
+        Task<List<int>> AllPostsIdByUserId(string userId);
     }
 }

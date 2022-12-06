@@ -1,0 +1,104 @@
+﻿@using ArrnowConstruct.Extensions
+@model ProfileViewModel
+
+@{
+    ViewBag.Title = "My Profile";
+
+    var images = Model
+              .Images
+              .Take(3)
+              .ToList();
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<section class="h-100 gradient-custom-2">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card">
+                    <div class="rounded-top text-white d-flex flex-row" style="background-color: #202020; height:200px;">
+                        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                            <img src="@Model.ProfilePictureUrl"
+                                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                 style="width: 150px; z-index: 1">
+                            @if (this.User.Id() == @Model.Id)
+                            {
+                                <a asp-controller="Profile" asp-action="Edit" asp-route-id="@(Model.Id)" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                    style="z-index: 1;">
+                                    Edit profile
+                                </a>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                    style="z-index: 1;">
+                                    Follow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+                                </button>
+                            }
+                        </div>
+                        <div class="ms-3" style="margin-top: 130px;">
+                            <h5>@Model.FirstName @Model.LastName</h5>
+                            <p>@(User.IsInRole(RoleConstants.Constructor) ? RoleConstants.Constructor : RoleConstants.Client)</p>
+                        </div>
+                    </div>
+                    <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                        <div class="d-flex justify-content-end text-center py-1">
+                            <div>
+                                <p class="mb-1 h5">@Model.PostsCount</p>
+                                <p class="small text-muted mb-0">Posts</p>
+                            </div>
+                            <div class="px-3">
+                                <p class="mb-1 h5">@Model.Followers</p>
+                                <p class="small text-muted mb-0">Followers</p>
+                            </div>
+                            <div>
+                                <p class="mb-1 h5">@Model.Following</p>
+                                <p class="small text-muted mb-0">Following</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4 text-black">
+                        <div class="mb-5">
+                            <p class="lead fw-normal mb-1">About</p>
+                            <div class="p-4" style="background-color: #f8f9fa;">
+                                <p class="font-italic mb-1">Address: @Model.Address</p>
+                                <p class="font-italic mb-1">Lives in @Model.City, @Model.Country</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4 text-black">
+                        @if (User.IsInRole(RoleConstants.Constructor))
+                        {
+                            <div class="mb-5">
+                                <p class="lead fw-normal mb-1">Contacts</p>
+                                <div class="p-4" style="background-color: #f8f9fa;">
+                                    <p class="font-italic mb-1">Email: @Model.Email</p>
+                                    <p class="font-italic mb-1">Phone Number: @Model.PhoneNumber</p>
+                                </div>
+                            </div>
+                        }
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Recent sites photos</p>
+                            <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+                        </div>
+                        <div class="row g-2">
+                            @foreach (var image in images)
+                            {
+                                <div class="col">
+                                    <img src="@image" alt="image" class="w-100 rounded-3">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Styles {
+<link rel="stylesheet" href="/css/profile.css" asp-append-version="true">
+}
