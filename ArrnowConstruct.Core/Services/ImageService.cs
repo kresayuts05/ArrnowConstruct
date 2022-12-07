@@ -52,5 +52,30 @@ namespace ArrnowConstruct.Core.Services
 
             return image;
         }
+
+        public async Task<string> UploadImage(IFormFile imageFile, string nameFolder, User user)
+        {
+            using var stream = imageFile.OpenReadStream();
+
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(user.Id, stream),
+                Folder = nameFolder,
+            };
+
+            var result = await this.cloudinary.UploadAsync(uploadParams);
+
+            if (result.Error != null)
+            {
+                throw new InvalidOperationException(result.Error.Message);
+            }
+
+             user.ProfilePictureUrl = result.Url.ToString();
+
+            this.repo.Update(user);
+            await this.repo.SaveChangesAsync();
+
+            return user.ProfilePictureUrl;
+        }
     }
 }

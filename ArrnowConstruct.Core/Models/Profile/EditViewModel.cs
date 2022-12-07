@@ -1,11 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.UserConstants;
 
 namespace ArrnowConstruct.Core.Models.Profile
 {
-    public class RegisterViewModel
+    public class EditViewModel
     {
+        public string Id { get; set; }
+
         [Required]
         [EmailAddress]
         [StringLength(EmailMaxLength, MinimumLength = EmailMinLength)]
@@ -20,15 +27,6 @@ namespace ArrnowConstruct.Core.Models.Profile
         public string LastName { get; set; } = null!;
 
         [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = null!;
-
-        [Required]
-        [Compare(nameof(PasswordRepeat))]
-        [DataType(DataType.Password)]
-        public string PasswordRepeat { get; set; } = null!;
-
-        [Required]
         [Phone]
         public string PhoneNumber { get; set; } = null!;
 
@@ -39,7 +37,7 @@ namespace ArrnowConstruct.Core.Models.Profile
         [Required]
         [StringLength(CityMaxLength, MinimumLength = CityMinLength)]
         public string City { get; set; }
-       
+
         [Required]
         [StringLength(CountryMaxLength, MinimumLength = CountryMinLength)]
         public string Country { get; set; }

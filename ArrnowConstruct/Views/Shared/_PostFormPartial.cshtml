@@ -23,15 +23,14 @@
                 <input type ="text" asp-for="@Model.Description" class="form-control" aria-required="" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            @*<input type="file" asp-for="@Model.Image" name="UploadedFile" />*@
-             <div id="upload-image" class="form-floating">
-            @*<label asp-for="Image"></label>*@
-            <input id="upload" asp-for="Images" multiple accept="image/gif, image/jpeg, image/png">
+             <div class="form-floating">
+            <input asp-for="Images" multiple accept="image/gif, image/jpeg, image/png">
             <span asp-validation-for="Images" class="text-danger"></span>
         </div>
         <div class="border-1">
-            <img id="uploadedImage" alt="Uploaded Image" accept="image/gif, image/jpeg, image/png" style="display:none;">
+            <img alt="Uploaded Image" accept="image/gif, image/jpeg, image/png" style="display:none;">
         </div>
+        <br>
             <div class="mb-3">
                 <input class="btn btn-success" type="submit" value="Save" />
             </div>

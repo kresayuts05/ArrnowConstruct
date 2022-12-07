@@ -15,20 +15,21 @@ namespace ArrnowConstruct.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IClientService clientService;
+        private readonly IImageService imageService;
 
         public AccountController(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
             RoleManager<IdentityRole> _roleManager,
-            IClientService _clientService)
+            IClientService _clientService,
+            IImageService _imageService)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             roleManager = _roleManager;
             clientService = _clientService;
+            imageService = _imageService;
         }
-
-
 
         [HttpGet]
         [AllowAnonymous]
@@ -66,6 +67,9 @@ namespace ArrnowConstruct.Controllers
 
             await userManager.AddToRoleAsync(user, "Client");
             await clientService.Create(user.Id);
+
+            user.ProfilePictureUrl = await this.imageService.UploadImage(model.ProfilePicture, "images", user);
+            await userManager.UpdateAsync(user);
 
             if (result.Succeeded)
             {

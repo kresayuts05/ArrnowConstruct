@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="rounded-top text-white d-flex flex-row" style="background-color: #202020; height:200px;">
                         <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                            <img src="@Model.ProfilePictureUrl"
+                            <img src="@(Model.ProfilePictureUrl)"
                                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                                  style="width: 150px; z-index: 1">
                             @if (this.User.Id() == @Model.Id)
@@ -78,19 +78,20 @@
                                     <p class="font-italic mb-1">Phone Number: @Model.PhoneNumber</p>
                                 </div>
                             </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <p class="lead fw-normal mb-0">Recent sites photos</p>
+                                <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+                            </div>
+                            <div class="row g-2">
+                                @foreach (var image in images)
+                                {
+                                    <div class="col">
+                                        <img src="@image" alt="image" class="w-100 rounded-3">
+                                    </div>
+                                }
+                            </div>
                         }
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <p class="lead fw-normal mb-0">Recent sites photos</p>
-                            <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
-                        </div>
-                        <div class="row g-2">
-                            @foreach (var image in images)
-                            {
-                                <div class="col">
-                                    <img src="@image" alt="image" class="w-100 rounded-3">
-                                </div>
-                            }
-                        </div>
                     </div>
                 </div>
             </div>

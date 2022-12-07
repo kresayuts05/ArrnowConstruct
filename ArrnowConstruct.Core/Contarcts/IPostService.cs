@@ -22,5 +22,7 @@ namespace ArrnowConstruct.Core.Contarcts
         Task Delete(int postId);
 
         Task<List<int>> AllPostsIdByUserId(string userId);
+
+        Task<IEnumerable<PostViewModel>> GetFiveNewestPosts();
     }
 }

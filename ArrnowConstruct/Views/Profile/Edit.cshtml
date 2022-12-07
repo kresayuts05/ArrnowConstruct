@@ -1,5 +1,5 @@
 ﻿@using ArrnowConstruct.Extensions
-@model RegisterViewModel
+@model EditViewModel
 
 @{
     ViewBag.Title = "Edit Profile";
@@ -10,9 +10,9 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
          <input type="hidden" asp-for="@Model.Id" />
-            <div class="mb-3">
+               <div class="mb-3">
                 <label asp-for="@Model.Email" class="form-label">Email</label>
                 <input asp-for="@Model.Email" class="form-control" aria-required="true" />
                 <span asp-validation-for="Email" class="text-danger"></span>
@@ -47,6 +47,13 @@
                 <input asp-for="@Model.Country" class="form-control" />
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
+              <div class="mb-3">
+                    <input asp-for="ProfilePicture" accept="image/gif, image/jpeg, image/png">
+                    <span asp-validation-for="ProfilePicture" class="text-white"></span>
+                </div>
+                <div class="mb-3">
+                    <img alt="Uploaded Image" accept="image/gif, image/jpeg, image/png" style="display:none;">
+                </div>
             <div class="mb-3">
                 <input class="btn btn-success" type="submit" value="Save" />
             </div>

@@ -53,8 +53,9 @@ namespace ArrnowConstruct.Controllers
         {
             var user = await userService.GetUserById(id);
 
-            var model = new RegisterViewModel()
+            var model = new EditViewModel()
             {
+                Id = id,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -68,7 +69,7 @@ namespace ArrnowConstruct.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string userId, RegisterViewModel model)
+        public async Task<IActionResult> Edit(EditViewModel model)
         {
             if (!ModelState.IsValid)
             {

@@ -57,7 +57,7 @@ namespace ArrnowConstruct.Core.Services
             return profile;
         }
 
-        public async Task Edit(string userId, RegisterViewModel model)
+        public async Task Edit(string userId, EditViewModel model)
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
@@ -71,8 +71,9 @@ namespace ArrnowConstruct.Core.Services
             user.City = model.City;
             user.Country = model.Country;
 
+            user.ProfilePictureUrl = await this.imageService.UploadImage(model.ProfilePicture, "images", user);
+            
             await repo.SaveChangesAsync();
-
         }
 
     }

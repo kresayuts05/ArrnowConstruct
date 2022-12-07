@@ -1,4 +1,6 @@
-﻿using ArrnowConstruct.Models;
+﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Models.Home;
+using ArrnowConstruct.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,15 +8,19 @@ namespace ArrnowConstruct.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IPostService postService;
+
+        public HomeController(IPostService _postService)
         {
-            return View();
+            postService = _postService;
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> Index()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var model = await postService.GetFiveNewestPosts();
+
+
+            return View(model);
         }
     }
 }

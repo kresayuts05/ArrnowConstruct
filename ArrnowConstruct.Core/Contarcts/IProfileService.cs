@@ -11,6 +11,6 @@ namespace ArrnowConstruct.Core.Contarcts
     {
         Task<ProfileViewModel> MyProfile(string userId);
 
-        Task Edit(string userId, RegisterViewModel model);
+        Task Edit(string userId, EditViewModel model);
     }
 }

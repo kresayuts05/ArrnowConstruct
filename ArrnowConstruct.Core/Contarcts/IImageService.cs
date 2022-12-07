@@ -11,5 +11,7 @@ namespace ArrnowConstruct.Core.Contarcts
     public interface IImageService
     {
         Task<Image> UploadImage(IFormFile imageFile, string nameFolder, int postId);
+
+        Task<string> UploadImage(IFormFile imageFile, string nameFolder, User user);
     }
 }

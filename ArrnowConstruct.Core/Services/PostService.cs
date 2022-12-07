@@ -1,6 +1,7 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
 using ArrnowConstruct.Core.Models.Post;
 using ArrnowConstruct.Core.Models.Site;
+using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -152,8 +153,38 @@ namespace ArrnowConstruct.Core.Services
             var constructorId = await constructorService.GetConstructorId(userId);
 
             return await repo.All<Post>()
-                .Where(p => p.Site.ConstructorId == constructorId)
+                .Where(p => p.Site.ConstructorId == constructorId && p.IsActive == true)
                 .Select(p => p.Id)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<PostViewModel>> GetFiveNewestPosts()
+        {
+            return await repo.All<Post>()
+                .Where(p => p.IsActive == true)
+                .OrderByDescending(p => p.CreatedOn)
+                .Select(p => new PostViewModel()
+                {
+                    Id = p.Id,
+                    CreatedOn = p.CreatedOn.ToString("yyyy-M-d"),
+                    Description = p.Description,
+                    ShortContent = p.ShortContent,
+                    Title = p.Title,
+                    Likes = p.Likes,
+                    Images = p.Image.Where(i => i.IsActive == true).Select(i => i.UrlPath).ToList(),
+                    Site = new SiteViewModel()
+                    {
+                        Id = p.Site.Id,
+                        Constructor = new ConstructorModel()
+                        {
+                            User = new UserModel()
+                            {
+                                Email = p.Site.Constructor.User.Email,
+                            }
+                        }
+                    }
+                })
+                .Take(5)
                 .ToListAsync();
         }
     }

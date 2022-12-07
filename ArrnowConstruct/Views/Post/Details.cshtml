@@ -55,8 +55,11 @@
                     <h5 class="card-title">Client Info</h5>
                     <hr></hr>
                     <p class="card-text">Email:  @Model.Site.Client.User.Email</p>
-                    <p class="card-text">Phone Number: @Model.Site.Client.User.Phone</p>
-                    <p class="card-text">Full Name: @Model.Site.Client.User.FirstName @Model.Site.Client.User.LastName</p>
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <p class="card-text">Phone Number: @Model.Site.Client.User.Phone</p>
+                        <p class="card-text">Full Name: @Model.Site.Client.User.FirstName @Model.Site.Client.User.LastName</p>
+                    }
                 </div>
             </div>
             <p></p>

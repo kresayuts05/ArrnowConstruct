@@ -144,3 +144,7 @@ div.absolute {
     height: 200px;
   /*  border: 1.5px solid #808080;*/
 }
+
+h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+}
