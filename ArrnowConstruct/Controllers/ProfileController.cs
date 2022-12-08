@@ -43,9 +43,23 @@ namespace ArrnowConstruct.Controllers
 
         public async Task<IActionResult> MyProfile()
         {
-            var myProfile = await profileService.MyProfile(User.Id());
+            var myProfile = await profileService.MyProfile(User.Id());   
+            bool isConstructor = await constructorService.ExistsById(User.Id());
 
-            return View(myProfile);
+            myProfile.IsConstructor = isConstructor;
+
+            return View("Profile", myProfile);
+        }
+
+
+        public async Task<IActionResult> AnothersProfile([FromRoute]string id)
+        {
+            var myProfile = await profileService.MyProfile(id);
+            bool isConstructor = await constructorService.ExistsById(id);
+
+            myProfile.IsConstructor = isConstructor;
+
+            return View("Profile", myProfile);
         }
 
         [HttpGet]

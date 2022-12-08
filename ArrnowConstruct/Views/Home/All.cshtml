@@ -1,0 +1,47 @@
+﻿@model List<ConstructorModel>
+
+@{
+    ViewBag.Title = "All constructors";
+
+    var modelGroups = Model
+               .Select((x, i) => new { Index = i, Value = x })
+               .GroupBy(x => x.Index / 100)
+               .Select(x => x.Select(v => v.Value).ToList())
+               .ToList();
+}
+
+<h1 class="text-center">@ViewBag.Title</h1>
+<br>
+<div class="">
+    @foreach (var modelGroup in modelGroups)
+    {
+        <div class="row">
+            @foreach (var model in modelGroup)
+            {
+                <div class="card mb-3 col-md-6">
+                    <div class="card-body text-center">
+                        <div class="mb-5"></div>
+                        <div class="image-container">
+                            <img class="d-block w-100" style="height:400px" src="@(model.User.ProfilePictureUrl)" alt="image">
+                        </div>
+                        <h2>@(model.User.FirstName + " " + model.User.LastName)</h2>
+
+                        <br />
+                        <p>Email: <b>@(model.User.Email)</b></p>
+                        <p>Address: <b>@(model.User.Address)</b></p>
+                        <p>Minimum Salary: <b>@(model.MinimumSalary)</b></p>
+                        <p>City: <b>@(model.User.City)</b></p>
+                        <p>Country: <b>@(model.User.Country)</b></p>
+
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <a asp-controller="Profile" asp-action="AnothersProfile" asp-route-id="@(model.User.Id)" class="btn btn-secondary">Profile</a>
+                        }
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+</div>

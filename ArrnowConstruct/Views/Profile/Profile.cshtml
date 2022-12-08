@@ -2,7 +2,7 @@
 @model ProfileViewModel
 
 @{
-    ViewBag.Title = "My Profile";
+    ViewBag.Title = "Profile";
 
     var images = Model
               .Images
@@ -26,7 +26,7 @@
                             @if (this.User.Id() == @Model.Id)
                             {
                                 <a asp-controller="Profile" asp-action="Edit" asp-route-id="@(Model.Id)" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                                    style="z-index: 1;">
+                               style="z-index: 1;">
                                     Edit profile
                                 </a>
                             }
@@ -40,7 +40,7 @@
                         </div>
                         <div class="ms-3" style="margin-top: 130px;">
                             <h5>@Model.FirstName @Model.LastName</h5>
-                            <p>@(User.IsInRole(RoleConstants.Constructor) ? RoleConstants.Constructor : RoleConstants.Client)</p>
+                            <p>@(Model.IsConstructor ? RoleConstants.Constructor : RoleConstants.Client)</p>
                         </div>
                     </div>
                     <div class="p-4 text-black" style="background-color: #f8f9fa;">
@@ -69,19 +69,21 @@
                         </div>
                     </div>
                     <div class="card-body p-4 text-black">
-                        @if (User.IsInRole(RoleConstants.Constructor))
-                        {
-                            <div class="mb-5">
-                                <p class="lead fw-normal mb-1">Contacts</p>
-                                <div class="p-4" style="background-color: #f8f9fa;">
-                                    <p class="font-italic mb-1">Email: @Model.Email</p>
-                                    <p class="font-italic mb-1">Phone Number: @Model.PhoneNumber</p>
-                                </div>
+                        <div class="mb-5">
+                            <p class="lead fw-normal mb-1">Contacts</p>
+                            <div class="p-4" style="background-color: #f8f9fa;">
+                                <p class="font-italic mb-1">Email: @Model.Email</p>
+                                <p class="font-italic mb-1">Phone Number: @Model.PhoneNumber</p>
                             </div>
+                        </div>
 
+                        @if (Model.Images.Count > 0)
+                        {
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <p class="lead fw-normal mb-0">Recent sites photos</p>
-                                <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+                                <p class="mb-0">
+                                    <a asp-controller="Post" asp-action="PostsByConstructor" asp-route-id="@(Model.Id)" class="text-muted">Show all</a>
+                                </p>
                             </div>
                             <div class="row g-2">
                                 @foreach (var image in images)

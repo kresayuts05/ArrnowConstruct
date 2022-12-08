@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ArrnowConstruct.Areas.Administrator.Controllers
+namespace ArrnowConstruct.Areas.Admin.Controllers
 {
-    public class AdministratorController : BaseController
+    public class ConstructorController : BaseController
     {
         public IActionResult Index()
         {

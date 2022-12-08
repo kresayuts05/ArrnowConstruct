@@ -67,6 +67,16 @@ namespace ArrnowConstruct.Controllers
         }
 
         [AllowAnonymous]
+        public async Task<IActionResult> PostsByConstructor(string id)
+        {
+            var constructorId = await constructorService.GetConstructorId(id);
+            IEnumerable<PostViewModel> myPosts = await postService.AllPostsByConstructor(constructorId);
+
+            return View("Mine", myPosts);
+        }
+
+
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             if ((await postService.Exists(id)) == false)

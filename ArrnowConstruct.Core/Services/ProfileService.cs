@@ -75,6 +75,5 @@ namespace ArrnowConstruct.Core.Services
             
             await repo.SaveChangesAsync();
         }
-
     }
 }

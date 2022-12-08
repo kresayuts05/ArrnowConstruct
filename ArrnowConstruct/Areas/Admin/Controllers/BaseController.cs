@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ArrnowConstruct.Areas.Administrator.Controllers
+namespace ArrnowConstruct.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("Admin/[controller]/[Action]/{id?}")]

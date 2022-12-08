@@ -23,6 +23,6 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<List<int>> AllPostsIdByUserId(string userId);
 
-        Task<IEnumerable<PostViewModel>> GetFiveNewestPosts();
+        Task<IEnumerable<PostViewModel>> GetSixNewestPosts();
     }
 }

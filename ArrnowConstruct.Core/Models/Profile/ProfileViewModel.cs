@@ -34,5 +34,7 @@ namespace ArrnowConstruct.Core.Models.Profile
 
         public List<string> Images { get; set; } = new List<string>();
 
+        public bool IsConstructor { get; set; }
+
     }
 }

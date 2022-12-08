@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="~/ArrnowConstruct.styles.css" asp-append-version="true" />
 </head>
 <body>
-    @* <partial name="_UserMessages" />*@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -23,20 +22,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="All">All</a>
+                        </li>
 
                         @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Request" asp-action="Add">Make a Request</a>
-                            </li>
-                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Request" asp-action="Mine">My Requests</a>
-                            </li>
-                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Profile</a>
-                            </li>
-                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Profile</a>
+                            </li>  
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Post" asp-action="Mine">My Posts</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Site" asp-action="Mine">My Sites</a>
+                                </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Profile" asp-action="MyProfile">Profile</a>
                             </li>
                         }
 

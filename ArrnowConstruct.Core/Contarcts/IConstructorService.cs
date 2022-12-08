@@ -1,4 +1,5 @@
-﻿using ArrnowConstruct.Infrastructure.Data.Entities;
+﻿using ArrnowConstruct.Core.Models.User;
+using ArrnowConstruct.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<int> ConstructorWithEmailExists(string email);
 
+        Task<IEnumerable<ConstructorModel>> GetAllConstructors();
     }
 }

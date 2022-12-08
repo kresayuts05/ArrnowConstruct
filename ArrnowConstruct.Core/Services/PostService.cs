@@ -158,7 +158,7 @@ namespace ArrnowConstruct.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<PostViewModel>> GetFiveNewestPosts()
+        public async Task<IEnumerable<PostViewModel>> GetSixNewestPosts()
         {
             return await repo.All<Post>()
                 .Where(p => p.IsActive == true)
@@ -184,7 +184,7 @@ namespace ArrnowConstruct.Core.Services
                         }
                     }
                 })
-                .Take(5)
+                .Take(6)
                 .ToListAsync();
         }
     }

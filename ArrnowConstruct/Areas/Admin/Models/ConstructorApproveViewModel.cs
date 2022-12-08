@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ArrnowConstruct.Core.Models.User
+﻿namespace ArrnowConstruct.Areas.Admin.Models
 {
-    public class UserModel
+    public class ConstructorApproveViewModel
     {
-        public string  Id { get; set; }
+        public string Id { get; set; }
 
         public string Email { get; set; }
 
@@ -24,6 +18,8 @@ namespace ArrnowConstruct.Core.Models.User
 
         public string City { get; set; }
 
-        public string  ProfilePictureUrl { get; set; }
+        public string ProfilePictureUrl { get; set; }
+
+
     }
 }
