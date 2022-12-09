@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,25 @@ namespace ArrnowConstruct.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        public async Task<List<UserModel>> GetAllClients(string adminId)
+        {
+            return await repo.All<Client>()
+               .Where(c => c.User.Id != adminId)
+               .Select(c => new UserModel()
+               {
+                   Id = c.User.Id,
+                   ProfilePictureUrl = c.User.ProfilePictureUrl,
+                   Phone = c.User.PhoneNumber,
+                   Address = c.User.Address,
+                   City = c.User.City,
+                   Country = c.User.Country,
+                   Email = c.User.Email,
+                   FirstName = c.User.FirstName,
+                   LastName = c.User.LastName
+               })
+               .ToListAsync();
+        }
+
         public async Task<int> GetClientId(string userId)
         {
             return (await repo.AllReadonly<Client>()
@@ -43,5 +63,7 @@ namespace ArrnowConstruct.Core.Services
                 .Select(c => c.User)
                 .FirstAsync();
         }
+
+
     }
 }

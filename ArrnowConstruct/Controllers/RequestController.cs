@@ -48,9 +48,13 @@ namespace ArrnowConstruct.Controllers
             {
                 ModelState.AddModelError(nameof(model.RoomsCount), "The selected types of rooms were more than the rooms count!");
             }
-            else if (model.CategoryId.Count == 0)
+            if (model.CategoryId.Count == 0)
             {
                 ModelState.AddModelError(nameof(model.RoomsCount), "You haven't selected any type of room!");
+            }
+            if (DateTime.Compare(DateTime.Parse(model.RequiredDate), DateTime.Now) < 0)
+            {
+                ModelState.AddModelError(nameof(model.RequiredDate), "The chosen date have already passed!");
             }
 
             if (!ModelState.IsValid)
@@ -64,8 +68,7 @@ namespace ArrnowConstruct.Controllers
 
             await requestService.Create(model, clientId);
 
-            return RedirectToAction("Index", "Home");
-            //return RedirectToAction(nameof(Details), new { id });
+            return RedirectToAction(nameof(Mine));
         }
 
         public async Task<IActionResult> Mine()
@@ -121,36 +124,37 @@ namespace ArrnowConstruct.Controllers
             {
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
-
             if ((await requestService.Exists(model.Id)) == false)
             {
                 ModelState.AddModelError("", "Request does not exist");
+            }
+            if (model.CategoryId.Count > model.RoomsCount)
+            {
+                ModelState.AddModelError(nameof(model.RoomsCount), "The selected types of rooms were more than the rooms count!");
+            }
+            if (model.CategoryId.Count == 0)
+            {
+                ModelState.AddModelError(nameof(model.RoomsCount), "You haven't selected any type of room!");
+            }
+            if (DateTime.Compare(DateTime.Parse(model.RequiredDate), DateTime.Now) < 0)
+            {
+                ModelState.AddModelError(nameof(model.RequiredDate), "The chosen date have already passed!");
+            }
+            if ((await requestService.HasClient(model.Id, User.Id())) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if (!ModelState.IsValid)
+            {
                 model.RoomsTypes = await categoryService.AllCategories();
 
                 return View(model);
             }
 
-            //if ((await houseService.HasAgentWithId(model.Id, User.Id())) == false)
-            //{
-            //    return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-            //}
-
-            if (model.IsActive == false)
-            {
-                ModelState.AddModelError(nameof(model.Id), "Request does not exist");
-
-                return RedirectToAction("Mine", "Request");
-            }
-
-            if (ModelState.IsValid == false)
-            {
-                return RedirectToAction("Mine", "Request");
-            }
-
-
             await requestService.Edit(model.Id, model);
 
-            return RedirectToAction(nameof(Mine), new { model.Id });
+            return RedirectToAction(nameof(Mine));
         }
 
         [HttpGet]
@@ -288,7 +292,7 @@ namespace ArrnowConstruct.Controllers
             }
 
             await requestService.Confirm(id);
-            await siteService.Create(request,model);
+            await siteService.Create(request, model);
 
             return RedirectToAction("Mine", "Site");
         }

@@ -1,0 +1,36 @@
+﻿@model ConstructorModel
+
+@{
+    ViewBag.Title = "Approve";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<form asp-action="Approve">
+    <div class="row  align-items-center justify-content-center">
+        <div class="col-md-6 ">
+            <div class="form-group mt-2">
+                <label asp-for="User.Address" class="control-label mb-1"><b>Address</b></label>
+                <input asp-for="User.Address" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="User.Email" class="control-label mb-1"><b>Constructor Email</b></label>
+                <input asp-for="User.Email" class="form-control" disabled="disabled" />
+            </div>
+              <div class="form-group mt-2">
+                <label asp-for="User.Phone" class="control-label mb-1"><b>Phone Number</b></label>
+                <input asp-for="User.Phone" class="form-control" disabled="disabled" />
+            </div>
+                  <div class="mb-3">
+                <label asp-for="MinimumSalary" class="form-label">Minimum Salary</label>
+                <input asp-for="MinimumSalary" class="form-control" aria-required="" />
+                <span asp-validation-for="MinimumSalary" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group  text-center">
+                <input type="submit" value="Approve" class="btn btn-danger" />
+            </div>
+        </div>
+    </div>
+</form>

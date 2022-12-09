@@ -89,7 +89,8 @@ namespace ArrnowConstruct.Core.Services
                         Country = c.User.Country,
                         Email = c.User.Email,
                         FirstName = c.User.FirstName,
-                        LastName = c.User.LastName
+                        LastName = c.User.LastName,
+                        Phone = c.User.PhoneNumber
                     }
                 }).ToListAsync();
         }

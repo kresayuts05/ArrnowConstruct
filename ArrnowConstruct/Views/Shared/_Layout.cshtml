@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ArrnowConstruct.styles.css" asp-append-version="true" />
-      @await RenderSectionAsync("Styles", required: false)
+    @await RenderSectionAsync("Styles", required: false)
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
@@ -55,7 +55,10 @@
                                 </li>
                             }
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Profile" asp-action="MyProfile">Profile</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Profile" asp-action="MyProfile">My Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Contacts">About Us</a>
                             </li>
                         }
 
@@ -76,10 +79,10 @@
             &copy; @DateTime.UtcNow.Year - ArrnowConstruct -
         </div>
     </footer>
-    
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-  
+
 </body>
 </html>

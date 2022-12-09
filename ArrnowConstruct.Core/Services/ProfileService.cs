@@ -49,8 +49,8 @@ namespace ArrnowConstruct.Core.Services
                 PhoneNumber = user.PhoneNumber,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 PostsCount = posts.Count(),
-                Followers = 0,
-                Following = 0,
+                //Followers = 0,
+                //Following = 0,
                 Images = postImages.Select(i => i.UrlPath).ToList()
             };
 

@@ -73,7 +73,7 @@ namespace ArrnowConstruct.Controllers
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
+                PhoneNumber = user.Phone,
                 Address = user.Address,
                 City = user.City,
                 Country = user.Country

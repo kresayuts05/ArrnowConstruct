@@ -1,4 +1,5 @@
-﻿using ArrnowConstruct.Infrastructure.Data.Entities;
+﻿using ArrnowConstruct.Core.Models.User;
+using ArrnowConstruct.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace ArrnowConstruct.Core.Contarcts
 {
     public interface IUserService
     {
-        Task<User> GetUserById(string userId);
+        Task<UserModel> GetUserById(string userId);
+
+        Task<UserModel> GetAdministrator();
     }
 }

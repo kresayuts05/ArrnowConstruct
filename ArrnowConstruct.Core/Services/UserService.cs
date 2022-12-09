@@ -1,6 +1,9 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Infrastructure.Data.Common;
+using ArrnowConstruct.Infrastructure.Data.Constants;
 using ArrnowConstruct.Infrastructure.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +22,44 @@ namespace ArrnowConstruct.Core.Services
             repo = _repo;
         }
 
-        public async Task<User> GetUserById(string userId)
+        public async Task<UserModel> GetUserById(string userId)
         {
-            return await repo.GetByIdAsync<User>(userId);
+            var user = await repo.GetByIdAsync<User>(userId);
+
+            var userModel = new UserModel()
+            {
+                Id = user.Id,
+                ProfilePictureUrl = user.ProfilePictureUrl,
+                Address = user.Address,
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Phone = user.PhoneNumber,
+            };
+
+            return userModel;
+        }
+
+        public async Task<UserModel> GetAdministrator()
+        {
+            return await repo.All<User>()
+                .Where(u => u.Id == AdministartorConstant.Id)
+                .Select(user => new UserModel()
+                {
+                    Id = user.Id,
+                    Address = user.Address,
+                    City = user.City,
+                    Country = user.Country,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Phone = user.PhoneNumber,
+                    ProfilePictureUrl = user.ProfilePictureUrl,
+                })
+                .FirstAsync();
+
         }
     }
 }

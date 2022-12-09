@@ -30,17 +30,26 @@
                                     Edit profile
                                 </a>
                             }
-                            else
+                           @* else
                             {
                                 <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                     style="z-index: 1;">
                                     Follow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
                                 </button>
-                            }
+                            }*@
                         </div>
                         <div class="ms-3" style="margin-top: 130px;">
                             <h5>@Model.FirstName @Model.LastName</h5>
-                            <p>@(Model.IsConstructor ? RoleConstants.Constructor : RoleConstants.Client)</p>
+                            <p>
+                                @if (User.IsInRole(RoleConstants.Administrator))
+                                {
+                                    @RoleConstants.Administrator
+                                }
+                                else
+                                {
+                                    @(Model.IsConstructor ? RoleConstants.Constructor : RoleConstants.Client)
+                                }
+                            </p>
                         </div>
                     </div>
                     <div class="p-4 text-black" style="background-color: #f8f9fa;">
@@ -48,7 +57,7 @@
                             <div>
                                 <p class="mb-1 h5">@Model.PostsCount</p>
                                 <p class="small text-muted mb-0">Posts</p>
-                            </div>
+                            </div>@*
                             <div class="px-3">
                                 <p class="mb-1 h5">@Model.Followers</p>
                                 <p class="small text-muted mb-0">Followers</p>
@@ -56,7 +65,7 @@
                             <div>
                                 <p class="mb-1 h5">@Model.Following</p>
                                 <p class="small text-muted mb-0">Following</p>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                     <div class="card-body p-4 text-black">

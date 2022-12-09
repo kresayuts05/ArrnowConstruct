@@ -19,15 +19,18 @@ namespace ArrnowConstruct.Core.Services
         private readonly IRepository repo;
         private readonly ICategoryService categoryService;
         private readonly IConstructorService constructorService;
+        private readonly IClientService clientService;
 
         public RequestService(
             IRepository _repo,
             ICategoryService _categoryService,
-            IConstructorService _constructorService)
+            IConstructorService _constructorService,
+            IClientService _clientService)
         {
             repo = _repo;
             categoryService = _categoryService;
             constructorService = _constructorService;
+            clientService = _clientService;
         }
 
         public async Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id)
@@ -136,12 +139,13 @@ namespace ArrnowConstruct.Core.Services
 
             var sth = repo.All<Category>()
                 .Include(c => c.Requests)
-                .Where(r => r.Requests.All(c => c.Id == requestId));
+                .Where(r => r.Requests.All(c => c.Id == requestId)); ///////////////////////////////////////////PROBLEM
 
             foreach (var c in sth)
             {
                 c.Requests.Remove(request);
             }
+
             await repo.SaveChangesAsync();
 
             int constructorId = await constructorService.ConstructorWithEmailExists(model.ConstructorEmail);
@@ -153,7 +157,6 @@ namespace ArrnowConstruct.Core.Services
             request.Budget = model.Budget;
             request.ConstructorId = constructorId;
             request.RoomsTypes = categories.ToList();
-            request.IsActive = model.IsActive;
 
             await repo.SaveChangesAsync();
         }
@@ -255,6 +258,14 @@ namespace ArrnowConstruct.Core.Services
             request.Status = "Confirmed";
 
             await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> HasClient(int requestId, string userId)
+        {
+            var request = await repo.GetByIdAsync<Request>(requestId);
+            var clientId = await clientService.GetClientId(userId);
+
+            return request.ClientId == clientId;
         }
     }
 }

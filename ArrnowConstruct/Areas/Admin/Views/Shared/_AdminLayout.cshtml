@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ArrnowConstruct.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header>
@@ -19,28 +20,22 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="All">All</a>
-                        </li>
-
                         @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Request" asp-action="Mine">My Requests</a>
-                            </li>  
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Post" asp-action="Mine">My Posts</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Site" asp-action="Mine">My Sites</a>
-                                </li>
+                                <a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="All">All</a>
+                            </li>
                             <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Profile" asp-action="MyProfile">Profile</a>
+                                <a class="nav-link text-light" asp-area="Admin" asp-controller="Profile" asp-action="MyProfile">My Profile</a>
                             </li>
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="Contacts">Contacts</a>
+                        </li>
 
                     </ul>
                     <partial name="_LoginPartial" />
@@ -49,7 +44,7 @@
         </nav>
     </header>
     <div class="container">
-         <h1>Administaration area</h1>
+        <h1>Administaration area</h1>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

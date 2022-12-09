@@ -10,7 +10,6 @@ namespace ArrnowConstruct.Controllers
 {
     public class AccountController : BaseController
     {
-
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
@@ -89,7 +88,7 @@ namespace ArrnowConstruct.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string? returnUrl = null)
+        public IActionResult Login()
         {
             var model = new LoginViewModel();
 

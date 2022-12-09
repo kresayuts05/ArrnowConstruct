@@ -1,0 +1,46 @@
+﻿@using ArrnowConstruct.Extensions
+@model UserModel
+
+@{
+    ViewBag.Title = "Contacts";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="bg-white  ">
+    <div class="d-flex aligns-items-center justify-content-center">
+        <img class="d-block w-40" style="height:400px" src="~/images/logo.jpeg" alt="image">
+    </div>
+
+    <div class="card-body p-4 text-black">
+        <div class="mb-5">
+            <p class="lead fw-normal mb-1">About Us</p>
+            <div class="p-4" style="background-color: #f8f9fa;">
+                <p class="font-italic mb-1">
+                    Arrnow Construct is online platform for clients and constructors.
+                    Here you can search for the purfect constructor for you and your desires!
+                    If you are a constructor this is the perfect place for you to recieve requests from clients and post your best projects!
+                    To start your journey with us, you need to create a registration.
+                    <br>
+                    <br>
+                    If you want to be a constructor here, you need to contact our administrator.
+                    Then she will approve your accout and you become part of our family.
+                </p>
+            </div>
+        </div>
+    </div>
+
+        <div class="card-body p-4 text-black">
+            <div class="mb-5">
+                <p class="lead fw-normal mb-1">Our Administartor</p>
+                <div class="p-4" style="background-color: #f8f9fa;">
+                    <p class="font-italic mb-1">Full Name: @Model.FirstName @Model.LastName</p>
+                    <p class="font-italic mb-1">Email: @Model.Email</p>
+                    <p class="font-italic mb-1">Phone Number: @Model.Phone</p>
+                    <p class="font-italic mb-1">Address: @Model.Address</p>
+                    <p class="font-italic mb-1">Lives in @Model.City, @Model.Country</p>
+                </div>
+            </div>
+        </div>
+</div>

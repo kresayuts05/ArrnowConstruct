@@ -1,4 +1,5 @@
-﻿using ArrnowConstruct.Infrastructure.Data.Entities;
+﻿using ArrnowConstruct.Core.Models.User;
+using ArrnowConstruct.Infrastructure.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,6 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<int> GetClientId(string userId);
 
-
+        Task<List<UserModel>> GetAllClients(string adminId);
     }
 }
