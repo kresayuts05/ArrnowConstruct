@@ -34,7 +34,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<List<UserModel>> GetAllClients(string adminId)
         {
             return await repo.All<Client>()
-               .Where(c => c.User.Id != adminId)
+               .Where(c => c.User.Id != adminId && c.IsActive == true)
                .Select(c => new UserModel()
                {
                    Id = c.User.Id,
@@ -64,6 +64,12 @@ namespace ArrnowConstruct.Core.Services
                 .FirstAsync();
         }
 
+        public async Task DisactivateClient(int id)
+        {
+            var client = await repo.GetByIdAsync<Client>(id);
 
+            client.IsActive = false;
+            await repo.SaveChangesAsync();
+        }
     }
 }

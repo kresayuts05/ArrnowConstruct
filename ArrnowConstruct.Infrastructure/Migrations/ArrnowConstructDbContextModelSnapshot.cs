@@ -120,6 +120,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -134,6 +137,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            IsActive = true,
                             UserId = "ae724eb3-355b-48dd-bdaa-c1eaccf666c5"
                         });
                 });
@@ -145,6 +149,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
@@ -163,6 +170,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            IsActive = true,
                             Salary = 1500m,
                             UserId = "7125d323-7567-4f56-b27e-6b7044014a37"
                         });
@@ -238,70 +246,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FullUserName")
-                        .IsRequired()
-                        .HasMaxLength(110)
-                        .HasColumnType("nvarchar(110)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PostComments");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostLikes", b =>
-                {
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsLiked")
-                        .HasColumnType("bit");
-
-                    b.HasKey("PostId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PostsLikes");
-                });
-
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Request", b =>
                 {
                     b.Property<int>("Id")
@@ -342,86 +286,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasIndex("ConstructorId");
 
                     b.ToTable("Requests");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.ReviewComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FullUserName")
-                        .IsRequired()
-                        .HasMaxLength(110)
-                        .HasColumnType("nvarchar(110)");
-
-                    b.Property<int>("Reviewid")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Reviewid");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ReviewComments");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
@@ -567,7 +431,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Graf Ignatiev 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "f046694d-e1ee-4134-8c54-18706d4569d8",
+                            ConcurrencyStamp = "7a0919db-1188-44c6-90e2-185881d3211f",
                             Country = "Bulgaria",
                             Email = "nikol@mail.com",
                             EmailConfirmed = false,
@@ -576,10 +440,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "NIKOL@MAIL.COM",
                             NormalizedUserName = "NIKOL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOu821VL+z/pDtj+rwKWPfRSTQbHZ/STGVVaP71ItRss8f/tKlDlVFiM1LCj91jn5g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPzltgqeiRtoA+D1FdB1CeDojVE4KVtxv+R0ci6B1ahmNq43HeIfgoD70U4Mg38QHw==",
                             PhoneNumber = "0886121261",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8052c67c-bf9d-4056-ad99-3555e2c7cb40",
+                            SecurityStamp = "3c1ae5df-1bf7-4d75-bfd2-ae27bf05cbf7",
                             TwoFactorEnabled = false,
                             UserName = "nikol"
                         },
@@ -589,7 +453,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Edelvais 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "3182caa0-5644-48c6-a4bc-c07daaa78abc",
+                            ConcurrencyStamp = "5b6e0b97-beb5-4da5-852b-e8c755ecf578",
                             Country = "Bulgaria",
                             Email = "kresa@mail.com",
                             EmailConfirmed = false,
@@ -598,10 +462,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "KRESA@MAIL.COM",
                             NormalizedUserName = "KRESA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYpC4qG2+gq8FDHpu50mHWgG2kk/87zBgCnvBKgMQ/EoL38FtOwaYPvy+NtO81H0w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC/fEptuqolGkhwUqzi0k5wq9zV5+Q7htPvZ0zDCjqJ2Vg1Gq+glTmfirgcqaSW8Lg==",
                             PhoneNumber = "0886121260",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c7003d3f-72c5-4062-8374-105e4f64d20f",
+                            SecurityStamp = "28988677-ba4b-41f1-b106-c8d9043fb506",
                             TwoFactorEnabled = false,
                             UserName = "kresa"
                         },
@@ -611,7 +475,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Petko DePetkov 71",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "ed5956ee-84b5-4b5b-999b-9c67356ccace",
+                            ConcurrencyStamp = "f45b9940-2aa5-4e7d-8854-b712c665d1ab",
                             Country = "Bulgaria",
                             Email = "angel@mail.com",
                             EmailConfirmed = false,
@@ -620,11 +484,11 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ANGEL@MAIL.COM",
                             NormalizedUserName = "ANGEL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIio/8pqmk6+qZXzt1zn5r++uUAJlvcjHID8rb+80c6kP+0kLK3RgD+SF0TttDw1cA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMgqoTboxsKW9Nwjbtch4rx0BUdLnsh1+zFdQiiefhslSL5AsREHF+QHkWAd8yjnaw==",
                             PhoneNumber = "0888791001",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp",
-                            SecurityStamp = "0541244a-afab-4ac8-b90a-3d3ab833bfbc",
+                            SecurityStamp = "24e31a61-edf3-4a15-97fa-25555120b94c",
                             TwoFactorEnabled = false,
                             UserName = "angel"
                         });
@@ -660,21 +524,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.ToTable("CategorySite");
                 });
 
-            modelBuilder.Entity("ClientConstructor", b =>
-                {
-                    b.Property<int>("FollowersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FollowingId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FollowersId", "FollowingId");
-
-                    b.HasIndex("FollowingId");
-
-                    b.ToTable("ClientConstructor");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -705,21 +554,21 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         new
                         {
                             Id = "4033acf9-98f0-49e3-aafc-fd4fcb71c67e",
-                            ConcurrencyStamp = "66609e63-f7f1-48ce-85df-a08ceb41d7e1",
+                            ConcurrencyStamp = "fcfcf702-c322-4c63-a0c8-0e606578af8e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "25f73449-f9e8-40b4-87ee-93fc6c242339",
-                            ConcurrencyStamp = "4cb59b81-c23a-4f6d-adfd-dfc81adb19a1",
+                            ConcurrencyStamp = "12b2c605-6d99-4d9f-8355-6f6b38407c5d",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
-                            ConcurrencyStamp = "66b01105-fced-4b05-83fd-9fd2b2b2ca01",
+                            ConcurrencyStamp = "35465e75-b5e3-4a90-9ab1-6e3f09bf6f78",
                             Name = "Constructor",
                             NormalizedName = "CONSTRUCTOR"
                         });
@@ -847,7 +696,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -858,7 +707,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -869,7 +718,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
                         .WithMany("Image")
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -880,48 +729,10 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Site", "Site")
                         .WithMany()
                         .HasForeignKey("SiteId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Site");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostComment", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
-                        .WithMany("PostComments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostLikes", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
-                        .WithMany("PostLikes")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Request", b =>
@@ -941,40 +752,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Constructor");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Review", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Client", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("ClientId");
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.ReviewComment", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Review", "Review")
-                        .WithMany()
-                        .HasForeignKey("Reviewid")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Review");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
@@ -1001,13 +778,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Request", null)
                         .WithMany()
                         .HasForeignKey("RequestsId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Category", null)
                         .WithMany()
                         .HasForeignKey("RoomsTypesId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1016,28 +793,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Category", null)
                         .WithMany()
                         .HasForeignKey("RoomsTypesId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Site", null)
                         .WithMany()
                         .HasForeignKey("SitesId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ClientConstructor", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Client", null)
-                        .WithMany()
-                        .HasForeignKey("FollowersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Constructor", null)
-                        .WithMany()
-                        .HasForeignKey("FollowingId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1046,7 +808,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1055,7 +817,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1064,7 +826,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1073,13 +835,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1088,15 +850,13 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>
                 {
                     b.Navigation("Requests");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Constructor", b =>
@@ -1107,10 +867,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Post", b =>
                 {
                     b.Navigation("Image");
-
-                    b.Navigation("PostComments");
-
-                    b.Navigation("PostLikes");
                 });
 #pragma warning restore 612, 618
         }

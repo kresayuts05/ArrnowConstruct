@@ -42,6 +42,7 @@ namespace ArrnowConstruct.Core.Models.Profile
         [StringLength(CountryMaxLength, MinimumLength = CountryMinLength)]
         public string Country { get; set; }
 
-        public IFormFile? ProfilePicture { get; set; }
+        [Required]
+        public IFormFile ProfilePicture { get; set; }
     }
 }

@@ -25,18 +25,18 @@
                                  style="width: 150px; z-index: 1">
                             @if (this.User.Id() == @Model.Id)
                             {
-                                <a asp-controller="Profile" asp-action="Edit" asp-route-id="@(Model.Id)" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                <a asp-controller="Profile" asp-action="Edit"  asp-route-id="@(Model.Id)" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                style="z-index: 1;">
                                     Edit profile
                                 </a>
                             }
-                           @* else
-                            {
+                            @* else
+                                {
                                 <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                                    style="z-index: 1;">
-                                    Follow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+                                style="z-index: 1;">
+                                Follow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
                                 </button>
-                            }*@
+                                }*@
                         </div>
                         <div class="ms-3" style="margin-top: 130px;">
                             <h5>@Model.FirstName @Model.LastName</h5>
@@ -54,18 +54,26 @@
                     </div>
                     <div class="p-4 text-black" style="background-color: #f8f9fa;">
                         <div class="d-flex justify-content-end text-center py-1">
-                            <div>
-                                <p class="mb-1 h5">@Model.PostsCount</p>
-                                <p class="small text-muted mb-0">Posts</p>
-                            </div>@*
-                            <div class="px-3">
-                                <p class="mb-1 h5">@Model.Followers</p>
-                                <p class="small text-muted mb-0">Followers</p>
-                            </div>
-                            <div>
-                                <p class="mb-1 h5">@Model.Following</p>
-                                <p class="small text-muted mb-0">Following</p>
-                            </div>*@
+                            @if (User.IsInRole(RoleConstants.Administrator))
+                            {
+                                <div>
+                                    <p class="mb-1 h5">@Model.PostsCount</p>
+                                    <p class="small text-muted mb-0">Posts</p>
+                                </div>
+                                @*
+                                    <div class="px-3">
+                                    <p class="mb-1 h5">@Model.Followers</p>
+                                    <p class="small text-muted mb-0">Followers</p>
+                                    </div>
+                                    <div>
+                                    <p class="mb-1 h5">@Model.Following</p>
+                                    <p class="small text-muted mb-0">Following</p>
+                                    </div>*@
+                            }
+                            else
+                            {
+                                <br><br><br>
+                            }
                         </div>
                     </div>
                     <div class="card-body p-4 text-black">

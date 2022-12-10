@@ -61,11 +61,8 @@ namespace ArrnowConstruct.Core.Services
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
-
-            user.Email = model.Email;
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
-            user.UserName = model.Email;
             user.PhoneNumber = model.PhoneNumber;
             user.Address = model.Address;
             user.City = model.City;

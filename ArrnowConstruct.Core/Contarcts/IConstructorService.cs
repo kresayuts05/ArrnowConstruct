@@ -10,13 +10,15 @@ namespace ArrnowConstruct.Core.Contarcts
 {
     public interface IConstructorService
     {
-        Task Create(string userId);
+        Task Create(string userId, decimal salary);
 
         Task<User> GetUserByConstructorId(int id);
 
         Task<bool> ExistsById(string userId);
 
-        Task<int> GetConstructorId(string userId);
+        Task<int> GetConstructorId(string userId); 
+
+        Task<string> GetConstructorEmail(int constructorId);
 
         Task<int> ConstructorWithEmailExists(string email);
 

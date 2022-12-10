@@ -22,8 +22,5 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         [ForeignKey(nameof(Post))]
         public int PostId { get; set; }
         public Post Post { get; set; }
-
-        //Add key for reviws
-        // make user photo keys
     }
 }

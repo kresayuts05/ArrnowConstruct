@@ -1,7 +1,5 @@
 ﻿@using ArrnowConstruct.Infrastructure.Data.Entities
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
@@ -19,10 +17,10 @@
 else
 {
     <li class="nav-item">
-        <a class="nav-link text-light" asp-controller="Account" asp-action="Register">Register</a>
+        <a class="nav-link text-light"   asp-controller="Account" asp-action="Register">Register</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-light" asp-controller="Account" asp-action="Login">Login</a>
+        <a class="nav-link text-light"  asp-controller="Account" asp-action="Login">Login</a>
     </li>
 }
 </ul>

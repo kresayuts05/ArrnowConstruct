@@ -21,6 +21,8 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<bool> Exists(int id);
 
+        Task<int> GetRequestsConstructorId(int id);
+
         Task<bool> HasClient(int requestId, string userId);
 
         Task Edit(int requestId, AddRequestViewModel model);

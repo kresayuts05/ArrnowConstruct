@@ -10,6 +10,11 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
     public class Client
     {
+        public Client()
+        {
+            this.IsActive = true;
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -19,12 +24,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         public User User { get; set; }
 
-        public ICollection<Constructor> Following { get; set; } = new HashSet<Constructor>();
-
         public ICollection<Request> Requests { get; set; } = new HashSet<Request>();
 
-        public ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
-
-        //public ICollection<Request> PreviousRequests { get; set; } = new HashSet<Request>();
+        public bool IsActive { get; set; }
     }
 }

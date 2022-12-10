@@ -1,4 +1,7 @@
-﻿namespace ArrnowConstruct.Areas.Admin.Models
+﻿using System.ComponentModel.DataAnnotations;
+using static ArrnowConstruct.Infrastructure.Data.Constants.ModelConstraints.ConstructorConstants;
+
+namespace ArrnowConstruct.Areas.Admin.Models
 {
     public class ConstructorApproveViewModel
     {
@@ -8,18 +11,10 @@
 
         public string Phone { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
         public string Address { get; set; }
 
-        public string Country { get; set; }
-
-        public string City { get; set; }
-
-        public string ProfilePictureUrl { get; set; }
-
-
+        [Required]
+        [Range(typeof(decimal), SalaryMinValue, SalaryMaxValue)]
+        public decimal MinimumSalary { get; set; }
     }
 }

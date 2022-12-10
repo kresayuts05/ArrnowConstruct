@@ -21,11 +21,12 @@ namespace ArrnowConstruct.Core.Services
             repo = _repo;
         }
 
-        public async Task Create(string userId)
+        public async Task Create(string userId, decimal minimumSalary)
         {
             var constructor = new Constructor()
             {
                 UserId = userId,
+                Salary= minimumSalary
             };
 
             await repo.AddAsync(constructor);
@@ -93,6 +94,15 @@ namespace ArrnowConstruct.Core.Services
                         Phone = c.User.PhoneNumber
                     }
                 }).ToListAsync();
+        }
+
+        public async Task<string> GetConstructorEmail(int constructorId)
+        {
+            var userModel = await repo.GetByIdAsync<Constructor>(constructorId);
+
+            var user = await repo.GetByIdAsync<User>(userModel.UserId);
+
+            return user.Email;
         }
     }
 }

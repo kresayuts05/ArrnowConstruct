@@ -56,6 +56,10 @@ namespace ArrnowConstruct.Controllers
             {
                 ModelState.AddModelError(nameof(model.RequiredDate), "The chosen date have already passed!");
             }
+            if(await constructorService.ConstructorWithEmailExists(model.ConstructorEmail) == -1)
+            {
+                ModelState.AddModelError(nameof(model.ConstructorEmail), "A constructor with this email does not exists!");
+            }
 
             if (!ModelState.IsValid)
             {
@@ -95,12 +99,12 @@ namespace ArrnowConstruct.Controllers
         {
             if ((await requestService.Exists(id)) == false)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Mine", "Request");
             }
 
             var request = await requestService.RequestById(id);
             var requestCurrCategories = await categoryService.CategoriesById(request.CategoryId);
-
+           
             var model = new AddRequestViewModel()
             {
                 Id = request.Id,
@@ -254,7 +258,10 @@ namespace ArrnowConstruct.Controllers
             }
 
             var request = await requestService.GetDetailsRequest(id);
-            var model = new RequestConfirmViewModel();
+            var model = new RequestConfirmViewModel()
+            {
+                RequiredDate = request.RequiredDate
+            };
 
             return View(model);
         }
@@ -276,15 +283,19 @@ namespace ArrnowConstruct.Controllers
             {
                 ModelState.AddModelError(nameof(model.Price), "The price you chose should not be bigger than client's budget! Otherwise reject the request!");
             }
+            if (DateTime.Compare(DateTime.Parse(model.FromDate), DateTime.Parse(model.RequiredDate)) < 0)
+            {
+                ModelState.AddModelError(nameof(model.FromDate), "The chosen date should be after the required one from the client!");
+            }
+            if (DateTime.Compare(DateTime.Parse(model.FromDate), DateTime.ParseExact(model.RequiredDate, "yyyy-MM-dd", CultureInfo.CurrentCulture)) > 0)
+            {
+                ModelState.AddModelError(nameof(model.ToDate), "The chosen date should be after the starting date!");
+            }
 
 
             var fromDate = DateTime.ParseExact(model.FromDate, "yyyy-M-d", CultureInfo.CurrentCulture);
             var toDate = DateTime.ParseExact(model.ToDate, "yyyy-M-d", CultureInfo.CurrentCulture);
 
-            if (DateTime.Compare(fromDate, toDate) > 0)
-            {
-                ModelState.AddModelError(nameof(model.FromDate), "The Starting Date should be after the  Starting Date from the client!");
-            }
 
             if (!ModelState.IsValid)
             {

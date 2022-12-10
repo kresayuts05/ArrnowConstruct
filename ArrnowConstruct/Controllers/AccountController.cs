@@ -12,20 +12,17 @@ namespace ArrnowConstruct.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IClientService clientService;
         private readonly IImageService imageService;
 
         public AccountController(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
-            RoleManager<IdentityRole> _roleManager,
             IClientService _clientService,
             IImageService _imageService)
         {
             userManager = _userManager;
             signInManager = _signInManager;
-            roleManager = _roleManager;
             clientService = _clientService;
             imageService = _imageService;
         }
@@ -81,7 +78,6 @@ namespace ArrnowConstruct.Controllers
             {
                 ModelState.AddModelError("", item.Description);
             }
-
 
             return View(model);
         }

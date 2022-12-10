@@ -24,7 +24,7 @@ namespace ArrnowConstruct.Core.Models.Profile
         public string Password { get; set; } = null!;
 
         [Required]
-        [Compare(nameof(PasswordRepeat))]
+        [Compare(nameof(Password))]
         [DataType(DataType.Password)]
         public string PasswordRepeat { get; set; } = null!;
 

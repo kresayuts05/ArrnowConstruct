@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArrnowConstruct.Infrastructure.Migrations
 {
     [DbContext(typeof(ArrnowConstructDbContext))]
-    [Migration("20221205215540_InitialMigration")]
+    [Migration("20221210001520_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -68,6 +71,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
@@ -153,70 +159,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FullUserName")
-                        .IsRequired()
-                        .HasMaxLength(110)
-                        .HasColumnType("nvarchar(110)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PostComments");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostLikes", b =>
-                {
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsLiked")
-                        .HasColumnType("bit");
-
-                    b.HasKey("PostId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PostsLikes");
-                });
-
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Request", b =>
                 {
                     b.Property<int>("Id")
@@ -257,86 +199,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasIndex("ConstructorId");
 
                     b.ToTable("Requests");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.ReviewComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FullUserName")
-                        .IsRequired()
-                        .HasMaxLength(110)
-                        .HasColumnType("nvarchar(110)");
-
-                    b.Property<int>("Reviewid")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Reviewid");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ReviewComments");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
@@ -504,21 +366,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasIndex("SitesId");
 
                     b.ToTable("CategorySite");
-                });
-
-            modelBuilder.Entity("ClientConstructor", b =>
-                {
-                    b.Property<int>("FollowersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FollowingId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FollowersId", "FollowingId");
-
-                    b.HasIndex("FollowingId");
-
-                    b.ToTable("ClientConstructor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -702,44 +549,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("Site");
                 });
 
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostComment", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
-                        .WithMany("PostComments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.PostLikes", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
-                        .WithMany("PostLikes")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Request", b =>
                 {
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Client", "Client")
@@ -757,40 +566,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Constructor");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Review", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Client", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("ClientId");
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
-            modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.ReviewComment", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Review", "Review")
-                        .WithMany()
-                        .HasForeignKey("Reviewid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Review");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Site", b =>
@@ -838,21 +613,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Site", null)
                         .WithMany()
                         .HasForeignKey("SitesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ClientConstructor", b =>
-                {
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Client", null)
-                        .WithMany()
-                        .HasForeignKey("FollowersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ArrnowConstruct.Infrastructure.Data.Entities.Constructor", null)
-                        .WithMany()
-                        .HasForeignKey("FollowingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -911,8 +671,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Client", b =>
                 {
                     b.Navigation("Requests");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Constructor", b =>
@@ -923,10 +681,6 @@ namespace ArrnowConstruct.Infrastructure.Migrations
             modelBuilder.Entity("ArrnowConstruct.Infrastructure.Data.Entities.Post", b =>
                 {
                     b.Navigation("Image");
-
-                    b.Navigation("PostComments");
-
-                    b.Navigation("PostLikes");
                 });
 #pragma warning restore 612, 618
         }

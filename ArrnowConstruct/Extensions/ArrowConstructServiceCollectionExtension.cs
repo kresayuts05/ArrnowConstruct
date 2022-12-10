@@ -18,6 +18,7 @@ namespace ArrnowConstruct.Extensions
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAdminService, AdminService>();
 
             return services;
         }

@@ -16,11 +16,7 @@ namespace ArrnowConstruct.Infrastructure.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Constructor> Constructors { get; set; }
         public DbSet<Post> Posts { get; set; }
-        public DbSet<PostComment> PostComments { get; set; }
-        public DbSet<PostLikes> PostsLikes { get; set; }
         public DbSet<Request> Requests { get; set; }
-        public DbSet<Review> Reviews { get; set; }
-        public DbSet<ReviewComment> ReviewComments { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Image> Image { get; set; }
@@ -38,12 +34,6 @@ namespace ArrnowConstruct.Infrastructure.Data
                 .Property(u => u.Email)
                 .HasMaxLength(60)
                 .IsRequired();
-
-            builder.Entity<PostLikes>().HasKey(k => new
-            {
-                k.PostId,
-                k.UserId,
-            });
 
             //builder.Entity<ChatMessage>()
             //  .HasMany(e => e.ChatImages)

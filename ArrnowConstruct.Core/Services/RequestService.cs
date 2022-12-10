@@ -135,27 +135,26 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task Edit(int requestId, AddRequestViewModel model)
         {
-            var request = await repo.GetByIdAsync<Request>(requestId);
+          //  var request = await repo.GetByIdAsync<Request>(requestId);
 
-            var sth = repo.All<Category>()
-                .Include(c => c.Requests)
-                .Where(r => r.Requests.All(c => c.Id == requestId)); ///////////////////////////////////////////PROBLEM
+            var request = await repo.All<Request>()
+                .Include(r => r.RoomsTypes)
+                .Where(r => r.Id == requestId)
+                .FirstAsync();
 
-            foreach (var c in sth)
+            foreach (var categ in request.RoomsTypes)
             {
-                c.Requests.Remove(request);
+                request.RoomsTypes.Remove(categ);
             }
 
             await repo.SaveChangesAsync();
 
-            int constructorId = await constructorService.ConstructorWithEmailExists(model.ConstructorEmail);
             var categories = await categoryService.CategoriesById(model.CategoryId);
 
             request.RoomsCount = model.RoomsCount;
             request.Area = model.Area;
             request.RequiredDate = DateTime.ParseExact(model.RequiredDate, "yyyy-MM-dd", CultureInfo.CurrentCulture);
             request.Budget = model.Budget;
-            request.ConstructorId = constructorId;
             request.RoomsTypes = categories.ToList();
 
             await repo.SaveChangesAsync();
@@ -266,6 +265,13 @@ namespace ArrnowConstruct.Core.Services
             var clientId = await clientService.GetClientId(userId);
 
             return request.ClientId == clientId;
+        }
+
+        public async Task<int> GetRequestsConstructorId(int id)
+        {
+            var request = await repo.GetByIdAsync<Request>(id);
+
+            return request.ConstructorId;
         }
     }
 }

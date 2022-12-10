@@ -22,7 +22,9 @@ namespace ArrnowConstruct.Core.Models.Request
         public string ToDate { get; set; }
 
         [Required]
-       // [Range(typeof(double), StartingPriceMinValue, StartingPriceMaxValue)]
+        public string RequiredDate { get; set; }
+
+        [Required]
         public decimal Price { get; set; }
     }
 }

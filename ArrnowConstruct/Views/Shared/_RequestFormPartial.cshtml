@@ -9,7 +9,7 @@
                 <input asp-for="@Model.RoomsCount" class="form-control" aria-required="true" />
                 <span asp-validation-for="RoomsCount" class="text-danger"></span>
             </div>
-             <div class="mb-3">
+            <div class="mb-3">
                 <label asp-for="@Model.CategoryId" class="form-label">Room Type</label>
                 <select asp-for="@Model.CategoryId" class="form-control" multiple>
                     @foreach (var category in Model.RoomsTypes)
@@ -19,12 +19,12 @@
                 </select>
                 <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
             </div>
-               <div class="mb-3">
+            <div class="mb-3">
                 <label asp-for="@Model.Area" class="form-label">Area</label>
                 <input asp-for="@Model.Area" class="form-control" aria-required="true" />
                 <span asp-validation-for="Area" class="text-danger"></span>
             </div>
-              <div class="mb-3">
+            <div class="mb-3">
                 <label asp-for="@Model.RequiredDate" class="form-label">After Date</label>
                 <input asp-for="@Model.RequiredDate" class="form-control" aria-required="true" />
                 <span asp-validation-for="RequiredDate" class="text-danger"></span>
@@ -34,11 +34,23 @@
                 <input asp-for="@Model.Budget" class="form-control" aria-required="true" />
                 <span asp-validation-for="Budget" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="@Model.ConstructorEmail" class="form-label">Constructor Email</label>
-                <input asp-for="@Model.ConstructorEmail" class="form-control" value="" />
-                <span asp-validation-for="ConstructorEmail" class="text-danger"></span>
-            </div>
+
+            @if (Model.IsActive == false)
+            {
+                <div class="mb-3">
+                    <label asp-for="@Model.ConstructorEmail" class="form-label">Constructor Email</label>
+                    <input asp-for="@Model.ConstructorEmail" class="form-control" />
+                    <span asp-validation-for="ConstructorEmail" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                 <div class="mb-3">
+                    <label asp-for="@Model.ConstructorEmail" class="form-label">Constructor Email</label>
+                    <input asp-for="@Model.ConstructorEmail" class="form-control" disabled="disabled"/>
+                     <input type="hidden" asp-for="@Model.ConstructorEmail" />
+                </div>
+            }
             <div class="mb-3">
                 <input class="btn btn-success" type="submit" value="Save" />
             </div>

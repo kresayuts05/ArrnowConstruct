@@ -12,6 +12,11 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
     public class Constructor
     {
+        public Constructor()
+        {
+            this.IsActive = true;
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -21,14 +26,12 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         public User User { get; set; }
 
-        public ICollection<Client> Followers { get; set; } = new HashSet<Client>();
-
         [Required]
         [Range(typeof(decimal), SalaryMinValue, SalaryMaxValue)]
         public decimal Salary { get; set; }
 
         public ICollection<Site> Sites { get; set; } = new HashSet<Site>();
 
-        //public ICollection<Site> FutureSites { get; set; } = new HashSet<Site>();
+        public bool IsActive { get; set; }
     }
 }

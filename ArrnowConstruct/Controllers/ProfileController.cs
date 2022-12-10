@@ -9,8 +9,6 @@ namespace ArrnowConstruct.Controllers
 {
     public class ProfileController : Controller
     {
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
         private readonly IRequestService requestService;
         private readonly IClientService clientService;
         private readonly IConstructorService constructorService;
@@ -20,8 +18,6 @@ namespace ArrnowConstruct.Controllers
         private readonly IUserService userService;
 
         public ProfileController(
-             UserManager<User> _userManager,
-            SignInManager<User> _signInManager,
             IRequestService _requestService,
             IClientService _clientService,
             IConstructorService _constructorService,
@@ -30,8 +26,6 @@ namespace ArrnowConstruct.Controllers
             IPostService _postService,
             IUserService _userService)
         {
-            userManager = _userManager;
-            signInManager = _signInManager;
             requestService = _requestService;
             clientService = _clientService;
             constructorService = _constructorService;
@@ -83,7 +77,7 @@ namespace ArrnowConstruct.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditViewModel model)
+        public async Task<IActionResult> Edit( EditViewModel model)
         {
             if (!ModelState.IsValid)
             {

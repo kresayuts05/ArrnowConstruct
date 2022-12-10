@@ -49,11 +49,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 
         public Site Site { get; set; }
 
-        public ICollection<PostComment> PostComments { get; set; } = new HashSet<PostComment>();
-
         public ICollection<Image> Image{ get; set; } = new HashSet<Image>();
-
-        public ICollection<PostLikes> PostLikes { get; set; } = new HashSet<PostLikes>();
 
     }
 }

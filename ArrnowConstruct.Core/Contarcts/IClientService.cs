@@ -19,5 +19,7 @@ namespace ArrnowConstruct.Core.Contarcts
         Task<int> GetClientId(string userId);
 
         Task<List<UserModel>> GetAllClients(string adminId);
+
+        Task DisactivateClient(int id);
     }
 }
