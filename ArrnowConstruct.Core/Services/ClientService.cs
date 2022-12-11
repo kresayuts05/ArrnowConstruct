@@ -69,7 +69,16 @@ namespace ArrnowConstruct.Core.Services
             var client = await repo.GetByIdAsync<Client>(id);
 
             client.IsActive = false;
+
             await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsById(string userId)
+        {
+            var constructor = await repo.All<Client>(c => c.UserId == userId && c.IsActive == true)
+                .FirstOrDefaultAsync();
+
+            return constructor != null;
         }
     }
 }

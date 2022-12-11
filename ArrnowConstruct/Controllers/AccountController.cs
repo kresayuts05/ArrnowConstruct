@@ -104,12 +104,15 @@ namespace ArrnowConstruct.Controllers
 
             if (user != null)
             {
-
-                var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
-
-                if (result.Succeeded)
+                if (user.IsActive)
                 {
-                    return RedirectToAction("Index", "Home");
+
+                    var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
 

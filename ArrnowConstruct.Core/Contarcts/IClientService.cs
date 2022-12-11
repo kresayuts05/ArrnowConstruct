@@ -14,7 +14,7 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<User> GetUserByClientId(int id);
 
-        //Task<bool> ExistsById(string userId);
+        Task<bool> ExistsById(string userId);
 
         Task<int> GetClientId(string userId);
 

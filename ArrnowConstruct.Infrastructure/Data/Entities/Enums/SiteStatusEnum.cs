@@ -9,6 +9,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities.Enums
     public enum SiteStatusEnum
     {
         InProcess = 1,
-        Finished = 2
+        Finished = 2,
+        Disactivated = 3
     }
 }

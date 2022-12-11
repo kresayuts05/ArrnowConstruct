@@ -35,7 +35,7 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<bool> ExistsById(string userId)
         {
-            var constructor = await repo.All<Constructor>(c => c.UserId == userId)
+            var constructor = await repo.All<Constructor>(c => c.UserId == userId && c.IsActive == true)
                 .FirstOrDefaultAsync();
 
             return constructor != null;
@@ -103,6 +103,15 @@ namespace ArrnowConstruct.Core.Services
             var user = await repo.GetByIdAsync<User>(userModel.UserId);
 
             return user.Email;
+        }
+
+
+        public async Task DisactivateConstructor(int id)
+        {
+            var client = await repo.GetByIdAsync<Constructor>(id);
+
+            client.IsActive = false;
+            await repo.SaveChangesAsync();
         }
     }
 }

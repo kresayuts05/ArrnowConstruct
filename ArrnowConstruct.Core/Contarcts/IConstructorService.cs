@@ -16,7 +16,9 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<bool> ExistsById(string userId);
 
-        Task<int> GetConstructorId(string userId); 
+        Task<int> GetConstructorId(string userId);
+
+        Task DisactivateConstructor(int id);
 
         Task<string> GetConstructorEmail(int constructorId);
 

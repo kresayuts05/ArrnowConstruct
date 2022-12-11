@@ -57,9 +57,8 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<IEnumerable<PostViewModel>> AllPostsByConstructor(int id)
         {
-
             var posts = await repo.All<Post>()
-                 .Where(p => p.Site.ConstructorId == id && p.IsActive == true)
+                 .Where(p => p.Site.ConstructorId == id && p.IsActive == true && p.Site.Constructor.IsActive == true)
                   .OrderByDescending(p => p.Id)
                  .Select(p => new PostViewModel
                  {
@@ -94,7 +93,7 @@ namespace ArrnowConstruct.Core.Services
         {
             var post = await repo.AllReadonly<Post>()
                     .Where(p => p.IsActive)
-                    .Where(p => p.Id == id)
+                    .Where(p => p.Id == id && p.Site.Constructor.IsActive == true)
                     .Select(p => new PostViewModel()
                     {
                         Id = p.Id,
@@ -115,7 +114,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<Post>()
-                .AnyAsync(p => p.Id == id && p.IsActive == true);
+                .AnyAsync(p => p.Id == id && p.IsActive == true && p.Site.Constructor.IsActive == true);
         }
 
         public async Task Edit(int postId, PostFormViewModel model)
@@ -161,7 +160,7 @@ namespace ArrnowConstruct.Core.Services
             var constructorId = await constructorService.GetConstructorId(userId);
 
             return await repo.All<Post>()
-                .Where(p => p.Site.ConstructorId == constructorId && p.IsActive == true)
+                .Where(p => p.Site.ConstructorId == constructorId && p.IsActive == true && p.Site.Constructor.IsActive == true)
                 .OrderByDescending(p => p.Id)
                 .Select(p => p.Id)
                 .ToListAsync();
@@ -170,7 +169,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<IEnumerable<PostViewModel>> GetSixNewestPosts()
         {
             return await repo.All<Post>()
-                .Where(p => p.IsActive == true)
+                .Where(p => p.IsActive == true && p.Site.Constructor.IsActive == true)
                 .OrderByDescending(p => p.CreatedOn)
                 .Select(p => new PostViewModel()
                 {

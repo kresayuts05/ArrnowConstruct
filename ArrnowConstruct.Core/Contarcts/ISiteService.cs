@@ -21,5 +21,7 @@ namespace ArrnowConstruct.Core.Contarcts
         Task<SiteViewModel> SiteById(int id);
 
         Task<bool> Exists(int id);
+
+        Task Delete(int id);
     }
 }

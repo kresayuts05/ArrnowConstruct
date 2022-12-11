@@ -67,10 +67,10 @@ namespace ArrnowConstruct.Core.Services
 
         }
 
-        public async Task<IEnumerable<UserModel>> AllUsers()
+        public async Task<IEnumerable<UserModel>> AllUsers(string id)
         {
             return await repo.All<User>()
-                .Where(u => u.IsActive == true)
+                .Where(u => u.IsActive == true && u.Id != id)
                 .Select(user => new UserModel()
                 {
                     Id = user.Id,

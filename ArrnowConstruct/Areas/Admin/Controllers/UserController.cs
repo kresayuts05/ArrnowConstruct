@@ -37,7 +37,7 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
 
         public async Task<IActionResult> All()
         {
-            var model = await userService.AllUsers();
+            var model = await userService.AllUsers(this.User.Id());
 
             return View(model);
         }
@@ -87,7 +87,7 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("All", "Admin");
+                return RedirectToAction("All", "User");
             }
 
             foreach (var item in result.Errors)
@@ -119,6 +119,18 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(UserDeleteViewModel model)
         {
             await userService.Delete(model.Id);
+
+            if(await constructorService.ExistsById(model.Id))
+            {
+                var id = await constructorService.GetConstructorId(model.Id);
+                await constructorService.DisactivateConstructor(id);
+            }
+            else
+            {
+
+                var id = await clientService.GetClientId(model.Id);
+                await clientService.DisactivateClient(id);
+            }
 
             return RedirectToAction("All", "User");
         }

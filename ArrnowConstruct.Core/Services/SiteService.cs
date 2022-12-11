@@ -37,7 +37,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<IEnumerable<SiteViewModel>> AllSitesByConstructorId(int id)
         {
             return await repo.All<Site>()
-               .Where(s => s.ConstructorId == id)
+               .Where(s => s.ConstructorId == id && s.Status != SiteStatusEnum.Disactivated.ToString())
                 .OrderByDescending(s => s.Id)
                .Select(s => new SiteViewModel
                {
@@ -102,7 +102,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<SiteViewModel> SiteById(int id)
         {
             var request = await repo.All<Site>()
-             .Where(s => s.Id == id)
+             .Where(s => s.Id == id && s.Status != SiteStatusEnum.Disactivated.ToString())
              .Select(s => new SiteViewModel()
              {
                  RoomsCount = s.RoomsCount,
@@ -145,6 +145,14 @@ namespace ArrnowConstruct.Core.Services
 
             site.ToDate = DateTime.ParseExact(model.ToDate, "yyyy-MM-dd", CultureInfo.CurrentCulture);
             site.Status = SiteStatusEnum.Finished.ToString();
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            var site = await repo.GetByIdAsync<Site>(id);
+            site.Status = SiteStatusEnum.Disactivated.ToString();
 
             await repo.SaveChangesAsync();
         }
