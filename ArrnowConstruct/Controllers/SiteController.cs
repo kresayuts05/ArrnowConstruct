@@ -16,7 +16,7 @@ namespace ArrnowConstruct.Controllers
            IConstructorService _constructorService,
            ISiteService _siteService)
         {
-            requestService = _requestService; 
+            requestService = _requestService;
             constructorService = _constructorService;
             siteService = _siteService;
         }
@@ -47,6 +47,7 @@ namespace ArrnowConstruct.Controllers
             var site = await siteService.SiteById(id);
             var model = new SiteViewModel()
             {
+                FromDate = site.FromDate,
                 Client = site.Client,
                 Constructor = site.Constructor
             };
@@ -67,7 +68,13 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToPage(nameof(Mine));
             }
 
-            await siteService.Finish(id);
+            if (DateTime.Compare(DateTime.Parse(model.FromDate), DateTime.Parse(model.ToDate)) > 0)
+            {
+                ModelState.AddModelError(nameof(model.ToDate), "The chosen date should be after the starting date of the site!");
+                return View(model);
+            }
+
+            await siteService.Finish(id, model);
 
             return RedirectToAction(nameof(Mine));
         }

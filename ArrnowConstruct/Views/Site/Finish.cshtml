@@ -8,19 +8,29 @@
 <hr />
 
 <form asp-action="Finish">
+    <input type="hidden" asp-for="FromDate" />
     <div class="row  align-items-center justify-content-center">
         <div class="col-md-6 ">
             <div class="form-group mt-2">
                 <label asp-for="Client.User.Address" class="control-label mb-1"><b>Address</b></label>
                 <input asp-for="Client.User.Address" class="form-control" disabled="disabled" />
+                <input type="hidden" asp-for="Client.User.Address" />
             </div>
             <div class="form-group mt-2">
                 <label asp-for="Client.User.Email" class="control-label mb-1"><b>Client's Email</b></label>
                 <input asp-for="Client.User.Email" class="form-control" disabled="disabled" />
+                <input type="hidden" asp-for="Client.User.Email" />
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="ToDate" class="form-label"><b>Finished on</b></label>
+                <input asp-for="ToDate" class="form-control" aria-required="true" type="date" />
+                <span asp-validation-for="ToDate" class="text-danger"></span>
             </div>
             <br>
+
             <div class="form-group  text-center">
                 <input type="submit" value="Finish" class="btn btn-purple" />
+                <a asp-controller="Site" asp-action="Mine" class="ml-2 btn btn-secondary">Cancel</a>
             </div>
         </div>
     </div>

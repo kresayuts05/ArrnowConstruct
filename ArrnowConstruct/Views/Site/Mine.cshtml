@@ -29,21 +29,21 @@
                         <p>Rooms Count: <b>@(model.RoomsCount)</b></p>
                         <p>Room Categories:<b>@(string.Join(", ", model.RoomsTypes))</b> </p>
                         <p>Area: <b>@(model.Area)</b></p>
-                        <p>Starts from date: <b>@(model.FromDate)</b></p>
-                        <p>Is Expected to be finished to date: <b>@(model.ToDate)</b></p>
                         <p>Client: <b>@(model.Client.User.Email)</b></p>
-                        <br />
-                        @* <a asp-controller="Request" asp-action="Details" asp-route-id="@Model.Id"
-                            class="btn btn-success">Details</a>*@
+                        <p>Starts from date: <b>@(model.FromDate)</b></p>
                         @if (model.Status == "InProcess")
                         {
-                                <a asp-controller="Site" asp-action="Finish" asp-route-id="@(model.Id)"
+                            <p>Is Expected to be finished to date: <b>@(model.ToDate)</b></p>
+                            <br />
+                            <a asp-controller="Site" asp-action="Finish" asp-route-id="@(model.Id)"
                    class="btn btn-purple">Finish</a>
 
                         }
-                        else if(model.Status == "Finished")
+                        else if (model.Status == "Finished")
                         {
-                             <a asp-controller="Post" asp-action="Create" asp-route-id="@(model.Id)"
+                            <p>Finished on date: <b>@(model.ToDate)</b></p>
+                            <br />
+                            <a asp-controller="Post" asp-action="Create" asp-route-id="@(model.Id)"
                    class="btn btn-purple">Post</a>
                         }
 

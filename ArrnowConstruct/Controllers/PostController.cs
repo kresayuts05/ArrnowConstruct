@@ -67,7 +67,7 @@ namespace ArrnowConstruct.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> PostsByConstructor(string id)
+        public async Task<IActionResult> PostsByUserId(string id)
         {
             var constructorId = await constructorService.GetConstructorId(id);
             IEnumerable<PostViewModel> myPosts = await postService.AllPostsByConstructor(constructorId);
@@ -75,6 +75,13 @@ namespace ArrnowConstruct.Controllers
             return View("Mine", myPosts);
         }
 
+        [AllowAnonymous]
+        public async Task<IActionResult> PostsByConstructorId(int id)
+        {
+            IEnumerable<PostViewModel> myPosts = await postService.AllPostsByConstructor(id);
+
+            return View("Mine", myPosts);
+        }
 
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)

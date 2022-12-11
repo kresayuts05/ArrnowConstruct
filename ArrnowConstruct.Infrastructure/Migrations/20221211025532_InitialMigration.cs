@@ -34,6 +34,7 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                     Country = table.Column<string>(type: "nvarchar(56)", maxLength: 56, nullable: false),
                     City = table.Column<string>(type: "nvarchar(169)", maxLength: 169, nullable: false),
                     ProfilePictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
@@ -372,6 +373,62 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "25f73449-f9e8-40b4-87ee-93fc6c242339", "d00e2ae7-d0e6-44b5-bb9c-a14829b8e9f5", "Client", "CLIENT" },
+                    { "4033acf9-98f0-49e3-aafc-fd4fcb71c67e", "2cb05372-971f-482a-b4d6-92d843017d7c", "Administrator", "ADMINISTRATOR" },
+                    { "eed2d778-89cf-4c3c-a710-c8d61811f4c7", "55dbc907-0d01-4fb9-91e3-a87a41fe115f", "Constructor", "CONSTRUCTOR" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePictureUrl", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "7125d323-7567-4f56-b27e-6b7044014a37", 0, "Petko DePetkov 71", "Kazanlak", "08706ac5-071e-404b-95a1-632944463670", "Bulgaria", "angel@mail.com", false, "Angel", true, "Momov", false, null, "ANGEL@MAIL.COM", "ANGEL", "AQAAAAEAACcQAAAAEM2N0LbL+bjTM0xouf6KIZ/iL7Bx3H5oLQHqoaCi01BwWrBXzG1YwAShiZMeveKRew==", "0888791001", false, "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp", "3021fe60-4c52-4a10-b7bd-7d4a49f9db54", false, "angel" },
+                    { "ae724eb3-355b-48dd-bdaa-c1eaccf666c5", 0, "Edelvais 6 ", "Kazanlak", "66b005fd-a1c5-4521-8293-ba429fb6762f", "Bulgaria", "kresa@mail.com", false, "Kresa", true, "Tsvetkova", false, null, "KRESA@MAIL.COM", "KRESA", "AQAAAAEAACcQAAAAEDvrWpbG/kaQDCTGL55DKBdyGbniKPvgC+7kj3/ptXERPI6oQ6hnpiMRjj2m8ylY3w==", "0886121260", false, null, "2638aceb-d565-4e65-9444-bc3e925fe9d1", false, "kresa" },
+                    { "babdaf39-3545-48e1-877e-13d4bb4d597f", 0, "Graf Ignatiev 6 ", "Kazanlak", "e169b4fb-329d-4c84-9891-bfc7961ba95c", "Bulgaria", "nikol@mail.com", false, "Nikol", true, "Grueva", false, null, "NIKOL@MAIL.COM", "NIKOL", "AQAAAAEAACcQAAAAEP4h5v5JlRFlTX21GKphjdpzB6XtLKFt0IzBY2DSzAnqDWo22l+VX2LOdhcB60UilQ==", "0886121261", false, null, "ad9214c1-0b80-4c3f-96fe-fa7f87eb2579", false, "nikol" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Kitchen" },
+                    { 2, "Bathroom" },
+                    { 3, "Bedroom" },
+                    { 4, "LivingRoom" },
+                    { 5, "DiningRoom" },
+                    { 6, "Hall" },
+                    { 7, "Office" },
+                    { 8, "GameRoom" },
+                    { 9, "Pantry" },
+                    { 10, "Toilet" },
+                    { 11, "UtilityRoom" },
+                    { 12, "SpareRoom" },
+                    { 13, "Cellar" },
+                    { 14, "Attic" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "4033acf9-98f0-49e3-aafc-fd4fcb71c67e", "ae724eb3-355b-48dd-bdaa-c1eaccf666c5" });
+
+            migrationBuilder.InsertData(
+                table: "Clients",
+                columns: new[] { "Id", "IsActive", "UserId" },
+                values: new object[] { 1, true, "ae724eb3-355b-48dd-bdaa-c1eaccf666c5" });
+
+            migrationBuilder.InsertData(
+                table: "Constructors",
+                columns: new[] { "Id", "IsActive", "Salary", "UserId" },
+                values: new object[] { 1, true, 1500m, "7125d323-7567-4f56-b27e-6b7044014a37" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

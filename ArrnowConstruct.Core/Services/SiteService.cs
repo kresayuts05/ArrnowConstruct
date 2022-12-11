@@ -38,6 +38,7 @@ namespace ArrnowConstruct.Core.Services
         {
             return await repo.All<Site>()
                .Where(s => s.ConstructorId == id)
+                .OrderByDescending(s => s.Id)
                .Select(s => new SiteViewModel
                {
                    Id = s.Id,
@@ -138,10 +139,11 @@ namespace ArrnowConstruct.Core.Services
                 .AnyAsync(s => s.Id == id);
         }
 
-        public async Task Finish(int siteId)
+        public async Task Finish(int siteId, SiteViewModel model)
         {
             var site = await repo.GetByIdAsync<Site>(siteId);
 
+            site.ToDate = DateTime.ParseExact(model.ToDate, "yyyy-MM-dd", CultureInfo.CurrentCulture);
             site.Status = SiteStatusEnum.Finished.ToString();
 
             await repo.SaveChangesAsync();

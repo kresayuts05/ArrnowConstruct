@@ -28,7 +28,7 @@ namespace ArrnowConstruct.Core.Services
             IClientService _clientService)
         {
             repo = _repo;
-            categoryService = _categoryService;
+            categoryService = _categoryService; 
             constructorService = _constructorService;
             clientService = _clientService;
         }
@@ -40,6 +40,7 @@ namespace ArrnowConstruct.Core.Services
             return await repo.All<Request>()
                 .Where(r => r.IsActive == true)
                 .Where(r => r.ClientId == id)
+                .OrderByDescending(r => r.Id)
                 .Select(r => new RequestViewModel
                 {
                     Id = r.Id,
@@ -79,6 +80,7 @@ namespace ArrnowConstruct.Core.Services
             return await repo.All<Request>()
                 .Where(r => r.IsActive == true && r.Status == "Waiting")
                 .Where(r => r.ConstructorId == id)
+                .OrderByDescending(r => r.Id)
                 .Select(r => new RequestViewModel
                 {
                     Id = r.Id,

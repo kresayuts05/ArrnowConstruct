@@ -26,6 +26,11 @@ namespace ArrnowConstruct.Core.Services
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
+            //if (!user.IsActive)
+            //{
+            //    throw new ArgumentException(GlobalExceptions.UserNotHasPermission);
+            //}
+
             var userModel = new UserModel()
             {
                 Id = user.Id,
@@ -60,6 +65,34 @@ namespace ArrnowConstruct.Core.Services
                 })
                 .FirstAsync();
 
+        }
+
+        public async Task<IEnumerable<UserModel>> AllUsers()
+        {
+            return await repo.All<User>()
+                .Where(u => u.IsActive == true)
+                .Select(user => new UserModel()
+                {
+                    Id = user.Id,
+                    Address = user.Address,
+                    City = user.City,
+                    Country = user.Country,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Phone = user.PhoneNumber,
+                    ProfilePictureUrl = user.ProfilePictureUrl
+                })
+                .ToListAsync();
+        }
+
+        public async Task Delete(string userId)
+        {
+            var user = await repo.GetByIdAsync<User>(userId);
+
+            user.IsActive = false;
+
+          await  repo.SaveChangesAsync();
         }
     }
 }

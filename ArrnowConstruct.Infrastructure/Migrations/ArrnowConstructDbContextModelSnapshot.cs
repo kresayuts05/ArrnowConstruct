@@ -370,6 +370,9 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -431,19 +434,20 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Graf Ignatiev 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "7a0919db-1188-44c6-90e2-185881d3211f",
+                            ConcurrencyStamp = "e169b4fb-329d-4c84-9891-bfc7961ba95c",
                             Country = "Bulgaria",
                             Email = "nikol@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Nikol",
+                            IsActive = true,
                             LastName = "Grueva",
                             LockoutEnabled = false,
                             NormalizedEmail = "NIKOL@MAIL.COM",
                             NormalizedUserName = "NIKOL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPzltgqeiRtoA+D1FdB1CeDojVE4KVtxv+R0ci6B1ahmNq43HeIfgoD70U4Mg38QHw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP4h5v5JlRFlTX21GKphjdpzB6XtLKFt0IzBY2DSzAnqDWo22l+VX2LOdhcB60UilQ==",
                             PhoneNumber = "0886121261",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3c1ae5df-1bf7-4d75-bfd2-ae27bf05cbf7",
+                            SecurityStamp = "ad9214c1-0b80-4c3f-96fe-fa7f87eb2579",
                             TwoFactorEnabled = false,
                             UserName = "nikol"
                         },
@@ -453,19 +457,20 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Edelvais 6 ",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "5b6e0b97-beb5-4da5-852b-e8c755ecf578",
+                            ConcurrencyStamp = "66b005fd-a1c5-4521-8293-ba429fb6762f",
                             Country = "Bulgaria",
                             Email = "kresa@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Kresa",
+                            IsActive = true,
                             LastName = "Tsvetkova",
                             LockoutEnabled = false,
                             NormalizedEmail = "KRESA@MAIL.COM",
                             NormalizedUserName = "KRESA",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC/fEptuqolGkhwUqzi0k5wq9zV5+Q7htPvZ0zDCjqJ2Vg1Gq+glTmfirgcqaSW8Lg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDvrWpbG/kaQDCTGL55DKBdyGbniKPvgC+7kj3/ptXERPI6oQ6hnpiMRjj2m8ylY3w==",
                             PhoneNumber = "0886121260",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "28988677-ba4b-41f1-b106-c8d9043fb506",
+                            SecurityStamp = "2638aceb-d565-4e65-9444-bc3e925fe9d1",
                             TwoFactorEnabled = false,
                             UserName = "kresa"
                         },
@@ -475,20 +480,21 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                             AccessFailedCount = 0,
                             Address = "Petko DePetkov 71",
                             City = "Kazanlak",
-                            ConcurrencyStamp = "f45b9940-2aa5-4e7d-8854-b712c665d1ab",
+                            ConcurrencyStamp = "08706ac5-071e-404b-95a1-632944463670",
                             Country = "Bulgaria",
                             Email = "angel@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Angel",
+                            IsActive = true,
                             LastName = "Momov",
                             LockoutEnabled = false,
                             NormalizedEmail = "ANGEL@MAIL.COM",
                             NormalizedUserName = "ANGEL",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMgqoTboxsKW9Nwjbtch4rx0BUdLnsh1+zFdQiiefhslSL5AsREHF+QHkWAd8yjnaw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM2N0LbL+bjTM0xouf6KIZ/iL7Bx3H5oLQHqoaCi01BwWrBXzG1YwAShiZMeveKRew==",
                             PhoneNumber = "0888791001",
                             PhoneNumberConfirmed = false,
                             ProfilePictureUrl = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp",
-                            SecurityStamp = "24e31a61-edf3-4a15-97fa-25555120b94c",
+                            SecurityStamp = "3021fe60-4c52-4a10-b7bd-7d4a49f9db54",
                             TwoFactorEnabled = false,
                             UserName = "angel"
                         });
@@ -554,21 +560,21 @@ namespace ArrnowConstruct.Infrastructure.Migrations
                         new
                         {
                             Id = "4033acf9-98f0-49e3-aafc-fd4fcb71c67e",
-                            ConcurrencyStamp = "fcfcf702-c322-4c63-a0c8-0e606578af8e",
+                            ConcurrencyStamp = "2cb05372-971f-482a-b4d6-92d843017d7c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "25f73449-f9e8-40b4-87ee-93fc6c242339",
-                            ConcurrencyStamp = "12b2c605-6d99-4d9f-8355-6f6b38407c5d",
+                            ConcurrencyStamp = "d00e2ae7-d0e6-44b5-bb9c-a14829b8e9f5",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = "eed2d778-89cf-4c3c-a710-c8d61811f4c7",
-                            ConcurrencyStamp = "35465e75-b5e3-4a90-9ab1-6e3f09bf6f78",
+                            ConcurrencyStamp = "55dbc907-0d01-4fb9-91e3-a87a41fe115f",
                             Name = "Constructor",
                             NormalizedName = "CONSTRUCTOR"
                         });

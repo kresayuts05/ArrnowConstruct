@@ -19,8 +19,10 @@
                 <input asp-for="Constructor.User.Email" class="form-control" disabled="disabled" />
             </div>
             <br>
+
             <div class="form-group  text-center">
                 <input type="submit" value="Delete" class="btn btn-danger" />
+                <a asp-controller="Request" asp-action="Mine" class="ml-2 btn btn-secondary">Cancel</a>
             </div>
         </div>
     </div>

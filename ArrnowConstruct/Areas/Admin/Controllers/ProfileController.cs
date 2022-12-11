@@ -1,4 +1,5 @@
-﻿using ArrnowConstruct.Core.Contarcts;
+﻿using ArrnowConstruct.Core.Constants;
+using ArrnowConstruct.Core.Contarcts;
 using ArrnowConstruct.Core.Models.Profile;
 using ArrnowConstruct.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +27,18 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
         public async Task<IActionResult> MyProfile()
         {
             var myProfile = await profileService.MyProfile(User.Id());
+            myProfile.Role = RoleConstants.Administrator;
 
-            return View(myProfile);
+            return View("MyProfile", myProfile);
+        }
+
+
+        public async Task<IActionResult> AnothersProfile([FromRoute] string id)
+        {
+            var myProfile = await profileService.MyProfile(id);
+            myProfile.Role = RoleConstants.Client;//
+
+            return View("MyProfile", myProfile);
         }
 
         [HttpGet]

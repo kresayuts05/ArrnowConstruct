@@ -1,5 +1,6 @@
 ﻿using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Infrastructure.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace ArrnowConstruct.Core.Models.Site
 {
@@ -13,6 +14,7 @@ namespace ArrnowConstruct.Core.Models.Site
 
         public string FromDate { get; set; }
 
+        [Required]
         public string ToDate { get; set; }
 
         public decimal Price { get; set; }

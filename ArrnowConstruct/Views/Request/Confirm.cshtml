@@ -11,29 +11,31 @@
     <input type="hidden" asp-for="RequiredDate" />
     <div class="row  align-items-center justify-content-center">
         <div class="col-md-6 ">
-             <div class="form-group mt-2">
-                  <label asp-for="FromDate" class="form-label"><b>From Date</b></label>
-                <input asp-for="FromDate" class="form-control" aria-required="true" type="date"/>
+            <div class="form-group mt-2">
+                <label asp-for="FromDate" class="form-label"><b>From Date</b></label>
+                <input asp-for="FromDate" class="form-control" aria-required="true" type="date" />
                 <span asp-validation-for="FromDate" class="text-danger"></span>
             </div>
             <div class="form-group mt-2">
-                  <label asp-for="ToDate" class="form-label"><b>To Date</b></label>
-                <input asp-for="ToDate" class="form-control" aria-required="true" type="date"/>
+                <label asp-for="ToDate" class="form-label"><b>To Date</b></label>
+                <input asp-for="ToDate" class="form-control" aria-required="true" type="date" />
                 <span asp-validation-for="ToDate" class="text-danger"></span>
             </div>
             <div class="form-group mt-2">
-                  <label asp-for="Price" class="form-label"><b>Total Price</b></label>
+                <label asp-for="Price" class="form-label"><b>Total Price</b></label>
                 <input asp-for="Price" class="form-control" aria-required="true" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <br>
+
             <div class="form-group  text-center">
                 <input type="submit" value="Confirm" class="btn btn-success" />
+                <a asp-controller="Request" asp-action="Mine" class="ml-2 btn btn-secondary">Cancel</a>
             </div>
         </div>
     </div>
 </form>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 }

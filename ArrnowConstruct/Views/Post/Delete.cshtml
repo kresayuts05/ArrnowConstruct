@@ -18,14 +18,15 @@
                 <label asp-for="ShortContent" class="control-label mb-1"><b>Short Content</b></label>
                 <input asp-for="ShortContent" class="form-control" disabled="disabled" />
             </div>
-             <div class="form-group mt-2">
+            <div class="form-group mt-2">
                 <label asp-for="CreatedOn" class="control-label mb-1"><b>Created on</b></label>
                 <input asp-for="CreatedOn" class="form-control" disabled="disabled" />
             </div>
             <br>
-            <div class="form-group  text-center">
-                <input type="submit" value="Delete" class="btn btn-danger" />
-            </div>
+                <div class="form-group  text-center">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                <a asp-controller="Post" asp-action="Mine" class="ml-2 btn btn-secondary">Cancel</a>
+                </div>
         </div>
     </div>
 </form>

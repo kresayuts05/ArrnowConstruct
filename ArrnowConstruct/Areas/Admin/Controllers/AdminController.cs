@@ -24,16 +24,7 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = await postService.GetSixNewestPosts();
-
-            return View("Index", model);
-        }
-
-        public async Task<IActionResult> All()
-        {
-            var model = await clientService.GetAllClients(this.User.Id());
-
-            return View(model);
+            return View();
         }
 
         public async Task<IActionResult> Contacts()

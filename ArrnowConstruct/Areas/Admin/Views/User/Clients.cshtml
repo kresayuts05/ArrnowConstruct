@@ -1,0 +1,48 @@
+﻿@model List<UserModel>
+
+@{
+    ViewBag.Title = "All clients";
+
+    var modelGroups = Model
+               .Select((x, i) => new { Index = i, Value = x })
+               .GroupBy(x => x.Index / 100)
+               .Select(x => x.Select(v => v.Value).ToList())
+               .ToList();
+}
+
+<h1 class="text-center">@ViewBag.Title</h1>
+<br>
+<div class="">
+    @foreach (var modelGroup in modelGroups)
+    {
+        <div class="row">
+            @foreach (var model in modelGroup)
+            {
+                <div class="card mb-3 col-md-4">
+                    <div class="card-body text-center">
+                        <div class="mb-5"></div>
+                        <div class="image-container">
+                            <img class="d-block w-100" style="height:400px" src="@(model.ProfilePictureUrl)" alt="image">
+                        </div>
+                        <h2>@(model.FirstName + " " + model.LastName)</h2>
+
+                        <br />
+                        <p>Email: <b>@(model.Email)</b></p>
+                        <p>Address: <b>@(model.Address)</b></p>
+                        <p>Phone: <b>@(model.Phone)</b></p>
+                        <p>City: <b>@(model.City)</b></p>
+                        <p>Country: <b>@(model.Country)</b></p>
+
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <a asp-controller="User"  asp-area ="Admin" asp-action="Approve" asp-route-id="@(model.Id)" class="btn btn-success">Approve</a>
+                            <a asp-controller="Profile"  asp-area ="Admin" asp-action="AnothersProfile" asp-route-id="@(model.Id)" class="btn btn-purple">Profile</a>
+                        }
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+</div>

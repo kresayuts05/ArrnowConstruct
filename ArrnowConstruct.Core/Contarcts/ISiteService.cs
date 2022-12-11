@@ -14,7 +14,7 @@ namespace ArrnowConstruct.Core.Contarcts
 
         Task<IEnumerable<SiteViewModel>> AllSitesByConstructorId(int id);
 
-        Task Finish(int siteId);
+        Task Finish(int siteId, SiteViewModel model);
 
         Task<string> GetStatus(int siteId);
 

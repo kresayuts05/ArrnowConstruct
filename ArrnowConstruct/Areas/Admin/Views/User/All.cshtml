@@ -35,8 +35,8 @@
 
                         @if (this.User.Identity.IsAuthenticated)
                         {
-                            <a asp-controller="Constructor"  asp-area ="Admin" asp-action="Approve" asp-route-id="@(model.Id)" class="btn btn-secondary">Approve</a>
-                            <a asp-controller="Profile"  asp-area ="" asp-action="AnothersProfile" asp-route-id="@(model.Id)" class="btn btn-secondary">Profile</a>
+                            <a asp-controller="User"  asp-area ="Admin" asp-action="Delete" asp-route-id="@(model.Id)" class="btn btn-danger">Delete</a>
+                            <a asp-controller="Profile"  asp-area ="Admin" asp-action="AnothersProfile" asp-route-id="@(model.Id)" class="btn btn-purple">Profile</a>
                         }
 
                     </div>

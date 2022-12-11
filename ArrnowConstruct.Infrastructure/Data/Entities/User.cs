@@ -12,6 +12,11 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
     public class User : IdentityUser
     {
+        public User()
+        {
+            IsActive = true;
+        }
+
         [Required]
         [MaxLength(FirstNameMaxLength)]
         public string FirstName { get; set; }
@@ -33,5 +38,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         public string City { get; set; }
 
         public string? ProfilePictureUrl { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

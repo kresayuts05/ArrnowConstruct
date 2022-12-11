@@ -1,0 +1,39 @@
+﻿@model UserDeleteViewModel
+
+@{
+    ViewBag.Title = "Delete User";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<form asp-action="Delete">
+    
+    <input type="hidden" asp-for="Id" />
+    <div class="row  align-items-center justify-content-center">
+        <div class="col-md-6 ">
+            <div class="form-group mt-2">
+                <label asp-for="FullName" class="control-label mb-1"><b>Full Name</b></label>
+                <input asp-for="FullName" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="Email" class="control-label mb-1"><b>Email</b></label>
+                <input asp-for="Email" class="form-control" disabled="disabled" />
+            </div>
+             <div class="form-group mt-2">
+                <label asp-for="Phone" class="control-label mb-1"><b>Phone</b></label>
+                <input asp-for="Phone" class="form-control" disabled="disabled" />
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="Address" class="control-label mb-1"><b>Address</b></label>
+                <input asp-for="Address" class="form-control" disabled="disabled" />
+            </div>
+            <br>
+
+            <div class="form-group  text-center">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                  <a asp-controller="User"  asp-area ="Admin" asp-action="All" class="ml-2 btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>

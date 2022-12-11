@@ -71,12 +71,11 @@
                     {
                         <a class="btn btn-purple" asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                         <a class="ml-2 btn btn-danger" asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-                    }@*
+                    }
                     else
                     {
-                        <a class="btn btn-warning" asp-controller="Post" asp-action="Like" asp-route-id="@Model.Id">Like</a>
-                        <a class="btn btn-warning" asp-controller="Post" asp-action="Comment" asp-route-id="@Model.Id">Comment</a>
-                    }*@
+                        <a asp-controller="Post" asp-action="PostsByConstructorId" asp-route-id = "@Model.Site.Constructor.ConstructorId" class="btn btn-secondary">Back</a>
+                    }
                 }
             </div>
         </div>

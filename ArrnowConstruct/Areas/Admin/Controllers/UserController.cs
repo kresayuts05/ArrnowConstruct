@@ -2,13 +2,14 @@
 using ArrnowConstruct.Core.Constants;
 using ArrnowConstruct.Core.Contarcts;
 using ArrnowConstruct.Core.Models.User;
+using ArrnowConstruct.Extensions;
 using ArrnowConstruct.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArrnowConstruct.Areas.Admin.Controllers
 {
-    public class ConstructorController : BaseController
+    public class UserController : BaseController
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
@@ -17,7 +18,7 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
         private readonly IConstructorService constructorService;
         private readonly IClientService clientService;
 
-        public ConstructorController(
+        public UserController(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
             RoleManager<IdentityRole> _roleManager,
@@ -32,6 +33,22 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
             constructorService = _constructorService;
             clientService = _clientService;
         }
+
+
+        public async Task<IActionResult> All()
+        {
+            var model = await userService.AllUsers();
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Clients()
+        {
+            var model = await clientService.GetAllClients(this.User.Id());
+
+            return View(model);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> Approve(string id)
@@ -52,16 +69,6 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Approve(ConstructorApproveViewModel model)
         {
-            //var userInfo = await userService.GetUserById(model.User.Id);
-
-            //model.User.Phone = userInfo.Phone;
-            //model.User.ProfilePictureUrl = userInfo.ProfilePictureUrl;
-            //model.User.Address = userInfo.Address;
-            //model.User.City = userInfo.City;
-            //model.User.Country = userInfo.Country;
-            //model.User.Email = userInfo.Email;
-            //model.User.FirstName = userInfo.FirstName;
-            //model.User.LastName = userInfo.LastName;
 
             if (!ModelState.IsValid)
             {
@@ -89,6 +96,31 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await userService.GetUserById(id);
+
+            var model = new UserDeleteViewModel()
+            {
+                Id = id,
+                FullName = user.FirstName + " " + user.LastName,
+                Phone = user.Phone,
+                Address = user.Address,
+                Email = user.Email
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(UserDeleteViewModel model)
+        {
+            await userService.Delete(model.Id);
+
+            return RedirectToAction("All", "User");
         }
     }
 }

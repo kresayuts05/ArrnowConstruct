@@ -287,7 +287,7 @@ namespace ArrnowConstruct.Controllers
             {
                 ModelState.AddModelError(nameof(model.FromDate), "The chosen date should be after the required one from the client!");
             }
-            if (DateTime.Compare(DateTime.Parse(model.FromDate), DateTime.ParseExact(model.RequiredDate, "yyyy-MM-dd", CultureInfo.CurrentCulture)) > 0)
+            if (DateTime.Compare(DateTime.Parse(model.FromDate), DateTime.ParseExact(model.ToDate, "yyyy-MM-dd", CultureInfo.CurrentCulture)) > 0)
             {
                 ModelState.AddModelError(nameof(model.ToDate), "The chosen date should be after the starting date!");
             }

@@ -13,5 +13,9 @@ namespace ArrnowConstruct.Core.Contarcts
         Task<UserModel> GetUserById(string userId);
 
         Task<UserModel> GetAdministrator();
+
+        Task<IEnumerable<UserModel>> AllUsers();
+
+        Task Delete(string userId);
     }
 }

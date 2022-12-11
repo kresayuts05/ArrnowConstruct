@@ -60,6 +60,7 @@ namespace ArrnowConstruct.Core.Services
 
             var posts = await repo.All<Post>()
                  .Where(p => p.Site.ConstructorId == id && p.IsActive == true)
+                  .OrderByDescending(p => p.Id)
                  .Select(p => new PostViewModel
                  {
                      Id = p.Id,
@@ -69,7 +70,14 @@ namespace ArrnowConstruct.Core.Services
                      Title = p.Title,
                      Likes = p.Likes,
                      Images = p.Image.Where(i => i.IsActive == true).Select(i => i.UrlPath).ToList(),
-                     Site = new SiteViewModel() { Id = p.Site.Id }
+                     Site = new SiteViewModel()
+                     {
+                         Id = p.Site.Id,
+                         Constructor = new ConstructorModel()
+                         {
+                             ConstructorId = p.Site.ConstructorId
+                         }
+                     }
                  })
                  .ToListAsync();
 
@@ -154,6 +162,7 @@ namespace ArrnowConstruct.Core.Services
 
             return await repo.All<Post>()
                 .Where(p => p.Site.ConstructorId == constructorId && p.IsActive == true)
+                .OrderByDescending(p => p.Id)
                 .Select(p => p.Id)
                 .ToListAsync();
         }

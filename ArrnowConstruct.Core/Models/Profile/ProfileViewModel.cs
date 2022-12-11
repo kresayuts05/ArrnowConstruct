@@ -36,5 +36,7 @@ namespace ArrnowConstruct.Core.Models.Profile
 
         public bool IsConstructor { get; set; }
 
+        public string Role { get; set; }
+
     }
 }
