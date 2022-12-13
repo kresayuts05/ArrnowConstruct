@@ -1,10 +1,13 @@
-﻿using ArrnowConstruct.Core.Contarcts;
+﻿using ArrnowConstruct.Core.Constants;
+using ArrnowConstruct.Core.Contarcts;
 using ArrnowConstruct.Core.Models.Site;
 using ArrnowConstruct.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArrnowConstruct.Controllers
 {
+    [Authorize(Roles = RoleConstants.Constructor)]
     public class SiteController : BaseController
     {
         private readonly IRequestService requestService;
@@ -25,10 +28,20 @@ namespace ArrnowConstruct.Controllers
         {
             var userId = User.Id();
 
-            int constructorId = await constructorService.GetConstructorId(userId);
-            IEnumerable<SiteViewModel> mySites = await siteService.AllSitesByConstructorId(constructorId);
+            try
+            {
+                int constructorId = await constructorService.GetConstructorId(userId);
+                IEnumerable<SiteViewModel> mySites = await siteService.AllSitesByConstructorId(constructorId);
 
-            return View(mySites);
+                return View(mySites);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home");
+            }
+
         }
 
         [HttpGet]
@@ -44,15 +57,25 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToPage(nameof(Mine));
             }
 
-            var site = await siteService.SiteById(id);
-            var model = new SiteViewModel()
+            try
             {
-                FromDate = site.FromDate,
-                Client = site.Client,
-                Constructor = site.Constructor
-            };
+                var site = await siteService.SiteById(id);
+                var model = new SiteViewModel()
+                {
+                    FromDate = site.FromDate,
+                    Client = site.Client,
+                    Constructor = site.Constructor
+                };
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Site");
+            }
+                    
         }
 
         [HttpPost]
@@ -74,9 +97,18 @@ namespace ArrnowConstruct.Controllers
                 return View(model);
             }
 
-            await siteService.Finish(id, model);
+            try
+            {
+                await siteService.Finish(id, model);
 
-            return RedirectToAction(nameof(Mine));
+                return RedirectToAction(nameof(Mine));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Site");
+            }
         }
     }
 }

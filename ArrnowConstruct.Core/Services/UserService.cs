@@ -94,5 +94,14 @@ namespace ArrnowConstruct.Core.Services
 
           await  repo.SaveChangesAsync();
         }
+
+        public async Task<bool> UserByEmailExists(string email)
+        {
+            var user = await repo.All<User>()
+                .Where(u => u.Email == email)
+                .FirstAsync();
+
+            return user != null;
+        }
     }
 }

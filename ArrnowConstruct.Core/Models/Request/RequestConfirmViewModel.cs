@@ -11,11 +11,8 @@ namespace ArrnowConstruct.Core.Models.Request
 {
     public class RequestConfirmViewModel
     {
-    //    [Required]
-    //    public int Id { get; set; }
 
         [Required]
-        [DateLessThan("ToDate")]
         public string FromDate { get; set; }
 
         [Required]

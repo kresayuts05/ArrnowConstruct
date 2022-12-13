@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Exceptions;
 using ArrnowConstruct.Core.Models.Request;
 using ArrnowConstruct.Core.Models.Site;
 using ArrnowConstruct.Core.Models.User;
@@ -105,6 +106,7 @@ namespace ArrnowConstruct.Core.Services
              .Where(s => s.Id == id && s.Status != SiteStatusEnum.Disactivated.ToString())
              .Select(s => new SiteViewModel()
              {
+                 Id = s.Id,
                  RoomsCount = s.RoomsCount,
                  Area = s.Area,
                  Price = s.Price,
@@ -143,6 +145,11 @@ namespace ArrnowConstruct.Core.Services
         {
             var site = await repo.GetByIdAsync<Site>(siteId);
 
+            if (site == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.SiteDoesNotExistExceptionMessage);
+            }
+
             site.ToDate = DateTime.ParseExact(model.ToDate, "yyyy-MM-dd", CultureInfo.CurrentCulture);
             site.Status = SiteStatusEnum.Finished.ToString();
 
@@ -152,6 +159,12 @@ namespace ArrnowConstruct.Core.Services
         public async Task Delete(int id)
         {
             var site = await repo.GetByIdAsync<Site>(id);
+
+            if (site == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.SiteDoesNotExistExceptionMessage);
+            }
+
             site.Status = SiteStatusEnum.Disactivated.ToString();
 
             await repo.SaveChangesAsync();

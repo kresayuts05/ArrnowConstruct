@@ -37,56 +37,92 @@ namespace ArrnowConstruct.Controllers
 
         public async Task<IActionResult> MyProfile()
         {
-            var myProfile = await profileService.MyProfile(User.Id());   
-            bool isConstructor = await constructorService.ExistsById(User.Id());
+            try
+            {
+                bool isConstructor = await constructorService.ExistsById(User.Id());
+                var myProfile = await profileService.MyProfile(User.Id(), isConstructor);
 
-            myProfile.IsConstructor = isConstructor;
+                myProfile.IsConstructor = isConstructor;
 
-            return View("Profile", myProfile);
+                return View("Profile", myProfile);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home");
+            }
         }
 
 
-        public async Task<IActionResult> AnothersProfile([FromRoute]string id)
+        public async Task<IActionResult> AnothersProfile([FromRoute] string id)
         {
-            var myProfile = await profileService.MyProfile(id);
-            bool isConstructor = await constructorService.ExistsById(id);
+            try
+            {
+                bool isConstructor = await constructorService.ExistsById(id);
+                var myProfile = await profileService.MyProfile(id, isConstructor);
 
-            myProfile.IsConstructor = isConstructor;
+                myProfile.IsConstructor = isConstructor;
 
-            return View("Profile", myProfile);
+                return View("Profile", myProfile);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("All", "Home");
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var user = await userService.GetUserById(id);
-
-            var model = new EditViewModel()
+            try
             {
-                Id = id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.Phone,
-                Address = user.Address,
-                City = user.City,
-                Country = user.Country
-            };
+                var user = await userService.GetUserById(id);
 
-            return View(model);
+                var model = new EditViewModel()
+                {
+                    Id = id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.Phone,
+                    Address = user.Address,
+                    City = user.City,
+                    Country = user.Country
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit( EditViewModel model)
+        public async Task<IActionResult> Edit(EditViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            await profileService.Edit(User.Id(), model);
+            try
+            {
+                await profileService.Edit(User.Id(), model);
 
-            return RedirectToAction(nameof(MyProfile));
+                return RedirectToAction(nameof(MyProfile));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home");
+            }
         }
     }
 }

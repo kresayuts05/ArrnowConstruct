@@ -21,11 +21,17 @@ public class Program
 
         builder.Services.AddDefaultIdentity<User>(options =>
         {
-            options.SignIn.RequireConfirmedAccount = false;
-            options.Password.RequireDigit = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireUppercase = false;
+            options.SignIn.RequireConfirmedAccount = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedAccount");
+            options.SignIn.RequireConfirmedEmail = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedEmail");
+            options.SignIn.RequireConfirmedPhoneNumber = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedPhoneNumber");
+            options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:RequiredLength");
+            options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:RequireNonAlphanumeric");
+
+            //options.SignIn.RequireConfirmedAccount = false;
+            //options.Password.RequireDigit = false;
+            //options.Password.RequireLowercase = false;
+            //options.Password.RequireNonAlphanumeric = false;
+            //options.Password.RequireUppercase = false;
         })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ArrnowConstructDbContext>();
@@ -37,15 +43,6 @@ public class Program
             options.LogoutPath = "/User/Logout";
         });
 
-        //builder.Services.AddAuthorization(options =>
-        //{
-        //    options.AddPolicy("MyPolicy", policy =>
-        //    {
-        //        policy.RequireRole("Admin");
-        //        policy.RequireClaim("EmployeeNumber");
-        //    });
-        //});
-
         builder.Services.AddApplicationServices();
         ConfigureCloudaryService(builder.Services, builder.Configuration);
 
@@ -56,7 +53,7 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-            //app.UseMigrationsEndPoint();
+            app.UseMigrationsEndPoint();
         }
         else
         {

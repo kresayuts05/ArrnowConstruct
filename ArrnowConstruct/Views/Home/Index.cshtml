@@ -45,43 +45,51 @@
     <h2>Most recient posts</h2>
     <hr class="hr hr-blurry" />
 
-    <div class="">
-        @foreach (var modelGroup in modelGroups)
-        {
-            first = true;
-            <div class="row">
-                @foreach (var model in modelGroup)
-                {
-                    <div class="card mb-3 col-md-4">
-                        <div class="card-body text-center">
-                            <h2>@(model.Title)</h2>
-                            <div class="mb-5"></div>
+    @if (modelGroups.Count == 0)
+    {
+        <p class="alert-warning text-center">@GlobalExceptions.PostsDoNotExist</p>
+    }
+    else
+    {
+        <div class="">
+            @foreach (var modelGroup in modelGroups)
+            {
+                first = true;
+                <div class="row">
+                    @foreach (var model in modelGroup)
+                    {
+                        <div class="card mb-3 col-md-4">
+                            <div class="card-body text-center">
+                                <h2>@(model.Title)</h2>
+                                <div class="mb-5"></div>
 
-                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner">
+                                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
 
-                                    @foreach (var image in @model.Images)
-                                    {
-                                        <div class="carousel-item @(first ? "active" : string.Empty) ">
-                                            <img class="d-block w-100" style="height:400px" src="@image" alt="image">
-                                        </div>
+                                        @foreach (var image in @model.Images)
+                                        {
+                                            <div class="carousel-item @(first ? "active" : string.Empty) ">
+                                                <img class="d-block w-100" style="height:400px" src="@image" alt="image">
+                                            </div>
 
-                                        first = false;
-                                    }
+                                            first = false;
+                                        }
+                                    </div>
                                 </div>
+                                <br />
+                                <p>Short Content: <b>@(model.ShortContent)</b></p>
+                                <p>Posted on: <b>@(model.CreatedOn)</b></p>
+                                <p>Constructor: <b>@(model.Site.Constructor.User.Email)</b></p>
+                                <a asp-controller="Post" asp-action="Details" asp-route-id="@(model.Id)" class="btn btn-secondary">Details</a>
                             </div>
-                            <br />
-                            <p>Short Content: <b>@(model.ShortContent)</b></p>
-                            <p>Posted on: <b>@(model.CreatedOn)</b></p>
-                            <p>Constructor: <b>@(model.Site.Constructor.User.Email)</b></p>
-                            <a asp-controller="Post" asp-action="Details" asp-route-id="@(model.Id)" class="btn btn-secondary">Details</a>
                         </div>
-                    </div>
 
-                    first = true;
-                }
+                        first = true;
+                    }
 
-            </div>
-        }
-    </div>
+                </div>
+            }
+        </div>
+
+    }
 </section>

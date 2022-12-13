@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Exceptions;
 using ArrnowConstruct.Core.Models.Post;
 using ArrnowConstruct.Core.Models.Site;
 using ArrnowConstruct.Core.Models.User;
@@ -107,7 +108,13 @@ namespace ArrnowConstruct.Core.Services
                     })
                     .FirstAsync();
 
+            if (post == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.PostDoesNotExistExceptionMessage);
+            }
+
             post.Site = await siteService.SiteById(post.Site.Id);
+
             return post;
         }
 
@@ -120,6 +127,11 @@ namespace ArrnowConstruct.Core.Services
         public async Task Edit(int postId, PostFormViewModel model)
         {
             var post = await repo.GetByIdAsync<Post>(postId);
+
+            if (post == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.PostDoesNotExistExceptionMessage);
+            }
 
             var images = await repo.All<Image>()
                 .Where(i => i.PostId == postId && i.IsActive == true)
@@ -150,6 +162,12 @@ namespace ArrnowConstruct.Core.Services
         public async Task Delete(int postId)
         {
             var post = await repo.GetByIdAsync<Post>(postId);
+
+            if (post == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.PostDoesNotExistExceptionMessage);
+            }
+
             post.IsActive = false;
 
             await repo.SaveChangesAsync();

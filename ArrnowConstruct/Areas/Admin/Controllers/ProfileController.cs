@@ -26,39 +26,81 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
 
         public async Task<IActionResult> MyProfile()
         {
-            var myProfile = await profileService.MyProfile(User.Id());
-            myProfile.Role = RoleConstants.Administrator;
+            try
+            {
+                bool isConstructor = false;
 
-            return View("MyProfile", myProfile);
+                if (this.User.IsInRole(RoleConstants.Constructor))
+                {
+                    isConstructor = true;
+                }
+
+                var myProfile = await profileService.MyProfile(User.Id(), isConstructor);
+                myProfile.Role = RoleConstants.Administrator;
+
+                return View("MyProfile", myProfile);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("MyProfile", "Profile", new { area = "Admin" });
+            }
+
         }
 
 
         public async Task<IActionResult> AnothersProfile([FromRoute] string id)
         {
-            var myProfile = await profileService.MyProfile(id);
-            myProfile.Role = RoleConstants.Client;//
+            try
+            {
+                bool isConstructor = false;
 
-            return View("MyProfile", myProfile);
+                if (await constructorService.ExistsById(id))
+                {
+                    isConstructor = true;
+                }
+
+                var myProfile = await profileService.MyProfile(id, isConstructor);
+                myProfile.Role = (isConstructor == true) ? RoleConstants.Constructor : RoleConstants.Client;
+
+                return View("MyProfile", myProfile);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("All", "User", new { area = "Admin" });
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit()
         {
-            var user = await userService.GetUserById(User.Id());
-
-            var model = new EditViewModel()
+            try
             {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.Phone,
-                Address = user.Address,
-                City = user.City,
-                Country = user.Country
-            };
+                var user = await userService.GetUserById(User.Id());
 
-            return View(model);
+                var model = new EditViewModel()
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.Phone,
+                    Address = user.Address,
+                    City = user.City,
+                    Country = user.Country
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("MyProfile", "Profile", new { area = "Admin" });
+            }
         }
 
         [HttpPost]
@@ -69,9 +111,20 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
                 return View(model);
             }
 
-            await profileService.Edit(User.Id(), model);
+            try
+            {
+                await profileService.Edit(User.Id(), model);
 
-            return RedirectToAction(nameof(MyProfile));
+                return RedirectToAction(nameof(MyProfile));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("MyProfile", "Profile", new { area = "Admin" });
+            }
+
+
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ArrnowConstruct.Core.Contarcts
 {
     public interface IProfileService
     {
-        Task<ProfileViewModel> MyProfile(string userId);
+        Task<ProfileViewModel> MyProfile(string userId, bool isConstructor);
 
         Task Edit(string userId, EditViewModel model);
     }

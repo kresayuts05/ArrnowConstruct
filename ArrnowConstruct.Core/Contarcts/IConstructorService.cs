@@ -12,7 +12,7 @@ namespace ArrnowConstruct.Core.Contarcts
     {
         Task Create(string userId, decimal salary);
 
-        Task<User> GetUserByConstructorId(int id);
+        //Task<User> GetUserByConstructorId(int id);
 
         Task<bool> ExistsById(string userId);
 

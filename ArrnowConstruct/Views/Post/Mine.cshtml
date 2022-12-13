@@ -14,48 +14,56 @@
 
 <h1 class="text-center">@ViewBag.Title</h1>
 <br>
-<div class="container">
 
-    @foreach (var modelGroup in modelGroups)
-    {
-        <div class="row justify-content-around">
-            @foreach (var model in modelGroup)
-            {
-                <div class="card mb-3 col-md-4">
-                    <div class="card-body ">
-                        <h3>@(model.Title)</h3>
-                        <div class="mb-5"></div>
+@if (Model.Count == 0)
+{
+    <p class="alert-warning text-center">@GlobalExceptions.PostsDoNotExist</p>
+}
+else
+{
+    <div class="container">
 
-                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
+        @foreach (var modelGroup in modelGroups)
+        {
+            <div class="row justify-content-around">
+                @foreach (var model in modelGroup)
+                {
+                    <div class="card mb-3 col-md-4">
+                        <div class="card-body ">
+                            <h3>@(model.Title)</h3>
+                            <div class="mb-5"></div>
 
-                                @foreach (var image in @model.Images)
-                                {
-                                    <div class="carousel-item @(first ? "active" : string.Empty) ">
-                                        <img class="d-block w-100" style="height:400px" src="@image" alt="image">
-                                    </div>
+                            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
 
-                                    first = false;
-                                }
+                                    @foreach (var image in @model.Images)
+                                    {
+                                        <div class="carousel-item @(first ? "active" : string.Empty) ">
+                                            <img class="d-block w-100" style="height:400px" src="@image" alt="image">
+                                        </div>
+
+                                        first = false;
+                                    }
+                                </div>
                             </div>
+                            <br />
+                            <p>Short Content: <b>@(model.ShortContent)</b></p>
+                            <p>
+                                Price:
+                                <b>@String.Format("{0:f2}", model.Site.Price) BGN</b>
+                            </p>
+                            <p>Rooms Count: <b>@(model.Site.RoomsCount)</b></p>
+                            <p>Room Categories:<b>@(string.Join(", ", model.Site.RoomsTypes))</b> </p>
+                            <p>Area: <b>@(model.Site.Area)</b></p>
+                            <p>Client: <b>@(model.Site.Client.User.Email)</b></p>
+                            <p>CreatedOn: <b>@(model.CreatedOn)</b></p>
+                            <a asp-controller="Post" asp-action="Details" asp-route-id="@(model.Id)" class="btn btn-info">Details</a>
                         </div>
-                        <br />
-                        <p>Short Content: <b>@(model.ShortContent)</b></p>
-                        <p>
-                            Price:
-                            <b>@String.Format("{0:f2}", model.Site.Price) BGN</b>
-                        </p>
-                        <p>Rooms Count: <b>@(model.Site.RoomsCount)</b></p>
-                        <p>Room Categories:<b>@(string.Join(", ", model.Site.RoomsTypes))</b> </p>
-                        <p>Area: <b>@(model.Site.Area)</b></p>
-                        <p>Client: <b>@(model.Site.Client.User.Email)</b></p>
-                        <p>CreatedOn: <b>@(model.CreatedOn)</b></p>
-                        <a asp-controller="Post" asp-action="Details" asp-route-id="@(model.Id)" class="btn btn-info">Details</a>
                     </div>
-                </div>
-                first = true;
-            }
-                            
-        </div>
-    }
-</div>
+                    first = true;
+                }
+
+            </div>
+        }
+    </div>
+}

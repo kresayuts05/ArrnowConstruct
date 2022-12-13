@@ -12,44 +12,52 @@
 
 <h1 class="text-center">@ViewBag.Title</h1>
 <br>
-<div class="">
 
-    @foreach (var modelGroup in modelGroups)
-    {
-        <div class="row">
-            @foreach (var model in modelGroup)
-            {
-                <div class="card mb-3 col-md-4">
-                    <div class="card-body text-center">
-                        <p>Address: <b>@(model.Client.User.Address)</b></p>
-                        <p>
-                            Budget:
-                            <b>@String.Format("{0:f2}", model.Price) BGN</b>
-                        </p>
-                        <p>Rooms Count: <b>@(model.RoomsCount)</b></p>
-                        <p>Room Categories:<b>@(string.Join(", ", model.RoomsTypes))</b> </p>
-                        <p>Area: <b>@(model.Area)</b></p>
-                        <p>Client: <b>@(model.Client.User.Email)</b></p>
-                        <p>Starts from date: <b>@(model.FromDate)</b></p>
-                        @if (model.Status == "InProcess")
-                        {
-                            <p>Is Expected to be finished to date: <b>@(model.ToDate)</b></p>
-                            <br />
-                            <a asp-controller="Site" asp-action="Finish" asp-route-id="@(model.Id)"
+@if (modelGroups.Count == 0)
+{
+    <p class="alert-warning text-center">@GlobalExceptions.SitesDoNotExist</p>
+}
+else
+{
+    <div class="">
+
+        @foreach (var modelGroup in modelGroups)
+        {
+            <div class="row">
+                @foreach (var model in modelGroup)
+                {
+                    <div class="card mb-3 col-md-4">
+                        <div class="card-body text-center">
+                            <p>Address: <b>@(model.Client.User.Address)</b></p>
+                            <p>
+                                Budget:
+                                <b>@String.Format("{0:f2}", model.Price) BGN</b>
+                            </p>
+                            <p>Rooms Count: <b>@(model.RoomsCount)</b></p>
+                            <p>Room Categories:<b>@(string.Join(", ", model.RoomsTypes))</b> </p>
+                            <p>Area: <b>@(model.Area)</b></p>
+                            <p>Client: <b>@(model.Client.User.Email)</b></p>
+                            <p>Starts from date: <b>@(model.FromDate)</b></p>
+                            @if (model.Status == "InProcess")
+                            {
+                                <p>Is Expected to be finished to date: <b>@(model.ToDate)</b></p>
+                                <br />
+                                <a asp-controller="Site" asp-action="Finish" asp-route-id="@(model.Id)"
                    class="btn btn-purple">Finish</a>
 
-                        }
-                        else if (model.Status == "Finished")
-                        {
-                            <p>Finished on date: <b>@(model.ToDate)</b></p>
-                            <br />
-                            <a asp-controller="Post" asp-action="Create" asp-route-id="@(model.Id)"
+                            }
+                            else if (model.Status == "Finished")
+                            {
+                                <p>Finished on date: <b>@(model.ToDate)</b></p>
+                                <br />
+                                <a asp-controller="Post" asp-action="Create" asp-route-id="@(model.Id)"
                    class="btn btn-purple">Post</a>
-                        }
+                            }
 
+                        </div>
                     </div>
-                </div>
-            }
-        </div>
-    }
-</div>
+                }
+            </div>
+        }
+    </div>
+}

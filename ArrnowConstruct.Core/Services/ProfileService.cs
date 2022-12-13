@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Exceptions;
 using ArrnowConstruct.Core.Models.Profile;
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Entities;
@@ -27,16 +28,15 @@ namespace ArrnowConstruct.Core.Services
             imageService = _imageservice;
             postService = _postService;
         }
-        public async Task<ProfileViewModel> MyProfile(string userId)
+
+        public async Task<ProfileViewModel> MyProfile(string userId, bool isConstructor)
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
-            var posts = await postService.AllPostsIdByUserId(userId);
-
-            var postImages = await repo.All<Image>()
-                .Where(i => posts.Contains(i.PostId))
-                .ToListAsync();
-
+            if (user == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.UserDoesNotExistExceptionMessage);
+            }
             var profile = new ProfileViewModel()
             {
                 Id = user.Id,
@@ -48,11 +48,20 @@ namespace ArrnowConstruct.Core.Services
                 City = user.City,
                 PhoneNumber = user.PhoneNumber,
                 ProfilePictureUrl = user.ProfilePictureUrl,
-                PostsCount = posts.Count(),
-                //Followers = 0,
-                //Following = 0,
-                Images = postImages.Select(i => i.UrlPath).ToList()
+
             };
+
+            if (isConstructor == true)
+            {
+                var posts = await postService.AllPostsIdByUserId(userId);
+
+                var postImages = await repo.All<Image>()
+                    .Where(i => posts.Contains(i.PostId))
+                    .ToListAsync();
+
+                profile.PostsCount = posts.Count();
+                profile.Images = postImages.Select(i => i.UrlPath).ToList();
+            }
 
             return profile;
         }
@@ -60,6 +69,11 @@ namespace ArrnowConstruct.Core.Services
         public async Task Edit(string userId, EditViewModel model)
         {
             var user = await repo.GetByIdAsync<User>(userId);
+
+            if (user == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.UserDoesNotExistExceptionMessage);
+            }
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
@@ -69,7 +83,7 @@ namespace ArrnowConstruct.Core.Services
             user.Country = model.Country;
 
             user.ProfilePictureUrl = await this.imageService.UploadImage(model.ProfilePicture, "images", user);
-            
+
             await repo.SaveChangesAsync();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Exceptions;
 using ArrnowConstruct.Core.Models.Category;
 using ArrnowConstruct.Core.Models.Request;
 using ArrnowConstruct.Core.Models.User;
@@ -28,15 +29,13 @@ namespace ArrnowConstruct.Core.Services
             IClientService _clientService)
         {
             repo = _repo;
-            categoryService = _categoryService; 
+            categoryService = _categoryService;
             constructorService = _constructorService;
             clientService = _clientService;
         }
 
         public async Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id)
         {
-            //   var user = await clientService.GetUserByClientId(id);
-
             return await repo.All<Request>()
                 .Where(r => r.IsActive == true)
                 .Where(r => r.ClientId == id && r.Client.IsActive == true && r.Constructor.IsActive == true)
@@ -75,8 +74,6 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<IEnumerable<RequestViewModel>> AllRequestsForConstructorById(int id)
         {
-            //   var user = await clientService.GetUserByClientId(id);
-
             return await repo.All<Request>()
                 .Where(r => r.IsActive == true && r.Status == "Waiting")
                 .Where(r => r.ConstructorId == id && r.Constructor.IsActive == true && r.Client.IsActive == true)
@@ -116,6 +113,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task Create(AddRequestViewModel model, int clientId)
         {
             int constructorId = await constructorService.ConstructorWithEmailExists(model.ConstructorEmail);
+
             var categories = await categoryService.CategoriesById(model.CategoryId);
 
             var request = new Request()
@@ -137,12 +135,15 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task Edit(int requestId, AddRequestViewModel model)
         {
-          //  var request = await repo.GetByIdAsync<Request>(requestId);
-
             var request = await repo.All<Request>()
                 .Include(r => r.RoomsTypes)
                 .Where(r => r.Id == requestId)
                 .FirstAsync();
+
+            if (request == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
 
             foreach (var categ in request.RoomsTypes)
             {
@@ -188,6 +189,12 @@ namespace ArrnowConstruct.Core.Services
              })
              .FirstAsync();
 
+
+            if (request == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
+
             return request;
         }
 
@@ -195,6 +202,12 @@ namespace ArrnowConstruct.Core.Services
         public async Task Delete(int requestId)
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
+
+            if (request == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
+
             request.IsActive = false;
 
             await repo.SaveChangesAsync();
@@ -203,6 +216,11 @@ namespace ArrnowConstruct.Core.Services
         public async Task<string> GetStatus(int requestId)
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
+
+            if (request == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
 
             return request.Status;
         }
@@ -242,12 +260,24 @@ namespace ArrnowConstruct.Core.Services
               })
               .FirstAsync();
 
+
+            if (request == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
+
             return request;
         }
 
         public async Task Reject(int requestId)
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
+
+            if (request == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
+
             request.Status = "Rejected";
 
             await repo.SaveChangesAsync();
@@ -256,6 +286,12 @@ namespace ArrnowConstruct.Core.Services
         public async Task Confirm(int requestId)
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
+
+            if (request == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
+
             request.Status = "Confirmed";
 
             await repo.SaveChangesAsync();
@@ -264,6 +300,12 @@ namespace ArrnowConstruct.Core.Services
         public async Task<bool> HasClient(int requestId, string userId)
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
+
+            if(request == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
+
             var clientId = await clientService.GetClientId(userId);
 
             return request.ClientId == clientId;
@@ -272,6 +314,11 @@ namespace ArrnowConstruct.Core.Services
         public async Task<int> GetRequestsConstructorId(int id)
         {
             var request = await repo.GetByIdAsync<Request>(id);
+
+            if (request == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
 
             return request.ConstructorId;
         }

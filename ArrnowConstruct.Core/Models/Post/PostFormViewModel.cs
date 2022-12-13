@@ -32,11 +32,8 @@ namespace ArrnowConstruct.Core.Models.Post
         [MaxLength(TiteMaxLength)]
         public string Title { get; set; }
 
-        public int Likes { get; set; }
-
         public ICollection<IFormFile> Images { get; set; }
 
-        [Required]
         public bool IsActive { get; set; }
 
         [Required]

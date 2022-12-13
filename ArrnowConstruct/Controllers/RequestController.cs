@@ -4,6 +4,7 @@ using ArrnowConstruct.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using ArrnowConstruct.Core.Constants;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ArrnowConstruct.Controllers
 {
@@ -30,6 +31,7 @@ namespace ArrnowConstruct.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.Client)]
         public async Task<IActionResult> Add()
         {
             var model = new AddRequestViewModel()
@@ -41,6 +43,7 @@ namespace ArrnowConstruct.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Client)]
         public async Task<IActionResult> Add(AddRequestViewModel model)
         {
 
@@ -56,7 +59,7 @@ namespace ArrnowConstruct.Controllers
             {
                 ModelState.AddModelError(nameof(model.RequiredDate), "The chosen date have already passed!");
             }
-            if(await constructorService.ConstructorWithEmailExists(model.ConstructorEmail) == -1)
+            if (await constructorService.ConstructorWithEmailExists(model.ConstructorEmail) == -1)
             {
                 ModelState.AddModelError(nameof(model.ConstructorEmail), "A constructor with this email does not exists!");
             }
@@ -68,33 +71,54 @@ namespace ArrnowConstruct.Controllers
                 return View(model);
             }
 
-            int clientId = await clientService.GetClientId(User.Id());
+            try
+            {
+                int clientId = await clientService.GetClientId(User.Id());
 
-            await requestService.Create(model, clientId);
+                await requestService.Create(model, clientId);
 
-            return RedirectToAction(nameof(Mine));
+                return RedirectToAction(nameof(Mine));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Request");
+            }
+
         }
 
+        [Authorize(Roles = $"{RoleConstants.Client},{RoleConstants.Constructor}")]
         public async Task<IActionResult> Mine()
         {
             var userId = User.Id();
             IEnumerable<RequestViewModel> myRequests = new List<RequestViewModel>();
 
-            if (this.User.IsInRole(RoleConstants.Client))
+            try
             {
-                int clientId = await clientService.GetClientId(userId);
-                myRequests = await requestService.AllRequestsByClientId(clientId);
-            }
-            else if (this.User.IsInRole(RoleConstants.Constructor))
-            {
-                int constructorId = await constructorService.GetConstructorId(userId);
-                myRequests = await requestService.AllRequestsForConstructorById(constructorId);
-            }
+                if (this.User.IsInRole(RoleConstants.Client))
+                {
+                    int clientId = await clientService.GetClientId(userId);
+                    myRequests = await requestService.AllRequestsByClientId(clientId);
+                }
+                else if (this.User.IsInRole(RoleConstants.Constructor))
+                {
+                    int constructorId = await constructorService.GetConstructorId(userId);
+                    myRequests = await requestService.AllRequestsForConstructorById(constructorId);
+                }
 
-            return View(myRequests);
+                return View(myRequests);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.Client)]
         public async Task<IActionResult> Edit(int id)
         {
             if ((await requestService.Exists(id)) == false)
@@ -102,26 +126,40 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToAction("Mine", "Request");
             }
 
-            var request = await requestService.RequestById(id);
-            var requestCurrCategories = await categoryService.CategoriesById(request.CategoryId);
-           
-            var model = new AddRequestViewModel()
-            {
-                Id = request.Id,
-                RoomsCount = request.RoomsCount,
-                Area = request.Area,
-                RequiredDate = request.RequiredDate,
-                Budget = request.Budget,
-                ConstructorEmail = request.ConstructorEmail,
-                CategoryId = request.RoomsTypes.Select(x => x.Id).ToList(),
-                RoomsTypes = await categoryService.AllCategories(),
-                IsActive = request.IsActive
-            };
 
-            return View(model);
+            try
+            {
+                var request = await requestService.RequestById(id);
+
+
+                var requestCurrCategories = await categoryService.CategoriesById(request.CategoryId);
+
+                var model = new AddRequestViewModel()
+                {
+                    Id = request.Id,
+                    RoomsCount = request.RoomsCount,
+                    Area = request.Area,
+                    RequiredDate = request.RequiredDate,
+                    Budget = request.Budget,
+                    ConstructorEmail = request.ConstructorEmail,
+                    CategoryId = request.RoomsTypes.Select(x => x.Id).ToList(),
+                    RoomsTypes = await categoryService.AllCategories(),
+                    IsActive = request.IsActive
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Request");
+            }
+
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Client)]
         public async Task<IActionResult> Edit(int id, AddRequestViewModel model)
         {
             if (id != model.Id)
@@ -156,12 +194,22 @@ namespace ArrnowConstruct.Controllers
                 return View(model);
             }
 
-            await requestService.Edit(model.Id, model);
+            try
+            {
+                await requestService.Edit(model.Id, model);
 
-            return RedirectToAction(nameof(Mine));
+                return RedirectToAction(nameof(Mine));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Request");
+            }
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.Client)]
         public async Task<IActionResult> Delete(int id)
         {
             if ((await requestService.Exists(id)) == false)
@@ -174,17 +222,28 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToPage(nameof(Mine));
             }
 
-            var request = await requestService.GetDetailsRequest(id);
-            var model = new RequestViewModel()
+            try
             {
-                Client = request.Client,
-                Constructor = request.Constructor
-            };
+                var request = await requestService.GetDetailsRequest(id);
+                var model = new RequestViewModel()
+                {
+                    Client = request.Client,
+                    Constructor = request.Constructor
+                };
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Request");
+            }
+
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Client)]
         public async Task<IActionResult> Delete(int id, RequestViewModel model)
         {
             if ((await requestService.Exists(id)) == false)
@@ -197,12 +256,22 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToPage(nameof(Mine));
             }
 
-            await requestService.Delete(id);
+            try
+            {
+                await requestService.Delete(id);
 
-            return RedirectToAction(nameof(Mine));
+                return RedirectToAction(nameof(Mine));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Request");
+            }
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.Constructor)]
         public async Task<IActionResult> Reject(int id)
         {
             if ((await requestService.Exists(id)) == false)
@@ -215,18 +284,28 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToPage(nameof(Mine));
             }
 
-            var request = await requestService.GetDetailsRequest(id);
-            var model = new RequestViewModel()
+            try
             {
-                Client = request.Client,
-                Constructor = request.Constructor,
-                RequiredDate = request.RequiredDate
-            };
+                var request = await requestService.GetDetailsRequest(id);
+                var model = new RequestViewModel()
+                {
+                    Client = request.Client,
+                    Constructor = request.Constructor,
+                    RequiredDate = request.RequiredDate //EVERYWHERE USE SERVICE.EXIST INSTED OF THROW EX AND TRY CATCH
+                };
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Request");
+            }
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Constructor)]
         public async Task<IActionResult> Reject(int id, RequestViewModel model)
         {
             if ((await requestService.Exists(id)) == false)
@@ -239,12 +318,23 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToPage(nameof(Mine));
             }
 
-            await requestService.Reject(id);
+            try
+            {
+                await requestService.Reject(id);
 
-            return RedirectToAction(nameof(Mine));
+                return RedirectToAction(nameof(Mine));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Request");
+            }
+
         }
 
         [HttpGet]
+        [Authorize(Roles = RoleConstants.Constructor)]
         public async Task<IActionResult> Confirm(int id)
         {
             if ((await requestService.Exists(id)) == false)
@@ -257,16 +347,28 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToPage(nameof(Mine));
             }
 
-            var request = await requestService.GetDetailsRequest(id);
-            var model = new RequestConfirmViewModel()
+            try
             {
-                RequiredDate = request.RequiredDate
-            };
+                var request = await requestService.GetDetailsRequest(id);
+                var model = new RequestConfirmViewModel()
+                {
+                    RequiredDate = request.RequiredDate
+                };
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Request");
+            }
+
+            
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Constructor)]
         public async Task<IActionResult> Confirm(int id, RequestConfirmViewModel model)
         {
             var request = await requestService.GetDetailsRequest(id);
@@ -302,10 +404,20 @@ namespace ArrnowConstruct.Controllers
                 return View(model);
             }
 
-            await requestService.Confirm(id);
-            await siteService.Create(request, model);
+            try
+            {
+                await requestService.Confirm(id);
+                await siteService.Create(request, model);
 
-            return RedirectToAction("Mine", "Site");
+                return RedirectToAction("Mine", "Site");
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Request");
+            }
+           
         }
     }
 }

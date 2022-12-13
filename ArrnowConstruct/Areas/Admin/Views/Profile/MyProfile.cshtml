@@ -19,17 +19,20 @@
                             <img src="@(Model.ProfilePictureUrl)"
                                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                                  style="width: 150px; z-index: 1">
-                            @if  (Model.Role == RoleConstants.Administrator)
+                            @if (Model.Role == RoleConstants.Administrator)
                             {
-                                    <a asp-controller="Profile" asp-action="Edit" asp-area="Admin" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                <a asp-controller="Profile" asp-action="Edit" asp-area="Admin" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                style="z-index: 1;">
-                                        Edit profile
-                                    </a>
+                                    Edit profile
+                                </a>
                             }
                             else
                             {
+                                @if (Model.Role == RoleConstants.Client)
+                                {
                                     <a asp-controller="User" asp-area="Admin" asp-action="Approve" asp-route-id="@Model.Id" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                style="z-index: 1;">Approve</a>
+                                }
                             }
                         </div>
                         <div class="ms-3" style="margin-top: 130px;">
@@ -39,9 +42,13 @@
                                 {
                                     @RoleConstants.Administrator
                                 }
-                                else
+                                else if(Model.Role == RoleConstants.Client)
                                 {
                                     @RoleConstants.Client
+                                }
+                                else
+                                {
+                                      @RoleConstants.Constructor
                                 }
                             </p>
                         </div>

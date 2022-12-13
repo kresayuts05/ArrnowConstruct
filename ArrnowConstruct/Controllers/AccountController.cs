@@ -14,17 +14,20 @@ namespace ArrnowConstruct.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly IClientService clientService;
         private readonly IImageService imageService;
+        private readonly IUserService userService;
 
         public AccountController(
             UserManager<User> _userManager,
             SignInManager<User> _signInManager,
             IClientService _clientService,
-            IImageService _imageService)
+            IImageService _imageService,
+            IUserService _userService)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             clientService = _clientService;
             imageService = _imageService;
+            userService = _userService;
         }
 
         [HttpGet]
@@ -40,6 +43,11 @@ namespace ArrnowConstruct.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            if(await userService.UserByEmailExists(model.Email))
+            {
+                ModelState.AddModelError(nameof(model.Email), "There is already a registration with this email!");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);

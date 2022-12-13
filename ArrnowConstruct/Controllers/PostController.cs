@@ -50,29 +50,51 @@ namespace ArrnowConstruct.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(PostFormViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             await postService.Create(model);
 
-            return RedirectToAction("Index", "Home");
-            //return RedirectToAction(nameof(Details), new { id });
+            return RedirectToAction("Mine", "Post");
         }
 
         public async Task<IActionResult> Mine()
         {
-            var userId = User.Id();
-            var constructorId = await constructorService.GetConstructorId(userId);
+            try
+            {
+                var userId = User.Id();
+                var constructorId = await constructorService.GetConstructorId(userId);
 
-            IEnumerable<PostViewModel> myPosts = await postService.AllPostsByConstructor(constructorId);
+                IEnumerable<PostViewModel> myPosts = await postService.AllPostsByConstructor(constructorId);
 
-            return View(myPosts);
+                return View(myPosts);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home");
+            }
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> PostsByUserId(string id)
         {
-            var constructorId = await constructorService.GetConstructorId(id);
-            IEnumerable<PostViewModel> myPosts = await postService.AllPostsByConstructor(constructorId);
+            try
+            {
+                var constructorId = await constructorService.GetConstructorId(id);
+                IEnumerable<PostViewModel> myPosts = await postService.AllPostsByConstructor(constructorId);
 
-            return View("Mine", myPosts);
+                return View("Mine", myPosts);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home");
+            }
         }
 
         [AllowAnonymous]
@@ -88,68 +110,90 @@ namespace ArrnowConstruct.Controllers
         {
             if ((await postService.Exists(id)) == false)
             {
-                return RedirectToAction(nameof(Mine));
+                return RedirectToAction("Index", "Home");
             }
 
-            var model = await postService.PostDetailsById(id);
+            try
+            {
+                var model = await postService.PostDetailsById(id);
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home");
+            }
+
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            if ((await postService.Exists(id)) == false)
+            try
             {
-                return RedirectToAction("Index", "Home");
+                var post = await postService.PostDetailsById(id);
+
+                var site = await siteService.SiteById(post.Site.Id);
+
+                if (this.User.Id() != site.Constructor.User.Id)
+                {
+                    return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+                }
+
+                if ((await postService.Exists(id)) == false)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var model = new PostFormViewModel()
+                {
+                    Id = post.Id,
+                    Description = post.Description,
+                    ShortContent = post.ShortContent,
+                    Title = post.Title,
+                    SiteId = post.Site.Id
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Post");
             }
 
-            var post = await postService.PostDetailsById(id);
-
-            var model = new PostFormViewModel()
-            {
-                Id = post.Id,
-                Description = post.Description,
-                ShortContent = post.ShortContent,
-                Title = post.Title,
-                Likes = post.Likes,
-                SiteId = post.Site.Id
-            };
-
-            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int postId, PostFormViewModel model)
+        public async Task<IActionResult> Edit(PostFormViewModel model)
         {
-        //    if (postId != model.Id)
-        //    {
-        //        return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-        //    }
+            if ((await postService.Exists(model.Id)) == false)
+            {
+                ModelState.AddModelError("", "Post does not exist");
 
-        //    if ((await postService.Exists(model.Id)) == false)
-        //    {
-        //        ModelState.AddModelError("", "Post does not exist");
+                return View(model);
+            }
 
-        //        return View(model);
-        //    }
+            if (ModelState.IsValid == false)
+            {
+                return RedirectToAction("Mine", "Post");
+            }
 
-        //    if (model.IsActive == false)
-        //    {
-        //        ModelState.AddModelError(nameof(model.Id), "Post does not exist");
+            try
+            {
+                await postService.Edit(model.Id, model);
 
-        //        return RedirectToAction("Mine", "Post");
-        //    }
+                return RedirectToAction(nameof(Mine), new { model.Id });
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
 
-        //    if (ModelState.IsValid == false)
-        //    {
-        //        return RedirectToAction("Mine", "Post");
-        //    }
-
-
-            await postService.Edit(model.Id, model);
-
-            return RedirectToAction(nameof(Mine), new { model.Id });
+                return this.RedirectToAction("Mine", "Post");
+            }
         }
 
         [HttpGet]
@@ -160,9 +204,18 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToAction(nameof(Mine));
             }
 
-            var requestModel = await postService.PostDetailsById(id);
+            try
+            {
+                var requestModel = await postService.PostDetailsById(id);
 
-            return View(requestModel);
+                return View(requestModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Post");
+            }
         }
 
         [HttpPost]
@@ -173,9 +226,18 @@ namespace ArrnowConstruct.Controllers
                 return RedirectToAction(nameof(Mine));
             }
 
-            await postService.Delete(id);
+            try
+            {
+                await postService.Delete(id);
 
-            return RedirectToAction(nameof(Mine));
+                return RedirectToAction(nameof(Mine));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Mine", "Post");
+            }
         }
     }
 }

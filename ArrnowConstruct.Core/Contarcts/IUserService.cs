@@ -12,6 +12,8 @@ namespace ArrnowConstruct.Core.Contarcts
     {
         Task<UserModel> GetUserById(string userId);
 
+        Task<bool> UserByEmailExists(string email);
+
         Task<UserModel> GetAdministrator();
 
         Task<IEnumerable<UserModel>> AllUsers(string id);

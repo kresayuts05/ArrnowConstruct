@@ -44,9 +44,15 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
 
         public async Task<IActionResult> Clients()
         {
-            var model = await clientService.GetAllClients(this.User.Id());
-
-            return View(model);
+            try
+            {
+                var model = await clientService.GetAllClients(this.User.Id());
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(ex.Message);
+            }
         }
 
 
@@ -57,10 +63,10 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
 
             var model = new ConstructorApproveViewModel()
             {
-                    Id = id,
-                    Phone = user.Phone,
-                    Address = user.Address,
-                    Email = user.Email
+                Id = id,
+                Phone = user.Phone,
+                Address = user.Address,
+                Email = user.Email
             };
 
             return View(model);
@@ -118,21 +124,28 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(UserDeleteViewModel model)
         {
-            await userService.Delete(model.Id);
-
-            if(await constructorService.ExistsById(model.Id))
+            try
             {
-                var id = await constructorService.GetConstructorId(model.Id);
-                await constructorService.DisactivateConstructor(id);
+                await userService.Delete(model.Id);
+
+                if (await constructorService.ExistsById(model.Id))
+                {
+                    var id = await constructorService.GetConstructorId(model.Id);
+                    await constructorService.DisactivateConstructor(id);
+                }
+                else
+                {
+
+                    var id = await clientService.GetClientId(model.Id);
+                    await clientService.DisactivateClient(id);
+                }
+
+                return RedirectToAction("All", "User");
             }
-            else
+            catch (Exception ex)
             {
-
-                var id = await clientService.GetClientId(model.Id);
-                await clientService.DisactivateClient(id);
+                return this.NotFound(ex.Message);
             }
-
-            return RedirectToAction("All", "User");
         }
     }
 }

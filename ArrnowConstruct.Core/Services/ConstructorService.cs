@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Exceptions;
 using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Entities;
@@ -43,22 +44,21 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<int> GetConstructorId(string userId)
         {
-            return (await repo.AllReadonly<Constructor>()
-                .FirstOrDefaultAsync(a => a.UserId == userId))?.Id ?? 0;
-        }
+            var constructor = await repo.AllReadonly<Constructor>()
+                .FirstOrDefaultAsync(a => a.UserId == userId);
 
-        public async Task<User> GetUserByConstructorId(int id)
-        {
-            return await repo.All<Constructor>()
-                .Where(c => c.Id == id)
-                .Select(c => c.User)
-                .FirstAsync();
+            if(constructor == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
+            }
+
+            return constructor.Id;
         }
 
         public async Task<int> ConstructorWithEmailExists(string email)
         {
             var user = await repo.AllReadonly<User>()
-                .FirstOrDefaultAsync(u => u.Email == email);
+                .FirstOrDefaultAsync(u => u.Email == email && u.IsActive == true);
 
             if (user != null)
             {
@@ -77,6 +77,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<IEnumerable<ConstructorModel>> GetAllConstructors()
         {
             return await repo.All<Constructor>()
+                .Where(c => c.IsActive == true)
                 .Select(c => new ConstructorModel()
                 {
                     ConstructorId = c.Id,
@@ -102,15 +103,25 @@ namespace ArrnowConstruct.Core.Services
 
             var user = await repo.GetByIdAsync<User>(userModel.UserId);
 
+            if (user == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.UserDoesNotExistExceptionMessage);
+            }
+
             return user.Email;
         }
 
 
         public async Task DisactivateConstructor(int id)
         {
-            var client = await repo.GetByIdAsync<Constructor>(id);
+            var constructor = await repo.GetByIdAsync<Constructor>(id);
 
-            client.IsActive = false;
+            if (constructor == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
+            }
+
+            constructor.IsActive = false;
             await repo.SaveChangesAsync();
         }
     }

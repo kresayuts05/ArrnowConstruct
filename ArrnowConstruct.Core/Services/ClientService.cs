@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Exceptions;
 using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Entities;
@@ -52,16 +53,30 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<int> GetClientId(string userId)
         {
-            return (await repo.AllReadonly<Client>()
-                .FirstOrDefaultAsync(a => a.UserId == userId))?.Id ?? 0;
+            var client = await repo.AllReadonly<Client>()
+                .FirstOrDefaultAsync(a => a.UserId == userId);
+
+            if(client == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.ClientDoessNotExistsExceptionMessage);
+            }
+
+            return client.Id;
         }
 
         public async Task<User> GetUserByClientId(int id)
         {
-            return await repo.All<Client>()
+            var client =  await repo.All<Client>()
                 .Where(c => c.Id == id)
                 .Select(c => c.User)
                 .FirstAsync();
+
+             if(client == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.ClientDoessNotExistsExceptionMessage);
+            }
+
+            return client;
         }
 
         public async Task DisactivateClient(int id)
