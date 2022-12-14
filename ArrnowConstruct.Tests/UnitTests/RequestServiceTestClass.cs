@@ -25,6 +25,7 @@ namespace ArrnowConstruct.Tests.UnitTests
         private IRequestService requestService;
         private ICategoryService categoryService;
         private IConstructorService constructorService;
+        private IClientService clientService;
         private ArrnowConstructDbContext arrnowConstructDbContext;
 
         [SetUp]
@@ -33,7 +34,8 @@ namespace ArrnowConstruct.Tests.UnitTests
             this.repo = new Repository(this.context);
             this.categoryService = new CategoryService(repo);
             this.constructorService = new ConstructorService(repo);
-            this.requestService = new RequestService(repo, categoryService, constructorService, null);
+            this.clientService = new ClientService(repo);
+            this.requestService = new RequestService(repo, categoryService, constructorService, clientService);
         }
 
 
@@ -174,6 +176,7 @@ namespace ArrnowConstruct.Tests.UnitTests
         [TestCase(2)]
         [TestCase(3)]
         [TestCase(7)]
+        [TestCase(null)]
         public async Task ExistRequestShouldReturnFalse(int id)
         {
             var dbRequest = await requestService.Exists(id);
@@ -197,6 +200,7 @@ namespace ArrnowConstruct.Tests.UnitTests
         [TestCase(-1)]
         [TestCase(2)]
         [TestCase(7)]
+        [TestCase(null)]
         public async Task RequestByIdMethodShouldThrowNullException(int id)
         {
             var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.RequestById(id));
@@ -218,13 +222,20 @@ namespace ArrnowConstruct.Tests.UnitTests
         [Test]
         [TestCase(0)]
         [TestCase(-1)]
-        [TestCase(2)]
         [TestCase(7)]
+        [TestCase(null)]
         public async Task DeleteRequestShouldThrowNullReferenceException(int id)
         {
             var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.Delete(id));
-            Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.Delete(id));
             Assert.AreEqual(GlobalExceptions.RequestDoesNotExistExceptionMessage, ex.Message);
+        }
+
+        [Test]
+        [TestCase(2)]
+        public async Task DeleteRequestShouldThrowArgumentException(int id)
+        {
+            var ex = Assert.ThrowsAsync<ArgumentException>(async () => await requestService.Delete(id));
+            Assert.AreEqual(GlobalExceptions.RequestAlreadyDeleted, ex.Message);
         }
 
         [Test]
@@ -243,6 +254,7 @@ namespace ArrnowConstruct.Tests.UnitTests
         [TestCase(0)]
         [TestCase(-1)]
         [TestCase(7)]
+        [TestCase(null)]
         public async Task GetRequestStatusShouldThrowNullReferenceException(int id)
         {
             var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.GetStatus(id));
@@ -261,5 +273,135 @@ namespace ArrnowConstruct.Tests.UnitTests
             Assert.That(dbRequest.ClientId, Is.EqualTo(request.Client.ClientId));
             Assert.That(dbRequest.ConstructorId, Is.EqualTo(request.Constructor.ConstructorId));
         }
+
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(7)]
+        [TestCase(null)]
+        public async Task GetRequestDetailsShouldThrowNullReferenceException(int id)
+        {
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.GetDetailsRequest(id));
+            Assert.AreEqual(GlobalExceptions.RequestDoesNotExistExceptionMessage, ex.Message);
+        }
+
+        [Test]
+        [TestCase(1)]
+        public async Task RejectRequestShouldChangeStatusSuccessfully(int id)
+        {
+            await requestService.Reject(id);
+            var dbRequest = await repo.GetByIdAsync<Request>(id);
+
+            Assert.IsNotNull(dbRequest);
+            Assert.That(dbRequest.Status, Is.EqualTo("Rejected"));
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(2)]
+        [TestCase(7)]
+        public async Task RejectRequestShouldThrowNullReferenceException(int id)
+        {
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.Reject(id));
+            Assert.AreEqual(GlobalExceptions.RequestDoesNotExistExceptionMessage, ex.Message);
+        }
+
+        [Test]
+        [TestCase(3)]
+        public async Task RejectRequestShouldThrowArgumentException(int id)
+        {
+            var ex = Assert.ThrowsAsync<ArgumentException>(async () => await requestService.Reject(id));
+            Assert.AreEqual(GlobalExceptions.RequestAlreadyRejected, ex.Message);
+        }
+
+        [Test]
+        [TestCase(1)]
+        public async Task ConfirmRequestShouldChangeStatusSuccessfully(int id)
+        {
+            await requestService.Confirm(id);
+            var dbRequest = await repo.GetByIdAsync<Request>(id);
+
+            Assert.IsNotNull(dbRequest);
+            Assert.That(dbRequest.Status, Is.EqualTo("Confirmed"));
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(2)]
+        [TestCase(7)]
+        public async Task ConfirmRequestShouldThrowNullReferenceException(int id)
+        {
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.Confirm(id));
+            Assert.AreEqual(GlobalExceptions.RequestDoesNotExistExceptionMessage, ex.Message);
+        }
+
+
+        [Test]
+        [TestCase(1)]
+        public async Task ConfirmRequestShouldThrowArgumentException(int id)
+        {
+            await requestService.Confirm(id);
+            var ex = Assert.ThrowsAsync<ArgumentException>(async () => await requestService.Confirm(id));
+            Assert.AreEqual(GlobalExceptions.RequestAlreadyConfirmed, ex.Message);
+        }
+
+        [Test]
+        [TestCase(1, "ClientTestId")]
+        public async Task HasClientRequestShouldChangeStatusSuccessfully(int id, string clientId)
+        {
+           var hasclient =  await requestService.HasClient(id, clientId);
+
+            Assert.That(hasclient, Is.EqualTo(true));
+        }
+
+        [Test]
+        [TestCase(0, "ClientTestId")]
+        [TestCase(-1, "ClientTestId")]
+        [TestCase(2, "ClientTestId")]
+        [TestCase(7, "ClientTestId")]
+        [TestCase(null, null)]
+        public async Task HasClientRequestShouldThrowNullReferenceException(int id, string clientId)
+        {
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.HasClient(id, clientId));
+            Assert.AreEqual(GlobalExceptions.RequestDoesNotExistExceptionMessage, ex.Message);
+        }
+
+        [Test]
+        [TestCase(1, null)]
+        public async Task HasClientRequestShouldThrowNullReferenceExceptionForClient(int id, string clientId)
+        {
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.HasClient(id, clientId));
+            Assert.AreEqual(GlobalExceptions.ClientDoessNotExistsExceptionMessage, ex.Message);
+        }
+
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(2)]
+        public async Task GetReequestConstructorShouldReturnCorrectResult(int id)
+        {
+            var request = await requestService.GetRequestsConstructorId(id);
+            var dbRequest = await repo.GetByIdAsync<Request>(id);
+
+            Assert.That(request, Is.EqualTo(dbRequest.ConstructorId));
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(null)]
+        [TestCase(7)]
+        public async Task GetRequestConstructorShouldThrowNullReferenceException(int id)
+        {
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.Reject(id));
+            Assert.AreEqual(GlobalExceptions.RequestDoesNotExistExceptionMessage, ex.Message);
+        }
+
+        //Make tests for the collections
     }
 }

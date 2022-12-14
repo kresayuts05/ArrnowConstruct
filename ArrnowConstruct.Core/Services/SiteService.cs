@@ -97,12 +97,17 @@ namespace ArrnowConstruct.Core.Services
         {
             var site = await repo.GetByIdAsync<Site>(siteId);
 
+            if (site == null || site.Status == SiteStatusEnum.Disactivated.ToString())
+            {
+                throw new NullReferenceException(GlobalExceptions.SiteDoesNotExistExceptionMessage);
+            }
+
             return site.Status;
         }
 
         public async Task<SiteViewModel> SiteById(int id)
         {
-            var request = await repo.All<Site>()
+            var site = await repo.All<Site>()
              .Where(s => s.Id == id && s.Status != SiteStatusEnum.Disactivated.ToString())
              .Select(s => new SiteViewModel()
              {
@@ -131,14 +136,19 @@ namespace ArrnowConstruct.Core.Services
                  },
                  RoomsTypes = s.RoomsTypes.Select(c => c.Name).ToList()
              })
-             .FirstAsync();
+             .FirstOrDefaultAsync();
 
-            return request;
+            if (site == null )
+            {
+                throw new NullReferenceException(GlobalExceptions.SiteDoesNotExistExceptionMessage);
+            }
+
+            return site;
         }
         public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<Site>()
-                .AnyAsync(s => s.Id == id);
+                .AnyAsync(s => s.Id == id && s.Status != SiteStatusEnum.Disactivated.ToString());
         }
 
         public async Task Finish(int siteId, SiteViewModel model)
@@ -148,6 +158,11 @@ namespace ArrnowConstruct.Core.Services
             if (site == null)
             {
                 throw new NullReferenceException(GlobalExceptions.SiteDoesNotExistExceptionMessage);
+            }
+
+            if (site.Status != SiteStatusEnum.InProcess.ToString())
+            {
+                throw new ArgumentException(GlobalExceptions.SiteCannotBeFinished);
             }
 
             site.ToDate = DateTime.ParseExact(model.ToDate, "yyyy-MM-dd", CultureInfo.CurrentCulture);
@@ -163,6 +178,11 @@ namespace ArrnowConstruct.Core.Services
             if (site == null)
             {
                 throw new NullReferenceException(GlobalExceptions.SiteDoesNotExistExceptionMessage);
+            }
+
+            if (site.Status == SiteStatusEnum.Disactivated.ToString())
+            {
+                throw new ArgumentException(GlobalExceptions.SiteIsAlreadyDisactivated);
             }
 
             site.Status = SiteStatusEnum.Disactivated.ToString();

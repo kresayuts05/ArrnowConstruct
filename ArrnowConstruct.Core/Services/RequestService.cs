@@ -209,9 +209,14 @@ namespace ArrnowConstruct.Core.Services
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
 
-            if (request == null || request.IsActive == false)
+            if (request == null)
             {
                 throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
+
+            if (request.IsActive == false)
+            {
+                throw new ArgumentException(GlobalExceptions.RequestAlreadyDeleted);
             }
 
             request.IsActive = false;
@@ -264,7 +269,7 @@ namespace ArrnowConstruct.Core.Services
                   },
                   IsActive = r.IsActive
               })
-              .FirstAsync();
+              .FirstOrDefaultAsync();
 
 
             if (request == null)
@@ -279,9 +284,14 @@ namespace ArrnowConstruct.Core.Services
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
 
-            if (request == null)
+            if (request == null || request.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
+
+            if (request.Status == "Rejected")
+            {
+                throw new ArgumentException(GlobalExceptions.RequestAlreadyRejected);
             }
 
             request.Status = "Rejected";
@@ -293,9 +303,14 @@ namespace ArrnowConstruct.Core.Services
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
 
-            if (request == null)
+            if (request == null || request.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
+            }
+
+            if (request.Status == "Confirmed")
+            {
+                throw new ArgumentException(GlobalExceptions.RequestAlreadyConfirmed);
             }
 
             request.Status = "Confirmed";
@@ -307,7 +322,7 @@ namespace ArrnowConstruct.Core.Services
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
 
-            if(request == null)
+            if(request == null || request.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
             }

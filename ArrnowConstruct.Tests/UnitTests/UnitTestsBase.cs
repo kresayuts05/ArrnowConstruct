@@ -81,7 +81,6 @@ namespace ArrnowConstruct.Tests.UnitTests
             {
                 new Client() {
                     Id = 1,
-
                          User =  new User
                        {
                            Id = "ClientTestId",
@@ -181,7 +180,7 @@ namespace ArrnowConstruct.Tests.UnitTests
                    Area = 30,
                    RequiredDate = DateTime.UtcNow,
                    Budget = 2000,
-                   Status = "Confirm",
+                   Status = "Rejected",
                    ClientId = 1,
                    ConstructorId = 1,
                    RoomsTypes = new List<Category>(){categories[1], categories[2] }
@@ -199,6 +198,32 @@ namespace ArrnowConstruct.Tests.UnitTests
                    ToDate = DateTime.UtcNow.AddDays(3),
                    Price = 2000,
                    Status = "InProcess",
+                   ClientId = 1,
+                   ConstructorId = 1,
+                   RoomsTypes = new List<Category>(){categories[1], categories[2] }
+                },
+                 new Site
+                {
+                   Id = 2,
+                   RoomsCount = 2,
+                   Area = 30,
+                   FromDate = DateTime.UtcNow.AddDays(1),
+                   ToDate = DateTime.UtcNow.AddDays(3),
+                   Price = 2000,
+                   Status = "Finished",
+                   ClientId = 1,
+                   ConstructorId = 1,
+                   RoomsTypes = new List<Category>(){categories[1], categories[2] }
+                },
+                      new Site
+                {
+                   Id = 3,
+                   RoomsCount = 2,
+                   Area = 30,
+                   FromDate = DateTime.UtcNow.AddDays(1),
+                   ToDate = DateTime.UtcNow.AddDays(3),
+                   Price = 2000,
+                   Status = "Disactivated",
                    ClientId = 1,
                    ConstructorId = 1,
                    RoomsTypes = new List<Category>(){categories[1], categories[2] }

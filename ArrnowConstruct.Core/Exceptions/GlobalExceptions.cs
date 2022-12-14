@@ -33,5 +33,17 @@ namespace ArrnowConstruct.Core.Exceptions
         public const string RequestsDoNotExist = "There are no requests yet.";
 
         public const string SitesDoNotExist = "There are no sites yet.";
+
+        public const string RequestAlreadyRejected = "This Request has already been rejected.";
+
+        public const string RequestAlreadyDeleted = "This Request has already been deleted.";
+
+        public const string RequestAlreadyConfirmed = "This Request has already been confirmed.";
+
+        public const string SiteCannotBeFinished = "This Site cannot be finished.";
+
+        public const string SiteIsAlreadyDisactivated = "This Site is already disactivated.";
+
+
     }
 }
