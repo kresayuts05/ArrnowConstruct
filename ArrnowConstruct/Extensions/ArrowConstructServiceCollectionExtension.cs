@@ -2,7 +2,7 @@
 using ArrnowConstruct.Core.Services;
 using ArrnowConstruct.Infrastructure.Data.Common;
 
-namespace ArrnowConstruct.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ArrowConstructServiceCollectionExtension
     {

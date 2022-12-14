@@ -98,8 +98,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<bool> UserByEmailExists(string email)
         {
             var user = await repo.All<User>()
-                .Where(u => u.Email == email)
-                .FirstAsync();
+                .FirstOrDefaultAsync(u => u.Email == email);
 
             return user != null;
         }

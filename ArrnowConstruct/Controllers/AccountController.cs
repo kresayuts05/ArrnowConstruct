@@ -1,5 +1,4 @@
-﻿using ArrnowConstruct.Core.Constants;
-using ArrnowConstruct.Core.Contarcts;
+﻿using ArrnowConstruct.Core.Contarcts;
 using ArrnowConstruct.Core.Models.Profile;
 using ArrnowConstruct.Infrastructure.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -66,8 +65,8 @@ namespace ArrnowConstruct.Controllers
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
-            await userManager
-                  .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirsName, user.FirstName ?? user.Email));
+            //await userManager
+            //      .AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypeConstants.FirsName, user.FirstName ?? user.Email));
 
             await userManager.AddToRoleAsync(user, "Client");
             await clientService.Create(user.Id);

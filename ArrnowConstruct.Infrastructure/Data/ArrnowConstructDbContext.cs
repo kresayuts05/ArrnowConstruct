@@ -8,9 +8,19 @@ namespace ArrnowConstruct.Infrastructure.Data
 {
     public class ArrnowConstructDbContext : IdentityDbContext<User>
     {
-        public ArrnowConstructDbContext(DbContextOptions<ArrnowConstructDbContext> options)
+        private bool seedDb;
+
+        public ArrnowConstructDbContext(DbContextOptions<ArrnowConstructDbContext> options, bool seed = true)
             : base(options)
         {
+            if (this.Database.IsRelational())
+            {
+                this.Database.Migrate();
+            }
+            else
+            {
+                this.Database.EnsureCreated();
+            }
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -41,13 +51,15 @@ namespace ArrnowConstruct.Infrastructure.Data
             //  .HasForeignKey(e => e.ChatMessageId)
             //  .OnDelete(DeleteBehavior.Restrict);
 
-
-            builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new ClientConfiguration());
-            builder.ApplyConfiguration(new ConstructorConfiguration());
-            builder.ApplyConfiguration(new CategoryConfiguration());
-            builder.ApplyConfiguration(new RoleConfiguration());
-            builder.ApplyConfiguration(new AdministratorConifuration());
+            if (seedDb == true)
+            {
+                builder.ApplyConfiguration(new UserConfiguration());
+                builder.ApplyConfiguration(new ClientConfiguration());
+                builder.ApplyConfiguration(new ConstructorConfiguration());
+                builder.ApplyConfiguration(new CategoryConfiguration());
+                builder.ApplyConfiguration(new RoleConfiguration());
+                builder.ApplyConfiguration(new AdministratorConifuration());
+            }
 
             base.OnModelCreating(builder);
         }

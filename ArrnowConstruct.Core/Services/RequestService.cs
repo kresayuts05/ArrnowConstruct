@@ -114,6 +114,11 @@ namespace ArrnowConstruct.Core.Services
         {
             int constructorId = await constructorService.ConstructorWithEmailExists(model.ConstructorEmail);
 
+            if(constructorId == -1)
+            {
+                throw new NullReferenceException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
+            }
+
             var categories = await categoryService.CategoriesById(model.CategoryId);
 
             var request = new Request()
@@ -137,17 +142,18 @@ namespace ArrnowConstruct.Core.Services
         {
             var request = await repo.All<Request>()
                 .Include(r => r.RoomsTypes)
-                .Where(r => r.Id == requestId)
-                .FirstAsync();
+                .FirstOrDefaultAsync(r => r.Id == requestId);
 
             if (request == null)
             {
                 throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
             }
 
-            foreach (var categ in request.RoomsTypes)
+            var requestCategories = request.RoomsTypes.ToList();
+            while(requestCategories.Any())
             {
-                request.RoomsTypes.Remove(categ);
+                request.RoomsTypes.Remove(requestCategories[0]);
+                requestCategories.RemoveAt(0);
             }
 
             await repo.SaveChangesAsync();
@@ -187,7 +193,7 @@ namespace ArrnowConstruct.Core.Services
                  (r.RoomsTypes.Select(r => new CategoryModel() { Id = r.Id, Name = r.Name }).ToList()),
                  IsActive = r.IsActive
              })
-             .FirstAsync();
+             .FirstOrDefaultAsync();
 
 
             if (request == null)
@@ -203,7 +209,7 @@ namespace ArrnowConstruct.Core.Services
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
 
-            if (request == null)
+            if (request == null || request.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
             }

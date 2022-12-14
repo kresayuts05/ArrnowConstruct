@@ -13,6 +13,11 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
 {
     public class Request
     {
+        public Request()
+        {
+            IsActive = true;
+        }
+
         [Key]
         public int Id { get; set; }
 

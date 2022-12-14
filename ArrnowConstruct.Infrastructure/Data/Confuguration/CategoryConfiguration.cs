@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ArrnowConstruct.Infrastructure.Data.Confuguration
 {
-    internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
