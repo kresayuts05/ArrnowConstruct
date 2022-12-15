@@ -114,7 +114,7 @@ namespace ArrnowConstruct.Core.Services
         {
             int constructorId = await constructorService.ConstructorWithEmailExists(model.ConstructorEmail);
 
-            if(constructorId == -1)
+            if (constructorId == -1)
             {
                 throw new NullReferenceException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
             }
@@ -142,15 +142,17 @@ namespace ArrnowConstruct.Core.Services
         {
             var request = await repo.All<Request>()
                 .Include(r => r.RoomsTypes)
-                .FirstOrDefaultAsync(r => r.Id == requestId);
+                .FirstOrDefaultAsync(r => r.Id == requestId &&
+                r.Constructor.User.IsActive == true &&
+                r.Client.User.IsActive);
 
-            if (request == null)
+            if (request == null || request.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
             }
 
             var requestCategories = request.RoomsTypes.ToList();
-            while(requestCategories.Any())
+            while (requestCategories.Any())
             {
                 request.RoomsTypes.Remove(requestCategories[0]);
                 requestCategories.RemoveAt(0);
@@ -203,7 +205,6 @@ namespace ArrnowConstruct.Core.Services
 
             return request;
         }
-
 
         public async Task Delete(int requestId)
         {
@@ -322,7 +323,7 @@ namespace ArrnowConstruct.Core.Services
         {
             var request = await repo.GetByIdAsync<Request>(requestId);
 
-            if(request == null || request.IsActive == false)
+            if (request == null || request.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.RequestDoesNotExistExceptionMessage);
             }

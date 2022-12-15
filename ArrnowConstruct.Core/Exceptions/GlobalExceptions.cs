@@ -44,6 +44,7 @@ namespace ArrnowConstruct.Core.Exceptions
 
         public const string SiteIsAlreadyDisactivated = "This Site is already disactivated.";
 
+        public const string PostIsAlreadyDeleted = "This Post is already deleted.";
 
     }
 }

@@ -45,7 +45,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<int> GetConstructorId(string userId)
         {
             var constructor = await repo.AllReadonly<Constructor>()
-                .FirstOrDefaultAsync(a => a.UserId == userId);
+                .FirstOrDefaultAsync(a => a.UserId == userId && a.User.IsActive == true);
 
             if(constructor == null)
             {

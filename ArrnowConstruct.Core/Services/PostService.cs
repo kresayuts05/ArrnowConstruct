@@ -63,7 +63,7 @@ namespace ArrnowConstruct.Core.Services
         {
             var posts = await repo.All<Post>()
                  .Where(p => p.Site.ConstructorId == id && p.IsActive == true && p.Site.Constructor.IsActive == true)
-                  .OrderByDescending(p => p.Id)
+                 .OrderByDescending(p => p.Id)
                  .Select(p => new PostViewModel
                  {
                      Id = p.Id,
@@ -122,16 +122,21 @@ namespace ArrnowConstruct.Core.Services
         public async Task<bool> Exists(int id)
         {
             return await repo.All<Post>()
-                .AnyAsync(p => p.Id == id && p.IsActive == true && p.Site.Constructor.IsActive == true);
+                .AnyAsync(p => p.Id == id && p.IsActive == true && p.Site.Constructor.User.IsActive == true);
         }
 
         public async Task Edit(int postId, PostFormViewModel model)
         {
             var post = await repo.GetByIdAsync<Post>(postId);
 
-            if (post == null)
+            if (post == null || post.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.PostDoesNotExistExceptionMessage);
+            }
+
+            if (post.Site.Constructor.User.IsActive == false)
+            {
+                throw new ArgumentException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
             }
 
             var images = await repo.All<Image>()
@@ -164,9 +169,14 @@ namespace ArrnowConstruct.Core.Services
         {
             var post = await repo.GetByIdAsync<Post>(postId);
 
-            if (post == null)
+            if (post == null || post.Site.Constructor.User.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.PostDoesNotExistExceptionMessage);
+            }
+
+            if (post.IsActive == false)
+            {
+                throw new ArgumentException(GlobalExceptions.PostIsAlreadyDeleted);
             }
 
             post.IsActive = false;
