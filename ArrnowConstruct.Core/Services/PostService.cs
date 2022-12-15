@@ -49,10 +49,13 @@ namespace ArrnowConstruct.Core.Services
             await repo.AddAsync(post);
             await repo.SaveChangesAsync();
 
-            foreach (var imageInfo in model.Images)
+            if (model.Images.Any())
             {
-                var image = await this.imageService.UploadImage(imageInfo, "images", post.Id);
-                post.Image.Add(image);
+                foreach (var imageInfo in model.Images)
+                {
+                    var image = await this.imageService.UploadImage(imageInfo, "images", post.Id);
+                    post.Image.Add(image);
+                }
             }
         }
 
@@ -68,7 +71,6 @@ namespace ArrnowConstruct.Core.Services
                      Description = p.Description,
                      ShortContent = p.ShortContent,
                      Title = p.Title,
-                     Likes = p.Likes,
                      Images = p.Image.Where(i => i.IsActive == true).Select(i => i.UrlPath).ToList(),
                      Site = new SiteViewModel()
                      {
@@ -102,11 +104,10 @@ namespace ArrnowConstruct.Core.Services
                         Description = p.Description,
                         ShortContent = p.ShortContent,
                         Title = p.Title,
-                        Likes = p.Likes,
                         Images = p.Image.Where(i => i.IsActive == true).Select(i => i.UrlPath).ToList(),
                         Site = new SiteViewModel() { Id = p.Site.Id }
                     })
-                    .FirstAsync();
+                    .FirstOrDefaultAsync();
 
             if (post == null)
             {
@@ -120,7 +121,7 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<bool> Exists(int id)
         {
-            return await repo.AllReadonly<Post>()
+            return await repo.All<Post>()
                 .AnyAsync(p => p.Id == id && p.IsActive == true && p.Site.Constructor.IsActive == true);
         }
 
@@ -196,7 +197,6 @@ namespace ArrnowConstruct.Core.Services
                     Description = p.Description,
                     ShortContent = p.ShortContent,
                     Title = p.Title,
-                    Likes = p.Likes,
                     Images = p.Image.Where(i => i.IsActive == true).Select(i => i.UrlPath).ToList(),
                     Site = new SiteViewModel()
                     {

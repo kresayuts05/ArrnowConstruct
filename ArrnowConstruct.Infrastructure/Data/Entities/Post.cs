@@ -14,8 +14,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
     {
         public Post()
         {
-            this.Likes = 0;
             this.CreatedOn = DateTime.Now;
+            IsActive = true;
         }
 
         [Key]
@@ -37,8 +37,6 @@ namespace ArrnowConstruct.Infrastructure.Data.Entities
         [Required]
         [MaxLength(TiteMaxLength)]
         public string Title { get; set; }
-
-        public int Likes { get; set; }
 
         [Required]
         public bool IsActive { get; set; }

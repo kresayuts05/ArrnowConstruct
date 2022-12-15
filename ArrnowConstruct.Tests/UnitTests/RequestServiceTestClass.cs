@@ -26,7 +26,6 @@ namespace ArrnowConstruct.Tests.UnitTests
         private ICategoryService categoryService;
         private IConstructorService constructorService;
         private IClientService clientService;
-        private ArrnowConstructDbContext arrnowConstructDbContext;
 
         [SetUp]
         public async Task Setup()

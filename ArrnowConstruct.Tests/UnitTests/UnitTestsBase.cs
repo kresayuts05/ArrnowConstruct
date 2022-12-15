@@ -2,6 +2,7 @@
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Entities;
 using ArrnowConstruct.Tests.Mocks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -118,6 +119,25 @@ namespace ArrnowConstruct.Tests.UnitTests
                       },
                          Salary = 1000
                 },
+                  new Constructor() {
+                    Id = 2,
+                         User =  new User
+                       {
+                           Id = "ConstructorTestIdDisactivaated",
+                           UserName = "constructo",
+                           Email = "constructor@gmail.co",
+                           EmailConfirmed = true,
+                           NormalizedEmail = "CONSTRUCTOR@GMAIL.CO",
+                           NormalizedUserName = "CONSTRUCTO",
+                           FirstName = "constructor",
+                           LastName = "constructor",
+                           City = "Kazanlak",
+                           Country = "Bulgaria",
+                           Address = "jhgfcdcfygvubhinj",
+                           IsActive = false
+                      },
+                         Salary = 1000
+                },
             };
 
             roles = new List<IdentityRole>
@@ -225,8 +245,40 @@ namespace ArrnowConstruct.Tests.UnitTests
                    Price = 2000,
                    Status = "Disactivated",
                    ClientId = 1,
-                   ConstructorId = 1,
+                   ConstructorId = 2,
                    RoomsTypes = new List<Category>(){categories[1], categories[2] }
+                },
+            };
+
+            posts = new List<Post> {
+                new Post()
+                {
+                    Id = 1,
+                    Description = "My description is very short, but meaningful",
+                    ShortContent = "The short content is even shorter",
+                    Title = "The best post",
+                    SiteId = 2,
+                    Image = new List<Image>()
+                },
+                 new Post()
+                {
+                    Id = 2,
+                    Description = "My description is very short, but meaningful again",
+                    ShortContent = "The short content is even shorter again",
+                    Title = "The best post again",
+                    SiteId = 2,
+                    Image = new List<Image>(),
+                    IsActive = false
+                },
+                    new Post()
+                {
+                    Id = 3,
+                    Description = "My description is very short, but meaningful again",
+                    ShortContent = "The short content is even shorter again",
+                    Title = "The best post again",
+                    SiteId = 3,
+                    Image = new List<Image>(),
+                    IsActive = true
                 },
             };
 
@@ -236,6 +288,7 @@ namespace ArrnowConstruct.Tests.UnitTests
             await context.UserRoles.AddRangeAsync(userRoles);
             await context.Requests.AddRangeAsync(requests);
             await context.Sites.AddRangeAsync(sites);
+            await context.Posts.AddRangeAsync(posts);
 
             await context.SaveChangesAsync();
         }

@@ -21,7 +21,7 @@ namespace ArrnowConstruct.Core.Models.Post
 
         public int Likes { get; set; }
 
-        public List<string> Images { get; set; }
+        public List<string>? Images { get; set; }
 
         public bool IsActive { get; set; }
 
