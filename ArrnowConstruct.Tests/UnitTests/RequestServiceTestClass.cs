@@ -401,6 +401,45 @@ namespace ArrnowConstruct.Tests.UnitTests
             Assert.AreEqual(GlobalExceptions.RequestDoesNotExistExceptionMessage, ex.Message);
         }
 
-        //Make tests for the collections
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        public async Task AllRequestsByClientIdShouldReturnCorrectCollection(int id)
+        {
+            var dbRequets = await repo.All<Request>()
+                .Where(p => p.ClientId == id && p.IsActive && p.Constructor.User.IsActive == true && p.Client.User.IsActive == true)
+                .OrderByDescending(r => r.Id)
+                .Select(p => p.Id)
+                .ToListAsync();
+
+            var requestsByClientIdInfo = (List<RequestViewModel>)await requestService.AllRequestsByClientId(id);
+
+            var requestsByClientId = requestsByClientIdInfo.Select(r => r.Id).ToList();
+
+            Assert.AreEqual(dbRequets.Count, requestsByClientId.Count);
+            Assert.AreEqual(dbRequets, requestsByClientId);
+        }
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(2)]
+        public async Task AllRequestsByConstructorIdShouldReturnCorrectCollection(int id)
+        {
+            var dbRequets = await repo.All<Request>()
+                .Where(r => r.IsActive == true && r.Status == "Waiting")
+                .Where(r => r.ConstructorId == id && r.Constructor.User.IsActive == true && r.Client.User.IsActive == true)
+                .OrderByDescending(r => r.Id)
+                .Select(p => p.Id)
+                .ToListAsync();
+
+            var requestsByConstructorIdInfo = (List<RequestViewModel>)await requestService.AllRequestsForConstructorById(id);
+
+            var requestsByConstructorId = requestsByConstructorIdInfo.Select(r => r.Id).ToList();
+
+            Assert.AreEqual(dbRequets.Count, requestsByConstructorId.Count);
+            Assert.AreEqual(dbRequets, requestsByConstructorId);
+        }
     }
 }

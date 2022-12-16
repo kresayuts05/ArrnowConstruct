@@ -6,6 +6,8 @@ using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Core.Services;
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Entities;
+using ArrnowConstruct.Infrastructure.Data.Entities.Enums;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -19,8 +21,6 @@ namespace ArrnowConstruct.Tests.UnitTests
     public class SiteServiceTestClass : UnitTestsBase
     {
         private IRepository repo;
-        private IRequestService requestService;
-        private IConstructorService constructorService;
         private ICategoryService categoryService;
         private ISiteService siteService;
 
@@ -28,9 +28,8 @@ namespace ArrnowConstruct.Tests.UnitTests
         public async Task Setup()
         {
             this.repo = new Repository(this.context);
-            this.constructorService = new ConstructorService(repo);
             this.categoryService = new CategoryService(repo);
-            this.siteService = new SiteService(repo, requestService, constructorService, categoryService);
+            this.siteService = new SiteService(repo, categoryService);
         }
 
 
@@ -216,5 +215,27 @@ namespace ArrnowConstruct.Tests.UnitTests
             var dbSite = await siteService.Exists(id);
             Assert.That(dbSite, Is.EqualTo(false));
         }
+
+
+        [Test]
+        [TestCase(1)]
+        [TestCase(2)]
+        public async Task AllSitesByConstructorIdShouldReturnCorrectCollection(int id)
+        {
+            var dbSites = await repo.All<Site>()
+               .Where(s => s.ConstructorId == id && s.Status != SiteStatusEnum.Disactivated.ToString())
+                .OrderByDescending(s => s.Id)
+                .Select(p => p.Id)
+                .ToListAsync();
+
+            var sitesByConstructorIdInfo = (List<SiteViewModel>)await siteService.AllSitesByConstructorId(id);
+
+            var sitesByConstructorId = sitesByConstructorIdInfo.Select(r => r.Id).ToList();
+
+            Assert.AreEqual(dbSites.Count, sitesByConstructorId.Count);
+            Assert.AreEqual(dbSites, sitesByConstructorId);
+        }
+
+
     }
 }

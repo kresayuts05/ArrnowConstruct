@@ -1,4 +1,5 @@
 ﻿using ArrnowConstruct.Core.Contarcts;
+using ArrnowConstruct.Core.Exceptions;
 using ArrnowConstruct.Core.Models.User;
 using ArrnowConstruct.Infrastructure.Data.Common;
 using ArrnowConstruct.Infrastructure.Data.Constants;
@@ -26,10 +27,10 @@ namespace ArrnowConstruct.Core.Services
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
-            //if (!user.IsActive)
-            //{
-            //    throw new ArgumentException(GlobalExceptions.UserNotHasPermission);
-            //}
+            if (user == null || user.IsActive == false)
+            {
+                throw new NullReferenceException(GlobalExceptions.UserDoesNotExistExceptionMessage);
+            }
 
             var userModel = new UserModel()
             {
@@ -90,15 +91,20 @@ namespace ArrnowConstruct.Core.Services
         {
             var user = await repo.GetByIdAsync<User>(userId);
 
+            if (user == null || user.IsActive == false)
+            {
+                throw new NullReferenceException(GlobalExceptions.UserDoesNotExistExceptionMessage);
+            }
+
             user.IsActive = false;
 
-          await  repo.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
 
         public async Task<bool> UserByEmailExists(string email)
         {
             var user = await repo.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == email);
+                .FirstOrDefaultAsync(u => u.Email == email && u.IsActive == true);
 
             return user != null;
         }

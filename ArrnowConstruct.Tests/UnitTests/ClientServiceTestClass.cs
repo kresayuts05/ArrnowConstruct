@@ -33,14 +33,14 @@ namespace ArrnowConstruct.Tests.UnitTests
         {
             var user = new User
             {
-                Id = "ClientTestId2",
-                UserName = "client2",
-                Email = "client2@gmail.com",
+                Id = "ClientTestId22",
+                UserName = "client22",
+                Email = "client22@gmail.com",
                 EmailConfirmed = true,
-                NormalizedEmail = "CLIENT2@GMAIL.COM",
-                NormalizedUserName = "CLIENT2",
-                FirstName = "Client2",
-                LastName = "Client2",
+                NormalizedEmail = "CLIENT22@GMAIL.COM",
+                NormalizedUserName = "CLIENT22",
+                FirstName = "Client22",
+                LastName = "Client22",
                 City = "Kazanlak",
                 Country = "Bulgaria",
                 Address = "jhgfcdcfygvubhinj"
@@ -49,13 +49,13 @@ namespace ArrnowConstruct.Tests.UnitTests
             await repo.AddAsync(user);
             await repo.SaveChangesAsync();
 
-            await clientService.Create("ClientTestId2");
+            await clientService.Create("ClientTestId22");
 
             var dbClient = await repo.GetByIdAsync<Client>(3);
 
             Assert.IsNotNull(dbClient);
-            Assert.That(dbClient.UserId, Is.EqualTo("ClientTestId2"));
-            Assert.That(dbClient.User.Email, Is.EqualTo("client2@gmail.com"));
+            Assert.That(dbClient.UserId, Is.EqualTo("ClientTestId22"));
+            Assert.That(dbClient.User.Email, Is.EqualTo("client22@gmail.com"));
         }
 
         [Test]
@@ -99,6 +99,76 @@ namespace ArrnowConstruct.Tests.UnitTests
         {
             var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await clientService.GetClientId(id));
             Assert.AreEqual(GlobalExceptions.ClientDoessNotExistsExceptionMessage, ex.Message);
+        }
+
+
+        [Test]
+        [TestCase(1)]
+        public async Task GetUserByClientIdShouldReturnCorrectResult(int id)
+        {
+            var user = await clientService.GetUserByClientId(id);
+
+            var dbClient = await repo.GetByIdAsync<Client>(id);
+
+            Assert.IsNotNull(user);
+            Assert.That(dbClient.UserId, Is.EqualTo(user.Id));
+            Assert.That(dbClient.User.Email, Is.EqualTo(user.Email));
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(2)]
+        [TestCase(null)]
+        [TestCase(7)]
+        public async Task GetUserByClientIdShouldThrowNullReferenceException(int id)
+        {
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await clientService.GetUserByClientId(id));
+            Assert.AreEqual(GlobalExceptions.ClientDoessNotExistsExceptionMessage, ex.Message);
+        }
+
+        [Test]
+        [TestCase(1)]
+        public async Task DisactivateClientShouldChangeStatusSuccessfully(int id)
+        {
+            await clientService.DisactivateClient(id);
+            var dbClient = await repo.GetByIdAsync<Client>(id);
+
+            Assert.AreEqual(dbClient.IsActive, false);
+        }
+
+        [Test]
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(2)]
+        [TestCase(7)]
+        [TestCase(null)]
+        public async Task DisactivateClientShouldThrowNullReferenceException(int id)
+        {
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await clientService.DisactivateClient(id));
+            Assert.AreEqual(GlobalExceptions.ClientDoessNotExistsExceptionMessage, ex.Message);
+        }
+
+
+        [Test]
+        [TestCase("ClientTestId")]
+        public async Task ExistConstructorShouldReturnTrue(string id)
+        {
+            var dbRequest = await clientService.ExistsById(id);
+
+            Assert.That(dbRequest, Is.EqualTo(true));
+        }
+
+        [Test]
+        [TestCase("")]
+        [TestCase("sth")]
+        [TestCase("ClientTestId2")]
+        [TestCase("ConstructorTestIdDisactivaated")]
+        [TestCase(null)]
+        public async Task ExistConstructorShouldReturnFalse(string id)
+        {
+            var dbRequest = await clientService.ExistsById(id);
+            Assert.That(dbRequest, Is.EqualTo(false));
         }
     }
 }

@@ -101,7 +101,7 @@ namespace ArrnowConstruct.Tests.UnitTests
         [TestCase("ClientTestId")]
         [TestCase("ConstructorTestIdDisactivaated")]
         [TestCase(null)]
-        public async Task GetRequestStatusShouldThrowNullReferenceException(string id)
+        public async Task GetConstructorIdShouldThrowNullReferenceException(string id)
         {
             var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await constructorService.GetConstructorId(id));
             Assert.AreEqual(GlobalExceptions.ConstructorDoesNotExistExceptionMessage, ex.Message);

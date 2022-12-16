@@ -38,7 +38,7 @@ namespace ArrnowConstruct.Core.Services
         {
             return await repo.All<Request>()
                 .Where(r => r.IsActive == true)
-                .Where(r => r.ClientId == id && r.Client.IsActive == true && r.Constructor.IsActive == true)
+                .Where(r => r.ClientId == id && r.Client.User.IsActive == true && r.Constructor.User.IsActive == true && r.IsActive == true)
                 .OrderByDescending(r => r.Id)
                 .Select(r => new RequestViewModel
                 {
@@ -76,7 +76,7 @@ namespace ArrnowConstruct.Core.Services
         {
             return await repo.All<Request>()
                 .Where(r => r.IsActive == true && r.Status == "Waiting")
-                .Where(r => r.ConstructorId == id && r.Constructor.IsActive == true && r.Client.IsActive == true)
+                .Where(r => r.ConstructorId == id && r.Constructor.User.IsActive == true && r.Client.User.IsActive == true)
                 .OrderByDescending(r => r.Id)
                 .Select(r => new RequestViewModel
                 {

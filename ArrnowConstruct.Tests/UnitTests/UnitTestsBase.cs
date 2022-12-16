@@ -78,82 +78,105 @@ namespace ArrnowConstruct.Tests.UnitTests
 
             await context.Categories.AddRangeAsync(categories);
 
+            users = new List<User>()
+            {
+                new User()
+                {
+                    Id = "ae724eb3-355b-48dd-bdaa-c1eaccf666c5",
+                    UserName = "admin",
+                    NormalizedUserName = "ADMIN",
+                    Email = "admin@mail.com",
+                    NormalizedEmail = "ADMIN@MAIL.COM",
+                    PhoneNumber = "0886121260",
+                    FirstName = "Admin",
+                    LastName = "Tsvetkova",
+                    City = "Kazanlak",
+                    Address = "Edelvais 6 ",
+                    Country = "Bulgaria"
+                }
+             };
+
+
             clients = new List<Client>
             {
-                new Client() {
-                    Id = 1,
-                         User =  new User
-                       {
-                           Id = "ClientTestId",
-                           UserName = "client",
-                           Email = "client@gmail.com",
-                           EmailConfirmed = true,
-                           NormalizedEmail = "CLIENT@GMAIL.COM",
-                           NormalizedUserName = "CLIENT",
-                           FirstName = "Client",
-                           LastName = "Client",
-                           City = "Kazanlak",
-                           Country = "Bulgaria",
-                           Address = "jhgfcdcfygvubhinj"
-                      }
+                new Client()
+    {
+        Id = 1,
+                         User = new User
+                         {
+                             Id = "ClientTestId",
+                             UserName = "client",
+                             Email = "client@gmail.com",
+                             EmailConfirmed = true,
+                             NormalizedEmail = "CLIENT@GMAIL.COM",
+                             NormalizedUserName = "CLIENT",
+                             FirstName = "Client",
+                             LastName = "Client",
+                             City = "Kazanlak",
+                             Country = "Bulgaria",
+                             Address = "jhgfcdcfygvubhinj"
+                         }
                 },
-                new Client() {
-                    Id = 2,
-                         User =  new User
-                       {
-                           Id = "ClientTestId2",
-                           UserName = "client2",
-                           Email = "client2@gmail.com",
-                           EmailConfirmed = true,
-                           NormalizedEmail = "CLIENT2@GMAIL.COM",
-                           NormalizedUserName = "CLIENT2",
-                           FirstName = "Client2",
-                           LastName = "Client2",
-                           City = "Kazanlak",
-                           Country = "Bulgaria",
-                           Address = "jhgfcdcfygvubhinj",
-                           IsActive = false
-                      }
+                new Client()
+    {
+        Id = 2,
+                         User = new User
+                         {
+                             Id = "ClientTestId2",
+                             UserName = "client2",
+                             Email = "client2@gmail.com",
+                             EmailConfirmed = true,
+                             NormalizedEmail = "CLIENT2@GMAIL.COM",
+                             NormalizedUserName = "CLIENT2",
+                             FirstName = "Client2",
+                             LastName = "Client2",
+                             City = "Kazanlak",
+                             Country = "Bulgaria",
+                             Address = "jhgfcdcfygvubhinj",
+                             IsActive = false
+                         }
                 },
             };
 
             constructors = new List<Constructor>
             {
-                new Constructor() {
-                    Id = 1,
-                         User =  new User
-                       {
-                           Id = "ConstructorTestId",
-                           UserName = "constructor",
-                           Email = "constructor@gmail.com",
-                           EmailConfirmed = true,
-                           NormalizedEmail = "CONSTRUCTOR@GMAIL.COM",
-                           NormalizedUserName = "CONSTRUCTOR",
-                           FirstName = "constructor",
-                           LastName = "constructor",
-                           City = "Kazanlak",
-                           Country = "Bulgaria",
-                           Address = "jhgfcdcfygvubhinj"
-                      },
+                new Constructor()
+    {
+        Id = 1,
+                         User = new User
+                         {
+                             Id = "ConstructorTestId",
+                             UserName = "constructor",
+                             Email = "constructor@gmail.com",
+                             EmailConfirmed = true,
+                             NormalizedEmail = "CONSTRUCTOR@GMAIL.COM",
+                             NormalizedUserName = "CONSTRUCTOR",
+                             FirstName = "constructor",
+                             LastName = "constructor",
+                             City = "Kazanlak",
+                             Country = "Bulgaria",
+                             Address = "jhgfcdcfygvubhinj"
+                         },
                          Salary = 1000
                 },
-                  new Constructor() {
-                    Id = 2,
-                         User =  new User
-                       {
-                           Id = "ConstructorTestIdDisactivaated",
-                           UserName = "constructo",
-                           Email = "constructor@gmail.co",
-                           EmailConfirmed = true,
-                           NormalizedEmail = "CONSTRUCTOR@GMAIL.CO",
-                           NormalizedUserName = "CONSTRUCTO",
-                           FirstName = "constructor",
-                           LastName = "constructor",
-                           City = "Kazanlak",
-                           Country = "Bulgaria",
-                           Address = "jhgfcdcfygvubhinj",
-                           IsActive = false
-                      },
+                  new Constructor()
+    {
+        Id = 2,
+                         User = new User
+                         {
+                             Id = "ConstructorTestIdDisactivaated",
+                             UserName = "constructo",
+                             Email = "constructor@gmail.co",
+                             EmailConfirmed = true,
+                             NormalizedEmail = "CONSTRUCTOR@GMAIL.CO",
+                             NormalizedUserName = "CONSTRUCTO",
+                             FirstName = "constructor",
+                             LastName = "constructor",
+                             City = "Kazanlak",
+                             Country = "Bulgaria",
+                             Address = "jhgfcdcfygvubhinj",
+                             IsActive = false
+                         },
                          Salary = 1000
                 },
             };
@@ -300,6 +323,7 @@ namespace ArrnowConstruct.Tests.UnitTests
                 },
             };
 
+            await context.Users.AddRangeAsync(users);
             await context.Clients.AddRangeAsync(clients);
             await context.Constructors.AddRangeAsync(constructors);
             await context.Roles.AddRangeAsync(roles);

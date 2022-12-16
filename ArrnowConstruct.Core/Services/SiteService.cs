@@ -19,19 +19,13 @@ namespace ArrnowConstruct.Core.Services
     public class SiteService : ISiteService
     {
         private readonly IRepository repo;
-        private readonly IRequestService requestService;
-        private readonly IConstructorService constructorService;
         private readonly ICategoryService categoryService;
 
         public SiteService(
             IRepository _repo,
-            IRequestService _requestService,
-            IConstructorService _constructorService,
             ICategoryService _categoryService)
         {
             repo = _repo;
-            requestService = _requestService;
-            constructorService = _constructorService;
             categoryService = _categoryService;
         }
 

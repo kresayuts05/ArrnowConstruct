@@ -27,7 +27,7 @@ namespace ArrnowConstruct.Tests.UnitTests
         public async Task Setup()
         {
             this.repo = new Repository(this.context);
-            this.siteService = new SiteService(repo, null, null, null);
+            this.siteService = new SiteService(repo, null);
             this.constructorService = new ConstructorService(repo);
             this.postService = new PostService(repo, siteService, null, constructorService);
         }
