@@ -97,6 +97,24 @@ namespace ArrnowConstruct.Tests.UnitTests
                            Address = "jhgfcdcfygvubhinj"
                       }
                 },
+                new Client() {
+                    Id = 2,
+                         User =  new User
+                       {
+                           Id = "ClientTestId2",
+                           UserName = "client2",
+                           Email = "client2@gmail.com",
+                           EmailConfirmed = true,
+                           NormalizedEmail = "CLIENT2@GMAIL.COM",
+                           NormalizedUserName = "CLIENT2",
+                           FirstName = "Client2",
+                           LastName = "Client2",
+                           City = "Kazanlak",
+                           Country = "Bulgaria",
+                           Address = "jhgfcdcfygvubhinj",
+                           IsActive = false
+                      }
+                },
             };
 
             constructors = new List<Constructor>

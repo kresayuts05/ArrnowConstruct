@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using dotenv.net;
+using Microsoft.AspNetCore.Mvc;
 
 public class Program
 {
@@ -35,7 +36,11 @@ public class Program
         })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ArrnowConstructDbContext>();
-        builder.Services.AddControllersWithViews();
+
+        builder.Services.AddControllersWithViews(options =>
+        {
+            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+        });
 
         builder.Services.ConfigureApplicationCookie(options =>
         {

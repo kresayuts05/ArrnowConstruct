@@ -35,7 +35,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<List<UserModel>> GetAllClients(string adminId)
         {
             return await repo.All<Client>()
-               .Where(c => c.User.Id != adminId && c.IsActive == true)
+               .Where(c => c.User.Id != adminId && c.User.IsActive == true)
                .Select(c => new UserModel()
                {
                    Id = c.User.Id,
@@ -53,10 +53,10 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<int> GetClientId(string userId)
         {
-            var client = await repo.AllReadonly<Client>()
+            var client = await repo.All<Client>()
                 .FirstOrDefaultAsync(a => a.UserId == userId);
 
-            if(client == null)
+            if(client == null || client.User.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.ClientDoessNotExistsExceptionMessage);
             }

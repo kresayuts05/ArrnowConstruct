@@ -198,7 +198,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<IEnumerable<PostViewModel>> GetSixNewestPosts()
         {
             return await repo.All<Post>()
-                .Where(p => p.IsActive == true && p.Site.Constructor.IsActive == true)
+                .Where(p => p.IsActive == true && p.Site.Constructor.User.IsActive == true)
                 .OrderByDescending(p => p.CreatedOn)
                 .Select(p => new PostViewModel()
                 {

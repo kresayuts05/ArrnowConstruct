@@ -36,7 +36,7 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<bool> ExistsById(string userId)
         {
-            var constructor = await repo.All<Constructor>(c => c.UserId == userId && c.IsActive == true)
+            var constructor = await repo.All<Constructor>(c => c.UserId == userId && c.User.IsActive == true)
                 .FirstOrDefaultAsync();
 
             return constructor != null;
@@ -77,7 +77,7 @@ namespace ArrnowConstruct.Core.Services
         public async Task<IEnumerable<ConstructorModel>> GetAllConstructors()
         {
             return await repo.All<Constructor>()
-                .Where(c => c.IsActive == true)
+                .Where(c => c.User.IsActive == true)
                 .Select(c => new ConstructorModel()
                 {
                     ConstructorId = c.Id,
@@ -101,12 +101,12 @@ namespace ArrnowConstruct.Core.Services
         {
             var userModel = await repo.GetByIdAsync<Constructor>(constructorId);
 
-            var user = await repo.GetByIdAsync<User>(userModel.UserId);
-
-            if (user == null)
+            if (userModel == null || userModel.User.IsActive == false)
             {
-                throw new NullReferenceException(GlobalExceptions.UserDoesNotExistExceptionMessage);
+                throw new NullReferenceException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
             }
+
+            var user = await repo.GetByIdAsync<User>(userModel.UserId);
 
             return user.Email;
         }
@@ -116,7 +116,7 @@ namespace ArrnowConstruct.Core.Services
         {
             var constructor = await repo.GetByIdAsync<Constructor>(id);
 
-            if (constructor == null)
+            if (constructor == null || constructor.User.IsActive == false)
             {
                 throw new NullReferenceException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
             }
