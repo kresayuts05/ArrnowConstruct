@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace ArrnowConstruct.Infrastructure.Data.Confuguration
 {
     internal class UserConfiguration : IEntityTypeConfiguration<User>
-    { 
+    {
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasData(CreateUsers());
@@ -25,16 +25,17 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
             var user = new User()
             {
                 Id = "babdaf39-3545-48e1-877e-13d4bb4d597f",
-                UserName = "nikol",
-                NormalizedUserName = "NIKOL",
-                Email = "nikol@mail.com",
-                NormalizedEmail = "NIKOL@MAIL.COM",
+                UserName = "gogi",
+                NormalizedUserName = "GOGI",
+                Email = "gogi@gmail.com",
+                NormalizedEmail = "GOGI@GMAIL.COM",
                 PhoneNumber = "0886121261",
-                FirstName = "Nikol",
-                LastName = "Grueva",
+                FirstName = "Gogi",
+                LastName = "Milkov",
                 City = "Kazanlak",
                 Address = "Graf Ignatiev 6 ",
-                Country = "Bulgaria"
+                Country = "Bulgaria",
+                ProfilePictureUrl = "http://res.cloudinary.com/dmv8nabul/image/upload/v1671315120/images/tfcjhrtonc17iox0yoel.png"
             };
 
             user.PasswordHash =
@@ -42,7 +43,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
 
             users.Add(user);
 
-             user = new User()
+            user = new User()
             {
                 Id = "ae724eb3-355b-48dd-bdaa-c1eaccf666c5",
                 UserName = "kresa",
@@ -54,7 +55,8 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
                 LastName = "Tsvetkova",
                 City = "Kazanlak",
                 Address = "Edelvais 6 ",
-                Country = "Bulgaria"
+                Country = "Bulgaria",
+                ProfilePictureUrl = "http://res.cloudinary.com/dmv8nabul/image/upload/v1671315197/images/sayxo7gbosyd1w5xd72r.png"
             };
 
             user.PasswordHash =
@@ -67,15 +69,15 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
                 Id = "7125d323-7567-4f56-b27e-6b7044014a37",
                 UserName = "angel",
                 NormalizedUserName = "ANGEL",
-                Email = "angel@mail.com",
-                NormalizedEmail = "ANGEL@MAIL.COM",
+                Email = "angel@gmail.com",
+                NormalizedEmail = "ANGEL@GMAIL.COM",
                 PhoneNumber = "0888791001",
                 FirstName = "Angel",
                 LastName = "Momov",
                 City = "Kazanlak",
                 Address = "Petko DePetkov 71",
                 Country = "Bulgaria",
-                ProfilePictureUrl = "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                ProfilePictureUrl = "http://res.cloudinary.com/dmv8nabul/image/upload/v1671314968/images/vymjt1vk8itzucplowxg.png"
             };
 
             user.PasswordHash =

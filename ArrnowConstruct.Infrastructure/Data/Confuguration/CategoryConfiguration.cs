@@ -16,7 +16,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
             builder.HasData(CreateCategories());
         }
 
-        private List<Category> CreateCategories()
+        internal static List<Category> CreateCategories()
         {
             var categories = new List<Category>();
 

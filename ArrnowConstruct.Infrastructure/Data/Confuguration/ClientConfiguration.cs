@@ -16,7 +16,7 @@ namespace ArrnowConstruct.Infrastructure.Data.Confuguration
             builder.HasData(new Client()
             {
                 Id = 1,
-                UserId = "ae724eb3-355b-48dd-bdaa-c1eaccf666c5"
+                UserId = "babdaf39-3545-48e1-877e-13d4bb4d597f"
             });
         }
     }

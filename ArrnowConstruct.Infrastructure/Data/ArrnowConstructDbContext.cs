@@ -21,6 +21,8 @@ namespace ArrnowConstruct.Infrastructure.Data
             {
                 this.Database.EnsureCreated();
             }
+
+            seedDb = seed;
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -45,21 +47,18 @@ namespace ArrnowConstruct.Infrastructure.Data
                 .HasMaxLength(60)
                 .IsRequired();
 
-            //builder.Entity<ChatMessage>()
-            //  .HasMany(e => e.ChatImages)
-            //  .WithOne(e => e.ChatMessage)
-            //  .HasForeignKey(e => e.ChatMessageId)
-            //  .OnDelete(DeleteBehavior.Restrict);
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new ClientConfiguration());
+            builder.ApplyConfiguration(new ConstructorConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UsersRolesConifiguration());
 
-            if (seedDb == true)
-            {
-                builder.ApplyConfiguration(new UserConfiguration());
-                builder.ApplyConfiguration(new ClientConfiguration());
-                builder.ApplyConfiguration(new ConstructorConfiguration());
-                builder.ApplyConfiguration(new CategoryConfiguration());
-                builder.ApplyConfiguration(new RoleConfiguration());
-                builder.ApplyConfiguration(new AdministratorConifuration());
-            }
+            //builder.ApplyConfiguration(new RequestConfiguration());
+            //builder.ApplyConfiguration(new SiteConfiguration());
+            ////builder.ApplyConfiguration(new PostConfiguration());
+            ////builder.ApplyConfiguration(new ImageComfiguration());
+            ////builder.ApplyConfiguration(new PostImageConfiguration());
 
             base.OnModelCreating(builder);
         }

@@ -23,6 +23,7 @@
                             <img src="@(Model.ProfilePictureUrl)"
                                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                                  style="width: 150px; z-index: 1">
+                                 <br>
                             @if (this.User.Id() == @Model.Id)
                             {
                                 <a asp-controller="Profile" asp-action="Edit" asp-route-id="@(Model.Id)" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
