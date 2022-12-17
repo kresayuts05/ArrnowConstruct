@@ -50,7 +50,7 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<UserModel> GetAdministrator()
         {
-            return await repo.All<User>()
+            var admin =  await repo.All<User>()
                 .Where(u => u.Id == AdministartorConstant.Id)
                 .Select(user => new UserModel()
                 {
@@ -64,8 +64,14 @@ namespace ArrnowConstruct.Core.Services
                     Phone = user.PhoneNumber,
                     ProfilePictureUrl = user.ProfilePictureUrl,
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync();
 
+            if(admin == null)
+            {
+                throw new NullReferenceException(GlobalExceptions.AdministratorDoesNotExistExceptionMessage);
+            }
+
+            return admin;
         }
 
         public async Task<IEnumerable<UserModel>> AllUsers(string id)

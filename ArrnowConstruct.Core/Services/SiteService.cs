@@ -125,7 +125,8 @@ namespace ArrnowConstruct.Core.Services
                  Constructor = new ConstructorModel() { ConstructorId = s.ConstructorId,
                      User = new UserModel()
                      {
-                        Id = s.Constructor.User.Id
+                        Id = s.Constructor.User.Id,
+                        IsActive = s.Constructor.User.IsActive
                      }
                  },
                  RoomsTypes = s.RoomsTypes.Select(c => c.Name).ToList()

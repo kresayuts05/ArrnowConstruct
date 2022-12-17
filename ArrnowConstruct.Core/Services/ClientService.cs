@@ -54,9 +54,9 @@ namespace ArrnowConstruct.Core.Services
         public async Task<int> GetClientId(string userId)
         {
             var client = await repo.All<Client>()
-                .FirstOrDefaultAsync(a => a.UserId == userId);
+                .FirstOrDefaultAsync(c => c.UserId == userId && c.User.IsActive == true);
 
-            if (client == null || client.User.IsActive == false)
+            if (client == null)
             {
                 throw new NullReferenceException(GlobalExceptions.ClientDoessNotExistsExceptionMessage);
             }
@@ -81,9 +81,10 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task DisactivateClient(int id)
         {
-            var client = await repo.GetByIdAsync<Client>(id);
+            var client = await repo.All<Client>()
+                .FirstOrDefaultAsync(c => c.Id == id && c.User.IsActive == true);
 
-            if(client == null || client.User.IsActive == false)
+            if(client == null)
             {
                 throw new NullReferenceException(GlobalExceptions.ClientDoessNotExistsExceptionMessage);
             }
@@ -95,8 +96,8 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<bool> ExistsById(string userId)
         {
-            var constructor = await repo.All<Client>(c => c.UserId == userId && c.User.IsActive == true)
-                .FirstOrDefaultAsync();
+            var constructor = await repo.All<Client>()
+                .FirstOrDefaultAsync(c => c.UserId == userId && c.User.IsActive == true);
 
             return constructor != null;
         }

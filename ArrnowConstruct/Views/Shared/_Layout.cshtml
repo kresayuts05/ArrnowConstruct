@@ -30,7 +30,7 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="All">All</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="All">All Constructors</a>
                         </li>
 
                         @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
@@ -48,10 +48,10 @@
                             else if (this.User.IsInRole(RoleConstants.Constructor))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Post" asp-action="Mine">My Posts</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Site" asp-action="Mine">My Sites</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-light" asp-area="" asp-controller="Site" asp-action="Mine">My Sites</a>
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Post" asp-action="Mine">My Posts</a>
                                 </li>
                             }
                             <li class="nav-item">

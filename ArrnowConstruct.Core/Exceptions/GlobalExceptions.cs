@@ -22,6 +22,8 @@ namespace ArrnowConstruct.Core.Exceptions
 
         public const string SiteDoesNotExistExceptionMessage = "This site does not exist!";
 
+        public const string AdministratorDoesNotExistExceptionMessage = "This admin does not exist!";
+
         public const string UsersDoNotExist = "There are no users yet.";
 
         public const string ClientsDoNotExist = "There are no clients yet.";

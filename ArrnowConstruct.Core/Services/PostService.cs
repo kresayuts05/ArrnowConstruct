@@ -134,7 +134,8 @@ namespace ArrnowConstruct.Core.Services
                 throw new NullReferenceException(GlobalExceptions.PostDoesNotExistExceptionMessage);
             }
 
-            if (post.Site.Constructor.User.IsActive == false)
+            var site = await siteService.SiteById(post.SiteId);
+            if (site.Constructor.User.IsActive == false)
             {
                 throw new ArgumentException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
             }

@@ -22,17 +22,12 @@ public class Program
 
         builder.Services.AddDefaultIdentity<User>(options =>
         {
-            //options.SignIn.RequireConfirmedAccount = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedAccount");
-            //options.SignIn.RequireConfirmedEmail = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedEmail");
-            //options.SignIn.RequireConfirmedPhoneNumber = builder.Configuration.GetValue<bool>("Identity:RequireConfirmedPhoneNumber");
-            //options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:RequiredLength");
-            //options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:RequireNonAlphanumeric");
-
             options.SignIn.RequireConfirmedAccount = false;
             options.Password.RequireDigit = false;
             options.Password.RequireLowercase = false;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequireUppercase = false;
+            options.Password.RequiredLength = 4;
         })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ArrnowConstructDbContext>();
@@ -41,6 +36,11 @@ public class Program
         {
             options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
         });
+
+        //builder.Services.AddAntiforgery(options =>
+        //{
+        //    options.HeaderName = "X-CSRF-TOKEN";
+        //});////
 
         builder.Services.ConfigureApplicationCookie(options =>
         {

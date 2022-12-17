@@ -397,7 +397,7 @@ namespace ArrnowConstruct.Tests.UnitTests
         [TestCase(7)]
         public async Task GetRequestConstructorShouldThrowNullReferenceException(int id)
         {
-            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.Reject(id));
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await requestService.GetRequestsConstructorId(id));
             Assert.AreEqual(GlobalExceptions.RequestDoesNotExistExceptionMessage, ex.Message);
         }
 

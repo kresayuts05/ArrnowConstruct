@@ -51,7 +51,8 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(ex.Message);
+                TempData["message"] = ex.Message;
+                return this.RedirectToAction("Index", "Home", new { area = "Admin" });
             }
         }
 
@@ -59,66 +60,93 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Approve(string id)
         {
-            var user = await userService.GetUserById(id);
-
-            var model = new ConstructorApproveViewModel()
+            try
             {
-                Id = id,
-                Phone = user.Phone,
-                Address = user.Address,
-                Email = user.Email
-            };
+                var user = await userService.GetUserById(id);
 
-            return View(model);
+                var model = new ConstructorApproveViewModel()
+                {
+                    Id = id,
+                    Phone = user.Phone,
+                    Address = user.Address,
+                    Email = user.Email
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
+            
         }
 
         [HttpPost]
         public async Task<IActionResult> Approve(ConstructorApproveViewModel model)
         {
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            await constructorService.Create(model.Id, model.MinimumSalary);
-
-            var user = await userManager.FindByIdAsync(model.Id);
-
-            await userManager.RemoveFromRoleAsync(user, RoleConstants.Client);
-            await userManager.AddToRoleAsync(user, RoleConstants.Constructor);
-            var result = await userManager.UpdateAsync(user);
-
-            await clientService.DisactivateClient(await clientService.GetClientId(model.Id));
-
-            if (result.Succeeded)
+            try
             {
-                return RedirectToAction("All", "User");
-            }
+                await constructorService.Create(model.Id, model.MinimumSalary);
 
-            foreach (var item in result.Errors)
+                var user = await userManager.FindByIdAsync(model.Id);
+
+                await userManager.RemoveFromRoleAsync(user, RoleConstants.Client);
+                await userManager.AddToRoleAsync(user, RoleConstants.Constructor);
+                var result = await userManager.UpdateAsync(user);
+
+                await clientService.DisactivateClient(await clientService.GetClientId(model.Id));
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("All", "User");
+                }
+
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+
+                return View(model);
+            }
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", item.Description);
-            }
+                TempData["message"] = ex.Message;
 
-            return View(model);
+                return this.RedirectToAction("Index", "Home", new { area = "Admin" });
+            }           
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            var user = await userService.GetUserById(id);
-
-            var model = new UserDeleteViewModel()
+            try
             {
-                Id = id,
-                FullName = user.FirstName + " " + user.LastName,
-                Phone = user.Phone,
-                Address = user.Address,
-                Email = user.Email
-            };
+                var user = await userService.GetUserById(id);
 
-            return View(model);
+                var model = new UserDeleteViewModel()
+                {
+                    Id = id,
+                    FullName = user.FirstName + " " + user.LastName,
+                    Phone = user.Phone,
+                    Address = user.Address,
+                    Email = user.Email
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home", new { area = "Admin" });
+            }           
         }
 
         [HttpPost]
@@ -126,8 +154,6 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
         {
             try
             {
-                await userService.Delete(model.Id);
-
                 if (await constructorService.ExistsById(model.Id))
                 {
                     var id = await constructorService.GetConstructorId(model.Id);
@@ -135,16 +161,19 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
                 }
                 else
                 {
-
                     var id = await clientService.GetClientId(model.Id);
                     await clientService.DisactivateClient(id);
                 }
+
+                await userService.Delete(model.Id);
 
                 return RedirectToAction("All", "User");
             }
             catch (Exception ex)
             {
-                return this.NotFound(ex.Message);
+                TempData["message"] = ex.Message;
+
+                return this.RedirectToAction("Index", "Home", new { area = "Admin" });
             }
         }
     }

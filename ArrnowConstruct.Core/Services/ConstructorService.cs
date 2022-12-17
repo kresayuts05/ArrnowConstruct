@@ -99,9 +99,10 @@ namespace ArrnowConstruct.Core.Services
 
         public async Task<string> GetConstructorEmail(int constructorId)
         {
-            var userModel = await repo.GetByIdAsync<Constructor>(constructorId);
+            var userModel = await repo.All<Constructor>()
+                .FirstOrDefaultAsync(c => c.Id == constructorId && c.User.IsActive == true);
 
-            if (userModel == null || userModel.User.IsActive == false)
+            if (userModel == null)
             {
                 throw new NullReferenceException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
             }
@@ -111,12 +112,12 @@ namespace ArrnowConstruct.Core.Services
             return user.Email;
         }
 
-
         public async Task DisactivateConstructor(int id)
         {
-            var constructor = await repo.GetByIdAsync<Constructor>(id);
+            var constructor = await repo.All<Constructor>()
+                .FirstOrDefaultAsync(c => c.Id == id && c.User.IsActive == true);
 
-            if (constructor == null || constructor.User.IsActive == false)
+            if (constructor == null)
             {
                 throw new NullReferenceException(GlobalExceptions.ConstructorDoesNotExistExceptionMessage);
             }

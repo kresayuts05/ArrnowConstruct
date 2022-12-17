@@ -29,9 +29,17 @@ namespace ArrnowConstruct.Areas.Admin.Controllers
 
         public async Task<IActionResult> Contacts()
         {
-            var admin = await userService.GetAdministrator();
+            try
+            {
+                var admin = await userService.GetAdministrator();
+                return View(admin);
+            }
+            catch (NullReferenceException ex)
+            {
+                TempData["message"] = ex.Message;
 
-            return View(admin);
+                return this.RedirectToAction("Index", "Home");
+            }           
         }
     }
 }

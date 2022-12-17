@@ -25,5 +25,7 @@ namespace ArrnowConstruct.Core.Models.User
         public string City { get; set; }
 
         public string  ProfilePictureUrl { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
