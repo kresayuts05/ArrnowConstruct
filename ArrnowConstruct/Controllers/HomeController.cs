@@ -2,7 +2,6 @@
 using ArrnowConstruct.Core.Contarcts;
 using ArrnowConstruct.Core.Models.Home;
 using ArrnowConstruct.Core.Models.User;
-using ArrnowConstruct.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

@@ -126,7 +126,7 @@ namespace ArrnowConstruct.Tests.UnitTests
         [TestCase(2)]
         [TestCase(7)]
         [TestCase(null)]
-        public async Task EditRequestShouldThrowRefferenceNullException(int id)
+        public async Task EditPostShouldThrowRefferenceNullException(int id)
         {
             var model = new PostFormViewModel()
             {
@@ -143,7 +143,7 @@ namespace ArrnowConstruct.Tests.UnitTests
 
         [Test]
         [TestCase(3)]
-        public async Task EditRequestShouldThrowArgumentException(int id)
+        public async Task EditPostShouldThrowArgumentException(int id)
         {
             var model = new PostFormViewModel()
             {
@@ -154,8 +154,8 @@ namespace ArrnowConstruct.Tests.UnitTests
                 Images = new List<IFormFile>()
             };
 
-            var ex = Assert.ThrowsAsync<ArgumentException>(async () => await postService.Edit(id, model));
-            Assert.AreEqual(GlobalExceptions.ConstructorDoesNotExistExceptionMessage, ex.Message);
+            var ex = Assert.ThrowsAsync<NullReferenceException>(async () => await postService.Edit(id, model));
+            Assert.AreEqual(GlobalExceptions.SiteDoesNotExistExceptionMessage, ex.Message);
         }
 
         [Test]

@@ -37,8 +37,10 @@ namespace ArrnowConstruct.Core.Services
         public async Task<IEnumerable<RequestViewModel>> AllRequestsByClientId(int id)
         {
             return await repo.All<Request>()
-                .Where(r => r.IsActive == true)
-                .Where(r => r.ClientId == id && r.Client.User.IsActive == true && r.Constructor.User.IsActive == true && r.IsActive == true)
+                .Where(r => r.ClientId == id
+                && r.Client.User.IsActive == true
+                && r.Constructor.User.IsActive == true 
+                && r.IsActive == true)
                 .OrderByDescending(r => r.Id)
                 .Select(r => new RequestViewModel
                 {

@@ -47,18 +47,15 @@ namespace ArrnowConstruct.Infrastructure.Data
                 .HasMaxLength(60)
                 .IsRequired();
 
-            builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new ClientConfiguration());
-            builder.ApplyConfiguration(new ConstructorConfiguration());
-            builder.ApplyConfiguration(new CategoryConfiguration());
-            builder.ApplyConfiguration(new RoleConfiguration());
-            builder.ApplyConfiguration(new UsersRolesConifiguration());
-
-            //builder.ApplyConfiguration(new RequestConfiguration());
-            //builder.ApplyConfiguration(new SiteConfiguration());
-            ////builder.ApplyConfiguration(new PostConfiguration());
-            ////builder.ApplyConfiguration(new ImageComfiguration());
-            ////builder.ApplyConfiguration(new PostImageConfiguration());
+            if (seedDb)
+            {
+                builder.ApplyConfiguration(new UserConfiguration());
+                builder.ApplyConfiguration(new ClientConfiguration());
+                builder.ApplyConfiguration(new ConstructorConfiguration());
+                builder.ApplyConfiguration(new CategoryConfiguration());
+                builder.ApplyConfiguration(new RoleConfiguration());
+                builder.ApplyConfiguration(new UsersRolesConifiguration());
+            }
 
             base.OnModelCreating(builder);
         }

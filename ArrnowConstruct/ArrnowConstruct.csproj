@@ -35,7 +35,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Constants\" />
-    <Folder Include="Models\Account\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
